@@ -91,13 +91,33 @@ The Core Avatar is instantiated at each Level of Awareness. Each instance has a 
 
 ### The Synthetic Crowd
 
-For each awareness level relevant to the asset type, the simulation spins up a crowd of **25–50 synthetic respondents** sampled across the variance ranges in the Core Avatar (age, income, concern severity, skepticism level). This produces a distribution of reactions rather than a single opinion — and makes the score statistically meaningful, not a coin flip.
+For each awareness level relevant to the asset type, the simulation spins up a crowd sampled across the variance ranges in the Core Avatar (age, income, concern severity, skepticism level). This produces a distribution of reactions rather than a single opinion — and makes the score statistically meaningful, not a coin flip.
 
-**Crowd size by asset type:**
-- Ads: L1–L3 crowd (cold traffic focus) → 75–150 total respondents
-- Webinar scripts: L3–L5 crowd (warm traffic focus) → 75–150 total respondents
-- Funnel pages: L3–L5 crowd → 75–150 total respondents
-- Email sequences: L2–L5 crowd → 100–200 total respondents
+Crowd size is **fully configurable** — the expert sets their preferred crowd size per asset type, and the system defaults to the tier matching their plan. More respondents = more statistical confidence = higher token cost = more reliable prediction. For high-stakes assets like webinars and flagship funnels, running a larger crowd is the right call and worth the cost.
+
+### Crowd Size Tiers
+
+| Tier | Respondents Per Awareness Level | Total (3 levels) | Best For |
+|------|---------------------------------|-----------------|----------|
+| **Quick** | 50 | ~150 | Everyday ads, organic content testing, fast iteration |
+| **Standard** | 200 | ~600 | Regular ad campaigns, email sequences, opt-in pages |
+| **Deep** | 500 | ~1,500 | Sales pages, lead magnets, promo campaigns |
+| **Full** | 1,000 | ~3,000 | Webinar scripts, flagship funnels, VSLs, major launches |
+| **Max** | 2,500 | ~7,500 | Once-a-year flagship launches, new offer rollouts, major pivots |
+
+**Default crowd sizes by asset type (adjustable per expert):**
+- Everyday ads (cold traffic test) → **Standard** (600 total)
+- Ad campaign launch → **Deep** (1,500 total)
+- Email sequences → **Standard** (600 total)
+- Sales funnel pages → **Deep** (1,500 total)
+- Webinar scripts → **Full** (3,000 total)
+- VSL scripts → **Full** (3,000 total)
+- Flagship funnel (new offer launch) → **Max** (7,500 total)
+
+**Expert configuration:**
+The expert sets their default tier per asset type in IQ Claw settings. They can override per-run — bump a routine ad up to Full if it's for a major campaign, or drop a webinar to Standard if they're doing a quick iteration test. IQ Claw always surfaces the estimated token cost before running so there are no surprises.
+
+**The confidence curve:** Going from 150 to 600 respondents makes a meaningful difference. Going from 1,500 to 3,000 on a webinar is worth it — a webinar that underperforms costs orders of magnitude more than the simulation. Going from 3,000 to 7,500 is for when the stakes are high enough that you want near-certainty before you invest in a full launch. The cost scales with respondents; the confidence curve flattens above ~2,000 per level, so Max tier is reserved for genuinely high-stakes moments.
 
 ---
 
