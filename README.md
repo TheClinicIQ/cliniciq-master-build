@@ -24,7 +24,8 @@ cliniciq-master-build/
 ├── step22_master_agent_document.md            ← THE build bible (all ~168 agents)
 │
 ├── platform/
-│   └── cliniciq_platform_architecture.md      ← IQ Claw + IQ Drive + Patient AI
+│   ├── cliniciq_platform_architecture.md      ← IQ Claw + IQ Drive + Patient AI
+│   └── miro_fish_simulation_agent.md          ← Pre-launch audience simulation (Miro Fish)
 │
 ├── layer1/                                    ← Steps 1–7: Onboarding Agent
 │   ├── step3_conversation_flow_architecture.md
@@ -63,6 +64,7 @@ cliniciq-master-build/
 | Building a specific agent | `step22_master_agent_document.md` → find the agent |
 | Checking handoffs & data flows | `step22_master_agent_document.md` → Data Flow Map section |
 | Resolving a naming conflict | `step21_consistency_audit.md` |
+| Building Miro Fish (pre-launch simulation) | `platform/miro_fish_simulation_agent.md` |
 | Building the Program Builder | `layer3/step16b_program_builder_full_spec.md` |
 | Building the Podcast Agent | `layer3/step16c_podcast_agent_full_spec.md` |
 | Building Layer 4 (analytics/optimization) | `layer4/steps17_20_...md` |
@@ -73,12 +75,12 @@ cliniciq-master-build/
 
 | Layer | Total Agents |
 |-------|-------------|
-| Platform (IQ Claw + Core Orchestrator) | 14 |
+| Platform (IQ Claw + Core Orchestrator + Miro Fish) | 19 |
 | Layer 1 — Onboarding | 11 |
 | Layer 2 — Strategy | ~19 |
 | Layer 3 — Builders (10 teams) | ~104 |
 | Layer 4 — Intelligence | 21 |
-| **Total** | **~168** |
+| **Total** | **~174** |
 
 ---
 

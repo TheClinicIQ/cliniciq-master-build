@@ -1,0 +1,2909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>clinicIQ — Master Agent Architecture</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #22263a;
+    --border: #2e3350;
+    --accent: #4f7cff;
+    --accent2: #7c5cff;
+    --green: #22c55e;
+    --yellow: #f59e0b;
+    --red: #ef4444;
+    --text: #e2e8f0;
+    --muted: #8892a4;
+    --code-bg: #13162b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: 60px; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 15px;
+  }
+  /* TOP HEADER */
+  .top-header {
+    background: linear-gradient(135deg, #0f1117 0%, #1a1d27 50%, #13162b 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 48px 60px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .top-header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(79,124,255,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-badge {
+    display: inline-block;
+    background: rgba(79,124,255,0.15);
+    border: 1px solid rgba(79,124,255,0.35);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+  }
+  .top-header h1 {
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+  }
+  .top-header .subtitle {
+    color: var(--muted);
+    font-size: 15px;
+    margin-bottom: 28px;
+  }
+  .stat-row {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .stat-pill {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .stat-pill .num {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--accent);
+  }
+  .stat-pill .label {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.3;
+  }
+  /* LAYOUT */
+  .layout {
+    display: flex;
+    min-height: calc(100vh - 180px);
+  }
+  /* SIDEBAR */
+  .sidebar {
+    width: 240px;
+    flex-shrink: 0;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 28px 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+  .sidebar-title {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0 20px 12px;
+  }
+  .sidebar ul { list-style: none; }
+  .sidebar ul li a {
+    display: block;
+    padding: 9px 20px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    border-left: 2px solid transparent;
+    transition: all 0.15s;
+  }
+  .sidebar ul li a:hover {
+    color: var(--text);
+    background: var(--surface2);
+    border-left-color: var(--accent);
+  }
+  /* MAIN CONTENT */
+  .main {
+    flex: 1;
+    padding: 48px 60px;
+    max-width: 960px;
+    min-width: 0;
+  }
+  .doc-section {
+    margin-bottom: 72px;
+    padding-bottom: 72px;
+    border-bottom: 1px solid var(--border);
+  }
+  .doc-section:last-child { border-bottom: none; }
+  /* TYPOGRAPHY */
+  h1 { font-size: 28px; font-weight: 800; color: #fff; margin: 0 0 8px; letter-spacing: -0.02em; }
+  h2 { font-size: 20px; font-weight: 700; color: #fff; margin: 40px 0 16px; padding-top: 8px; letter-spacing: -0.01em; }
+  h3 { font-size: 16px; font-weight: 700; color: var(--accent); margin: 28px 0 12px; }
+  h4 { font-size: 14px; font-weight: 700; color: var(--text); margin: 20px 0 10px; }
+  p { margin: 0 0 16px; color: var(--text); }
+  em { color: var(--muted); font-style: italic; }
+  strong { color: #fff; font-weight: 700; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+  /* TABLES */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 13.5px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  thead tr { background: var(--surface2); }
+  thead th {
+    padding: 11px 14px;
+    text-align: left;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+  }
+  tbody tr { border-bottom: 1px solid var(--border); transition: background 0.1s; }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--surface2); }
+  tbody td { padding: 10px 14px; vertical-align: top; color: var(--text); }
+  tbody td:first-child { font-weight: 600; white-space: nowrap; }
+  /* STATUS COLORS */
+  tbody td:contains("✅"), td:contains("🟢") { color: var(--green); }
+  tbody td:contains("⚠️"), td:contains("🟡") { color: var(--yellow); }
+  tbody td:contains("❌"), td:contains("🔴") { color: var(--red); }
+  /* CODE */
+  code {
+    font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+    font-size: 12.5px;
+    background: var(--code-bg);
+    color: #a5b4fc;
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid rgba(79,124,255,0.2);
+  }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 24px;
+    overflow-x: auto;
+    margin: 20px 0;
+  }
+  pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    color: #c4cff5;
+    font-size: 12.5px;
+    line-height: 1.7;
+  }
+  /* LISTS */
+  ul, ol { padding-left: 24px; margin: 0 0 16px; }
+  li { margin-bottom: 6px; }
+  li p { margin: 0; }
+  /* BLOCKQUOTE */
+  blockquote {
+    border-left: 3px solid var(--accent);
+    margin: 20px 0;
+    padding: 12px 20px;
+    background: rgba(79,124,255,0.06);
+    border-radius: 0 8px 8px 0;
+    color: var(--muted);
+    font-style: italic;
+  }
+  /* SECTION HEADER CARDS */
+  .doc-section > h1:first-child,
+  .doc-section > h2:first-child {
+    background: linear-gradient(135deg, var(--surface) 0%, var(--surface2) 100%);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 28px;
+    margin-top: 0;
+  }
+  /* STATUS BADGES */
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .badge-green { background: rgba(34,197,94,0.15); color: var(--green); border: 1px solid rgba(34,197,94,0.3); }
+  .badge-yellow { background: rgba(245,158,11,0.15); color: var(--yellow); border: 1px solid rgba(245,158,11,0.3); }
+  .badge-red { background: rgba(239,68,68,0.15); color: var(--red); border: 1px solid rgba(239,68,68,0.3); }
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .top-header { padding: 32px 24px; }
+    .top-header h1 { font-size: 26px; }
+    .sidebar { display: none; }
+    .main { padding: 32px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-header">
+  <div class="header-badge">clinicIQ · Internal Documentation</div>
+  <h1>Master Agent Architecture</h1>
+  <p class="subtitle">The complete agent specification for the clinicIQ Agentic-as-a-Service platform · All 22 Steps · Post-Audit v1.0</p>
+  <div class="stat-row">
+    <div class="stat-pill"><span class="num">~168</span><span class="label">Total<br>Agents</span></div>
+    <div class="stat-pill"><span class="num">22</span><span class="label">Steps<br>Documented</span></div>
+    <div class="stat-pill"><span class="num">4</span><span class="label">Layers +<br>Platform</span></div>
+    <div class="stat-pill"><span class="num">15+</span><span class="label">Data<br>Sources</span></div>
+    <div class="stat-pill" style="border-color: rgba(34,197,94,0.4); background: rgba(34,197,94,0.07);">
+      <span class="num" style="color: #22c55e;">✓</span>
+      <span class="label" style="color: #22c55e;">Build<br>Ready</span>
+    </div>
+  </div>
+</div>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-title">Documents</div>
+    <ul>
+      <li><a href="#step22_master_agent_document">Master Agent Document</a></li>
+<li><a href="#step21_consistency_audit">Step 21: Consistency Audit</a></li>
+<li><a href="#ENGINEERING_KICKOFF_BRIEF">Engineering Kickoff Brief</a></li>
+
+    </ul>
+    <div class="sidebar-title" style="margin-top:24px;">Quick Links</div>
+    <ul>
+      <li><a href="#step22_master_agent_document">Master Document</a></li>
+      <li><a href="#platform-services-anchor">Platform Services</a></li>
+      <li><a href="#layer1-anchor">Layer 1: Onboarding</a></li>
+      <li><a href="#layer2-anchor">Layer 2: Strategy</a></li>
+      <li><a href="#layer3-anchor">Layer 3: Builders</a></li>
+      <li><a href="#layer4-anchor">Layer 4: Intelligence</a></li>
+      <li><a href="#agent-count-anchor">Agent Counts</a></li>
+      <li><a href="#mirofish-anchor">Miro Fish</a></li>
+      <li><a href="#step21_consistency_audit">Consistency Audit</a></li>
+      <li><a href="#ENGINEERING_KICKOFF_BRIEF">Kickoff Brief</a></li>
+    </ul>
+  </nav>
+  <main class="main">
+    <section id="step22_master_agent_document" class="doc-section">
+<h1>clinicIQ — Step 22: Final Master Agent Description Document</h1>
+<p><strong>Version 1.0 — Post-Audit</strong>
+<em>The single source of truth for every agent on the clinicIQ platform</em>
+<em>Incorporates all Step 21 audit resolutions</em></p>
+<hr />
+<h2>How to Use This Document</h2>
+<p>This is the canonical reference for every agent on the clinicIQ platform. Engineers build from this. PMs scope from this. QA tests against this. If there is a conflict between this document and any step-level spec, this document takes precedence — it reflects all post-audit decisions.</p>
+<p>Every agent entry includes: name, layer/category, role (one sentence), inputs, outputs, execution mode, and the downstream agents it feeds.</p>
+<hr />
+<h2>Platform Overview</h2>
+<pre><code>EXPERT
+    │
+    ▼
+IQ CLAW (Expert AI Operator)
+    │ routes to
+    ├─────────────────────────────────────────────┐
+    ▼                                             ▼
+LAYER 1                                    PLATFORM SERVICES
+Onboarding Agent                           Core Orchestrator
+    │                                      Output Quality Agent
+    ▼ Expert Dossier                       IQ Drive
+LAYER 2                                    Block Library
+Brand Strategy Agent                            │
+Growth Strategy Agent                           │ (shared services)
+Core Orchestrator                               │
+    │                                           │
+    ▼ Strategy Package (5 docs)                 │
+LAYER 3 (Builder Agents)  ◄─────────────────────┘
+Content Builder
+Funnel Builder
+Webinar Builder
+Email &amp; SMS Builder
+Ad Creative Builder
+Lead Magnet Builder
+Sales Script Builder
+Program Builder
+Website Builder
+Podcast Agent
+    │
+    ▼ All assets → IQ Drive
+LAYER 4 (Intelligence Loop)
+Analytics Dashboard
+Performance Intelligence Agent
+Optimization Agent
+Learning &amp; Feedback Engine
+    │
+    └── Updated priors → all agents (continuous)
+    └── Monthly review → Layer 2 (monthly trigger)
+</code></pre>
+<hr />
+<h2><a id="platform-services-anchor"></a>PLATFORM SERVICES</h2>
+<hr />
+<h3>IQ Claw — Expert AI Operator</h3>
+<p><strong>Layer:</strong> Platform (cross-cutting)
+<strong>Role:</strong> The expert's always-on AI operator — routes all requests, orchestrates multi-agent workflows, interprets analytics, surfaces alerts, and maintains the expert's living IQ Profile.</p>
+<table>
+<thead>
+<tr>
+<th>Sub-Agent</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IQ Profile Manager</td>
+<td>Owns the living IQ Profile; runs 10-phase interview on first launch; captures profile updates from every conversation</td>
+</tr>
+<tr>
+<td>Request Router</td>
+<td>Parses expert requests; routes to correct Builder agent with full context pre-loaded; monitors production</td>
+</tr>
+<tr>
+<td>Performance Analyst</td>
+<td>Reads Layer 4 analytics data; surfaces interpreted insights to expert in plain language</td>
+</tr>
+<tr>
+<td>Proactive Intelligence Agent</td>
+<td>Continuous monitoring; surfaces alerts (performance drops, content gaps, opportunities) proactively</td>
+</tr>
+<tr>
+<td>Platform Navigator</td>
+<td>Answers "how do I..." questions; navigates expert directly to relevant platform screen</td>
+</tr>
+<tr>
+<td>Patient AI Manager</td>
+<td><em>(V2 — deferred)</em> Manages patient-facing AI system</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Agent count: 7</strong> (IQ Claw Lead + 6 sub-agents)
+<strong>Inputs:</strong> Expert requests (natural language), Expert Dossier, IQ Profile, Layer 4 data feed
+<strong>Outputs:</strong> Routed requests to all Builder agents; IQ Profile updates; expert-facing alerts and insights</p>
+<hr />
+<h3>Core Orchestrator — Production Pipeline Manager</h3>
+<p><strong>Layer:</strong> Platform (between Layer 2 and Layer 3)
+<strong>Role:</strong> Validates that all quality gates are green before any Builder agent activates, generates Asset Briefs from the Strategy Package, routes briefs to Builder agents, and runs the Output Quality Agent on all completed outputs.</p>
+<table>
+<thead>
+<tr>
+<th>Sub-Agent</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gate Checker</td>
+<td>Validates all 6 quality gates before any Builder agent is activated</td>
+</tr>
+<tr>
+<td>Brief Generator</td>
+<td>Produces per-asset briefs from Monthly Master Plan + Monthly Messaging Brief</td>
+</tr>
+<tr>
+<td>Router</td>
+<td>Routes each Asset Brief to the correct Builder agent</td>
+</tr>
+<tr>
+<td>Context Loader</td>
+<td>Pre-loads the relevant dossier sections and strategy documents into Builder agent context</td>
+</tr>
+<tr>
+<td>Output Tracker</td>
+<td>Tracks asset status: in-brief → in-production → in-review → approved → deployed</td>
+</tr>
+<tr>
+<td><strong>Output Quality Agent</strong></td>
+<td>Runs Voice QA + Brand QA on every Builder output; pass → deliver to expert; fail → rewrite request back to Builder; 2 failures → "Needs Your Eye" flag</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Agent count: 7</strong> (Core Orchestrator Lead + 6 sub-agents)</p>
+<p><strong>The 6 Quality Gates (must all be green before any Builder activates):</strong>
+1. Expert Dossier <code>handoff_ready: true</code>
+2. Brand North Star Part 2 complete (Output Quality Agent checks)
+3. Growth Blueprint unit economics pass (LTV:CAC ≥ 3:1 pessimistic)
+4. Monthly Master Plan produced
+5. Monthly Messaging Brief produced
+6. Asset Brief generated for this specific request</p>
+<p><strong>Inputs:</strong> Expert Dossier, Brand North Star, Monthly Master Plan, Monthly Messaging Brief, Builder agent outputs
+<strong>Outputs:</strong> Asset Briefs (to Builder agents), quality-passed outputs (to expert), quality-failed rewrites (back to Builder)</p>
+<hr />
+<h3>IQ Drive — Asset Storage and Management</h3>
+<p><strong>Layer:</strong> Platform (cross-cutting)
+<strong>Role:</strong> The single repository for every asset produced in clinicIQ — with structured metadata that makes the library intelligent, searchable, and performance-aware.</p>
+<p><strong>Not an agent team — a platform service.</strong> All Builder agents write to IQ Drive on output. Layer 4 reads performance data from IQ Drive. Expert browses, filters, edits, and publishes from IQ Drive.</p>
+<p><strong>Metadata schema per asset:</strong> asset type, platform, status, awareness level, hook angle, CTA type, campaign month, phase (if program), performance score, version history.</p>
+<hr />
+<hr />
+<h2><a id="layer1-anchor"></a>LAYER 1 — ONBOARDING AGENT</h2>
+<p><strong>Steps:</strong> 1–7
+<strong>Role:</strong> Conducts a structured expert interview to build the 164-field Expert Dossier — the intelligence that powers every other agent on the platform.</p>
+<h3>Confirmed Sub-Agent Team (10 agents)</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Sub-Agent</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lead</td>
+<td>Onboarding Lead Agent</td>
+<td>Orchestrates the full interview; manages flow, pacing, and completion</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Web Scraper</td>
+<td>Pulls expert's existing web presence (website, social, Google Business) for pre-population</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Voice DNA Analyst</td>
+<td>Passive voice capture throughout session; confirms and locks Voice DNA profile in Section 2</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Avatar Psychology Builder</td>
+<td>Extracts all 8 avatar layers + 5 Levels of Awareness determination</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Offer Architecture Builder</td>
+<td>Extracts and scores full offer stack; Hormozi value equation; guarantee architecture</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Webinar Raw Material Extractor</td>
+<td>Extracts One Big Domino, 3 Secrets, epiphany bridge, mechanism — webinar raw inputs</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Proof Bank Miner</td>
+<td>Extracts patient/client transformation stories; populates proof bank</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Story Miner</td>
+<td>Extracts expert's personal origin story and patient transformation arc</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Silent Diagnostician</td>
+<td>Gap analysis and priority flag generation — identifies what's missing without asking</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Dossier Assembler</td>
+<td>Compiles all sub-agent outputs into the final 164-field JSON payload + human-readable narrative</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Progress Endowment Engine</td>
+<td>Score calculation, achievement triggers, gamification, reflection moments</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Agent count: 11</strong> (Lead + 10 sub-agents)</p>
+<p><strong>Primary Output:</strong> Expert Dossier (JSON + narrative) with <code>handoff_ready: true</code> flag
+<strong>Feeds into:</strong> Layer 2 (Brand Strategy Agent + Growth Strategy Agent), IQ Claw (IQ Profile base), all Layer 3 Builder agents (read-only)</p>
+<hr />
+<hr />
+<h2><a id="layer2-anchor"></a>LAYER 2 — STRATEGY AGENTS</h2>
+<p><strong>Steps:</strong> 8–11
+<strong>Role:</strong> Takes the Expert Dossier and produces the Strategic Operating System — brand rules, positioning, monthly messaging, campaign calendar, and asset briefs.</p>
+<hr />
+<h3>Brand Strategy Agent (Step 8)</h3>
+<p><strong>Role:</strong> Produces the Brand North Star Document — the expert's positioning, One Big Domino, ALWAYS/NEVER rules, and all creative guardrails that every Builder agent uses.</p>
+<table>
+<thead>
+<tr>
+<th>Sub-Agent</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Brand Strategy Lead</td>
+<td>Orchestrates the full brand strategy session</td>
+</tr>
+<tr>
+<td>Brand North Star Writer</td>
+<td>Produces the full Brand North Star Document (Parts 1 + 2)</td>
+</tr>
+<tr>
+<td>Competitive Research Agent</td>
+<td>Pulls and analyzes competitor landscape for positioning differentiation</td>
+</tr>
+<tr>
+<td>Hook Bank Seeder</td>
+<td>Generates the initial hook library aligned with mechanism and avatar</td>
+</tr>
+<tr>
+<td>Brand QA Validator</td>
+<td>Validates Brand North Star Part 2 completeness before marking it production-ready</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Agent count: ~5</strong> (to be finalized — sub-agent list confirmed in audit)
+<strong>Primary Output:</strong> Brand North Star Document (Parts 1 + 2)
+<strong>Feeds into:</strong> Core Orchestrator (required read), Output Quality Agent (standard for QA), all Layer 3 Builder agents</p>
+<hr />
+<h3>Growth Strategy Agent (Step 9)</h3>
+<p><strong>Role:</strong> Produces the Monthly Master Plan, Monthly Messaging Brief, and Growth Blueprint — the campaign-level operating documents that drive all Layer 3 production each month.</p>
+<table>
+<thead>
+<tr>
+<th>Sub-Agent</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Growth Strategy Lead</td>
+<td>Orchestrates the full growth strategy session</td>
+</tr>
+<tr>
+<td>Monthly Planner Sub-Agent</td>
+<td>Builds the Monthly Master Plan (campaign calendar, hook bank, creative briefs)</td>
+</tr>
+<tr>
+<td>Messaging Brief Writer</td>
+<td>Produces the Monthly Messaging Brief (angle map, hook bank, objection library)</td>
+</tr>
+<tr>
+<td>Campaign Architect</td>
+<td>Structures campaign sequencing and multi-channel coordination</td>
+</tr>
+<tr>
+<td>Competitive Research Agent</td>
+<td>Growth-specific competitive analysis (adjacent to Brand Strategy's version — different angle)</td>
+</tr>
+<tr>
+<td>Unit Economics Validator</td>
+<td>Runs the LTV:CAC model; validates Gate 3 before Layer 3 activates</td>
+</tr>
+<tr>
+<td>Creative Brief Generator</td>
+<td>Produces the per-asset brief for each Builder request — handed to Core Orchestrator</td>
+</tr>
+<tr>
+<td>Creative Production Sub-Agents (×7)</td>
+<td>Produce detailed creative briefs by asset type (content, email, funnel, webinar, ads, lead magnet, video)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Agent count: ~12</strong> (to be finalized)
+<strong>Primary Outputs:</strong> Monthly Master Plan, Monthly Messaging Brief, Growth Blueprint (unit economics + traffic strategy section)
+<strong>Feeds into:</strong> Core Orchestrator, all Layer 3 Builder agents, Layer 4 Learning Engine (monthly feedback loop)</p>
+<hr />
+<h3>Core Orchestrator (Step 11)</h3>
+<p><em>(Defined above under Platform Services — classified as platform-level, not Layer 2-specific)</em></p>
+<hr />
+<hr />
+<h2><a id="layer3-anchor"></a>LAYER 3 — BUILDER AGENTS</h2>
+<p><strong>Steps:</strong> 12–16
+<strong>Role:</strong> Produce every finished, publish-ready asset in the expert's growth engine.</p>
+<p><strong>Universal inputs for all Builder agents:</strong>
+- Expert Dossier Brief (voice, avatar, offer, mechanism)
+- Brand North Star Part 2 (operational rules, ALWAYS/NEVER, positioning)
+- Monthly Messaging Brief (hook bank, angle map, current campaign focus)
+- Monthly Master Plan Brief (what's being built this month, primary CTA)
+- Asset Brief from Core Orchestrator (specific instructions for this asset)</p>
+<p><strong>Universal output routing:</strong>
+- All finished assets → IQ Drive
+- All finished assets → Output Quality Agent (Voice QA + Brand QA) before delivery to expert
+- All performance data → Layer 4 Analytics Dashboard</p>
+<hr />
+<h3>Content Builder Agent (Step 12) — UPDATED POST-AUDIT</h3>
+<p><em>Note: Voice QA Agent (was #4), Brand QA Agent (was #12), and Performance Learning Agent (was #13) removed — functions transferred to Output Quality Agent (platform service) and Layer 4 Learning Engine.</em></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Sub-Agent</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lead</td>
+<td>Content Builder Lead</td>
+<td>Orchestrates full content production for the month (batch and quick-create modes)</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Ideation Engine</td>
+<td>Generates 30+ content concepts per month from Monthly Messaging Brief hook bank</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Awareness Level Distributor</td>
+<td>Allocates concepts across 5 Levels of Awareness to target distribution</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Copy &amp; Script Writer</td>
+<td><em>[Merged: Copy Writer + Script Formatter]</em> Writes all copy + formats video/UGC scripts</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Template Manager</td>
+<td>Selects and configures the correct visual template per asset type</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Visual Production Agent</td>
+<td><em>[Merged: Visual Direction + Image Production]</em> Writes image prompts + executes Flux/Kling/Runway generation</td>
+</tr>
+<tr>
+<td>6</td>
+<td>HTML/CSS Layout Generator + Renderer</td>
+<td>Writes layout code + renders final composited PNGs via Puppeteer</td>
+</tr>
+<tr>
+<td>7</td>
+<td>UGC Character Script Writer</td>
+<td>Writes patient/character UGC scripts (first-person transformation story format)</td>
+</tr>
+<tr>
+<td>8</td>
+<td>B-Roll Direction Agent</td>
+<td>Writes cinematic b-roll direction and shot sequences</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Carousel Builder</td>
+<td>Assembles multi-slide carousels from individual slide outputs</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Publishing Prep Agent</td>
+<td><em>[Merged: Ad Candidate Tagger + Content Scheduler]</em> Evaluates ad candidates + maps to content calendar</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Asset Library Manager</td>
+<td>Organizes all finished assets in IQ Drive with full metadata tagging</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Agent count: 12</strong> (Content Builder Lead + 11 sub-agents)</p>
+<hr />
+<h3>Funnel Builder Agent (Step 13)</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Sub-Agent</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lead</td>
+<td>Funnel Builder Lead</td>
+<td>Orchestrates full funnel architecture and page production</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Page Strategy Agent</td>
+<td>Determines build sequence from Monthly Master Plan funnel variant</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Page Copy Writer</td>
+<td>Writes all copy for every funnel page (awareness-calibrated)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Social Proof Block Builder</td>
+<td>Formats testimonials, case studies, and proof elements per page</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Offer Stack Presenter</td>
+<td>Structures and writes the value stack and offer presentation sections</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Page Layout Generator</td>
+<td>Writes HTML/CSS/JS for every page (conversion-optimized, mobile-first)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Integration Configurator</td>
+<td>Injects email platform, payment, pixel, and calendar integrations from tech stack</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Mobile QA Agent</td>
+<td>Validates all pages at 375px, 414px, 768px — flags layout breaks</td>
+</tr>
+<tr>
+<td>8</td>
+<td>CTA Architecture Agent</td>
+<td>Places and writes CTAs per page with correct funnel routing</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Funnel Flow Validator</td>
+<td>Confirms every page connects correctly to the next; no broken routing</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Agent count: 10</strong> (Funnel Builder Lead + 9 sub-agents)</p>
+<hr />
+<h3>Webinar Builder Agent (Step 13b)</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Sub-Agent</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lead</td>
+<td>Webinar Builder Lead</td>
+<td>Orchestrates full webinar script production</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Story Architect</td>
+<td>Writes the epiphany bridge and origin story for the webinar narrative</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Three Secrets Writer</td>
+<td>Writes the 3 false-belief-breaking secret reveals with mechanism bridges</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Stack Builder</td>
+<td>Constructs the offer stack presentation with value assignments</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Close Writer</td>
+<td>Writes the sales close sequence (trial close, hard close, guarantee reveal)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Q&amp;A Script Writer</td>
+<td>Produces live Q&amp;A response scripts for top predicted objections</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Slide Direction Agent</td>
+<td>Produces full slide deck brief (visual direction + content per slide)</td>
+</tr>
+<tr>
+<td>7</td>
+<td>VSL Adaptation Agent</td>
+<td>Adapts webinar script to VSL format (shorter, tighter, no live sections)</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Evergreen Conversion Agent</td>
+<td>Adapts webinar for evergreen auto-webinar delivery</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Pattern Interrupt Designer</td>
+<td>Inserts retention engineering (stories, demonstrations, polls, re-hooks) at 10-min intervals</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Webinar QA Agent</td>
+<td>Validates full script against Perfect Webinar framework completion standards</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Agent count: 11</strong> (Webinar Builder Lead + 10 sub-agents)</p>
+<hr />
+<h3>Email &amp; SMS Builder Agent (Step 14)</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Sub-Agent</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lead</td>
+<td>Email &amp; SMS Builder Lead</td>
+<td>Orchestrates all email and SMS sequence production</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Sequence Architect</td>
+<td>Designs the full sequence map: trigger, cadence, branch logic</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Subject Line Specialist</td>
+<td>Writes and tests subject lines for every email (3 variants per email)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Welcome Sequence Writer</td>
+<td>Writes the new subscriber welcome series</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Post-Webinar Sequence Writer</td>
+<td>Writes the non-buyer and buyer post-webinar follow-up sequences</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Promo Campaign Writer</td>
+<td>Writes time-sensitive promotional email sequences</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Nurture Sequence Writer</td>
+<td>Writes long-form evergreen nurture content sequences</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Re-Engagement Writer</td>
+<td>Writes the inactive subscriber re-engagement sequence</td>
+</tr>
+<tr>
+<td>8</td>
+<td>SMS Copy Writer</td>
+<td>Writes all SMS touchpoints (brief, high-urgency, link-driven)</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Non-Buyer Engine Builder</td>
+<td>Builds the Monthly Non-Buyer Engine (30-email rotating library)</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Personalization Agent</td>
+<td>Inserts conditional content blocks based on subscriber segment data</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Email QA Agent</td>
+<td>Validates all sequences for deliverability triggers, link accuracy, and voice consistency</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Agent count: 12</strong> (Email &amp; SMS Builder Lead + 11 sub-agents)</p>
+<hr />
+<h3>Ad Creative Builder Agent (Step 15) — UPDATED POST-AUDIT</h3>
+<p><em>Note: Brand QA Agent removed — function transferred to Output Quality Agent (platform service).</em></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Sub-Agent</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lead</td>
+<td>Ad Creative Builder Lead</td>
+<td>Orchestrates full Meta ad creative production</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Hook Intelligence Agent</td>
+<td>Builds the expert's hook library; ranks hooks by performance data from Layer 4</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Angle Architect</td>
+<td>Generates 5–7 creative angles per campaign from the hook bank</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Ad Copy Writer</td>
+<td>Writes primary text, headlines, and descriptions for all ad variants</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Visual Production Agent</td>
+<td><em>[Merged: Visual Direction + Static Image Production]</em> Writes prompts + renders all static ad creatives</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Video &amp; B-Roll Production Agent</td>
+<td>Executes video briefs (Kling v1.6 / Runway Gen-3) + ad-specific text overlay timing</td>
+</tr>
+<tr>
+<td>6</td>
+<td>UGC Script Writer</td>
+<td>Writes expert-as-UGC and patient/character UGC scripts</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Retargeting Creative Specialist</td>
+<td>Produces warm and hot retargeting variants (proof-focused, objection-specific, urgency)</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Advantage+ Creative Packager</td>
+<td>Assembles all creative into Advantage+ compatible pools; formats for Meta Ads Manager import</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Ad Performance Analyst</td>
+<td>Monitors live ad performance; flags refresh needs; updates hook performance data</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Agent count: 10</strong> (Ad Creative Builder Lead + 9 sub-agents)</p>
+<hr />
+<h3>Lead Magnet &amp; Tool Builder Agent (Step 15b)</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Sub-Agent</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lead</td>
+<td>Lead Magnet Builder Lead</td>
+<td>Orchestrates lead magnet and interactive tool production</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Lead Magnet Strategist</td>
+<td>Selects format (PDF, quiz, calculator, mini-SaaS) based on funnel position and avatar stage</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Content Writer</td>
+<td>Writes all lead magnet copy (guides, checklists, reports) in expert's voice</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Quiz &amp; Calculator Builder</td>
+<td>Builds interactive logic for quizzes and calculators</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Vibe-Code Mini SaaS Builder</td>
+<td>Builds interactive web tools (HTML/CSS/JS) used as high-value lead magnets</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Agent count: 5</strong> (Lead Magnet Builder Lead + 4 sub-agents)</p>
+<hr />
+<h3>Sales Script Builder Agent (Step 16a)</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Sub-Agent</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lead</td>
+<td>Sales Script Builder Lead</td>
+<td>Orchestrates production of all sales call and consultation scripts</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Discovery Architect</td>
+<td>Builds the core discovery question sequence (4 Brunson phases, avatar-specific)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Script Writer</td>
+<td>Writes full word-for-word scripts for all 6 script types with branching logic</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Objection Library Builder</td>
+<td>Writes full objection responses (acknowledge → validate → reframe → bridge → re-offer)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Roleplay Scenario Generator</td>
+<td>Produces 5–8 training roleplay scenarios with ideal script walkthroughs</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Script Performance Analyst</td>
+<td><em>(Layer 4 trigger)</em> Monitors call conversion data; recommends script revisions</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Agent count: 6</strong> (Sales Script Builder Lead + 5 sub-agents)</p>
+<hr />
+<h3>Program Builder Agent (Step 16b)</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Sub-Agent</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lead</td>
+<td>Program Builder Lead</td>
+<td>Orchestrates complete program creation — type selection, blueprint, build, delivery</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Phase Architect</td>
+<td>Builds phase sequence with clinical rationale + brand naming options</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Protocol Prescription Agent</td>
+<td>Generates prescription-level protocols (supplements, food, lifestyle) per phase</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Curriculum Architect</td>
+<td>Builds full curriculum map — modules, lessons, sequence, resource requirements</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Lesson Script Writer</td>
+<td>Writes word-for-word video scripts for every lesson; module intros/outros; orientation</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Protocol Card &amp; Resource Producer</td>
+<td>Produces dose cards, food lists, trackers, quizzes, infographics, specialty guides</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Coach Meeting Architect</td>
+<td>Produces intake/phase/graduation call agendas + async messaging templates</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Community Content Generator</td>
+<td>Produces 7 Facebook posts/week per phase + weekly live session outlines</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Patient Intake Processor</td>
+<td><em>(Custom-per-patient builds)</em> Reads labs/intake → Patient Protocol Profile → custom adjustments</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Patient AI Trainer</td>
+<td>Builds Ask AI knowledge base; manages alert queue; monitors content gap patterns</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Block Library Manager</td>
+<td>Tags and saves reusable blocks; surfaces relevant blocks during new builds</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Agent count: 11</strong> (Program Builder Lead + 10 sub-agents)
+<strong>Platform:</strong> IQ Course Player (built inside clinicIQ — white-labeled at expert's domain)</p>
+<hr />
+<h3>Website Builder Agent (Step 16d)</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Sub-Agent</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lead</td>
+<td>Website Builder Lead</td>
+<td>Orchestrates full website architecture, copy, and production</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Site Architecture Agent</td>
+<td>Builds site map, page hierarchy, CTA hierarchy, internal linking structure</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Page Copy Writer</td>
+<td>Writes full copy for every page — awareness-calibrated per page type</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Story Architect</td>
+<td>Writes full About Page narrative + abbreviated Home Page story block</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Visual Direction &amp; Layout Agent</td>
+<td>Produces HTML/CSS per page; GrapesJS component structure; Puppeteer preview renders; deploys via Caddy</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Website QA Agent</td>
+<td>Validates message consistency, CTA alignment, mobile rendering across all pages</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Agent count: 6</strong> (Website Builder Lead + 5 sub-agents)</p>
+<hr />
+<h3>Podcast Agent (Step 16c)</h3>
+<p><strong>21 sub-agents across 6 categories — see <code>step16c_podcast_agent_full_spec.md</code> for full detail.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Sub-Agents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Show Production (4)</td>
+<td>P1 Runsheet Agent, P2 Show Notes &amp; Research, P3 Slide Deck, P4 Audience Intelligence</td>
+</tr>
+<tr>
+<td>SEO &amp; Distribution (2)</td>
+<td>S1 SEO + GEO Article, S2 Back-Catalog Revival</td>
+</tr>
+<tr>
+<td>Launch &amp; Distribution (3)</td>
+<td>L1 Launch Orchestration, L2 Clip Intelligence, L3 Content Repurposing</td>
+</tr>
+<tr>
+<td>Optimization (2)</td>
+<td>O1 Title &amp; Packaging, O2 YouTube Optimization</td>
+</tr>
+<tr>
+<td>Audience Growth (5)</td>
+<td>G1 Guest Amplification, G2 Cross-Promotion, G3 Instagram DM Funnel, G4 Review &amp; Follow Campaign, G5 Paid Promotion</td>
+</tr>
+<tr>
+<td>Intelligence &amp; Analytics (3)</td>
+<td>I1 Analytics Reporting, I2 Competitor Intelligence, I3 New Growth Opportunity (quarterly)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Agent count: 21</strong> (Podcast Agent Lead + 20 sub-agents)
+<strong>Infrastructure:</strong> n8n orchestration, Claude API, AssemblyAI, Airtable, Buffer, ManyChat, Brand24</p>
+<hr />
+<hr />
+<h2><a id="layer4-anchor"></a>LAYER 4 — MEASURE, ADJUST &amp; LEARN</h2>
+<p><strong>Steps:</strong> 17–20
+<strong>Role:</strong> Pulls all performance data, interprets it, executes or proposes optimizations, and continuously updates all platform priors from data and human feedback.</p>
+<hr />
+<h3>Analytics Dashboard (Step 17)</h3>
+<table>
+<thead>
+<tr>
+<th>Sub-Agent</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Data Ingestion Agent</td>
+<td>Connects to and polls 15+ external APIs; normalizes all data into unified clinicIQ schema</td>
+</tr>
+<tr>
+<td>Benchmark &amp; Threshold Manager</td>
+<td>Manages red/yellow/green thresholds; auto-calibrates to expert's 60-day baseline; recalibrates every 90 days</td>
+</tr>
+<tr>
+<td>Anomaly Detection Agent</td>
+<td>Detects sudden drops, gradual declines, plateaus, and positive spikes; triggers Performance Intelligence on flags</td>
+</tr>
+<tr>
+<td>Dashboard Renderer</td>
+<td>Builds and maintains the live expert-facing dashboard with real-time status, drill-downs, and alert panel</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Agent count: 5</strong> (Analytics Dashboard Lead + 4 sub-agents)
+<strong>Data sources:</strong> Meta Ads, GHL, Email platform, Instagram, Facebook, TikTok, YouTube, Google Search Console, Google Analytics, Apple Podcasts, Spotify, IQ Platform (program + production), IQ Drive, TikTok Ads, Podcast ad platforms</p>
+<hr />
+<h3>Performance Intelligence Agent (Step 18)</h3>
+<table>
+<thead>
+<tr>
+<th>Sub-Agent</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Root Cause Analyst</td>
+<td>Isolates root cause of every flag using correlation, timeline, and segment analysis</td>
+</tr>
+<tr>
+<td>Diagnosis Writer</td>
+<td>Writes plain-language diagnosis (Observation / Root Cause / Fix Type) with urgency level</td>
+</tr>
+<tr>
+<td>Opportunity Scanner</td>
+<td>Weekly scan for positive anomalies, replication opportunities, and cross-channel patterns</td>
+</tr>
+<tr>
+<td>Cross-Channel Correlation Agent</td>
+<td>Finds relationships across data streams (e.g., podcast listeners showing at higher webinar rates than non-listeners)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Agent count: 5</strong> (Performance Intelligence Lead + 4 sub-agents)
+<strong>Triggers:</strong> Every red/yellow flag from Analytics Dashboard + weekly scheduled scan</p>
+<hr />
+<h3>Optimization Agent (Step 19)</h3>
+<table>
+<thead>
+<tr>
+<th>Sub-Agent</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ad Optimization Executor</td>
+<td>Meta Ads API — pauses creative, shifts budget, rotates creative pool (auto/approve/propose)</td>
+</tr>
+<tr>
+<td>Funnel Optimization Executor</td>
+<td>GHL API + email platform — subject line swaps, sequence timing, page title A/B tests</td>
+</tr>
+<tr>
+<td>Content Optimization Executor</td>
+<td>Content calendar rebalancing, hook bank priority updates, podcast title/description updates</td>
+</tr>
+<tr>
+<td>Program Optimization Executor</td>
+<td>FAQ additions, lesson sequence adjustments, phase pacing, milestone email timing</td>
+</tr>
+<tr>
+<td>Impact Tracker</td>
+<td>Measures every change at 48h / 7d / 30d; feeds results to Learning Engine</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Agent count: 6</strong> (Optimization Agent Lead + 5 sub-agents)
+<strong>Three execution modes:</strong> Auto-Execute (standing authorization) / Approve-and-Execute (one-click) / Propose-Only (brief for human-required changes)</p>
+<hr />
+<h3>Learning &amp; Feedback Engine (Step 20)</h3>
+<table>
+<thead>
+<tr>
+<th>Sub-Agent</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Human Feedback Processor</td>
+<td>Captures all expert approvals, rejections, edits; classifies by type; extracts what agent got right/wrong</td>
+</tr>
+<tr>
+<td>Performance Pattern Extractor</td>
+<td>Identifies statistically significant patterns; separates expert-specific from universal</td>
+</tr>
+<tr>
+<td>Expert Prior Manager</td>
+<td>Owns this expert's personalized prior layer; updates Voice DNA, hook rankings, thresholds, audience priors; versioned</td>
+</tr>
+<tr>
+<td>Platform Prior Manager</td>
+<td>Owns anonymized universal learning; updates default templates and benchmarks for all experts (N≥10 threshold)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Agent count: 5</strong> (Learning &amp; Feedback Engine Lead + 4 sub-agents)
+<strong>Monthly trigger:</strong> Routes Monthly Review Brief to Growth Strategy Agent's Monthly Planner Sub-Agent on last day of each month → closes the loop back to Layer 2</p>
+<hr />
+<hr />
+<h2><a id="agent-count-anchor"></a>COMPLETE PLATFORM AGENT COUNT</h2>
+<h3>By Layer</h3>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Agent Group</th>
+<th>Lead</th>
+<th>Sub-Agents</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Platform</strong></td>
+<td>IQ Claw</td>
+<td>1</td>
+<td>6</td>
+<td><strong>7</strong></td>
+</tr>
+<tr>
+<td><strong>Platform</strong></td>
+<td>Core Orchestrator (incl. Output Quality Agent)</td>
+<td>1</td>
+<td>6</td>
+<td><strong>7</strong></td>
+</tr>
+<tr>
+<td><strong>Layer 1</strong></td>
+<td>Onboarding Agent</td>
+<td>1</td>
+<td>10</td>
+<td><strong>11</strong></td>
+</tr>
+<tr>
+<td><strong>Layer 2</strong></td>
+<td>Brand Strategy Agent</td>
+<td>1</td>
+<td>~4</td>
+<td><strong>~5</strong></td>
+</tr>
+<tr>
+<td><strong>Layer 2</strong></td>
+<td>Growth Strategy Agent</td>
+<td>1</td>
+<td>~11</td>
+<td><strong>~12</strong></td>
+</tr>
+<tr>
+<td><strong>Layer 3</strong></td>
+<td>Content Builder</td>
+<td>1</td>
+<td>11</td>
+<td><strong>12</strong></td>
+</tr>
+<tr>
+<td><strong>Layer 3</strong></td>
+<td>Funnel Builder</td>
+<td>1</td>
+<td>9</td>
+<td><strong>10</strong></td>
+</tr>
+<tr>
+<td><strong>Layer 3</strong></td>
+<td>Webinar Builder</td>
+<td>1</td>
+<td>10</td>
+<td><strong>11</strong></td>
+</tr>
+<tr>
+<td><strong>Layer 3</strong></td>
+<td>Email &amp; SMS Builder</td>
+<td>1</td>
+<td>11</td>
+<td><strong>12</strong></td>
+</tr>
+<tr>
+<td><strong>Layer 3</strong></td>
+<td>Ad Creative Builder</td>
+<td>1</td>
+<td>9</td>
+<td><strong>10</strong></td>
+</tr>
+<tr>
+<td><strong>Layer 3</strong></td>
+<td>Lead Magnet Builder</td>
+<td>1</td>
+<td>4</td>
+<td><strong>5</strong></td>
+</tr>
+<tr>
+<td><strong>Layer 3</strong></td>
+<td>Sales Script Builder</td>
+<td>1</td>
+<td>5</td>
+<td><strong>6</strong></td>
+</tr>
+<tr>
+<td><strong>Layer 3</strong></td>
+<td>Program Builder</td>
+<td>1</td>
+<td>10</td>
+<td><strong>11</strong></td>
+</tr>
+<tr>
+<td><strong>Layer 3</strong></td>
+<td>Website Builder</td>
+<td>1</td>
+<td>5</td>
+<td><strong>6</strong></td>
+</tr>
+<tr>
+<td><strong>Layer 3</strong></td>
+<td>Podcast Agent</td>
+<td>1</td>
+<td>20</td>
+<td><strong>21</strong></td>
+</tr>
+<tr>
+<td><strong>Layer 4</strong></td>
+<td>Analytics Dashboard</td>
+<td>1</td>
+<td>4</td>
+<td><strong>5</strong></td>
+</tr>
+<tr>
+<td><strong>Layer 4</strong></td>
+<td>Performance Intelligence</td>
+<td>1</td>
+<td>4</td>
+<td><strong>5</strong></td>
+</tr>
+<tr>
+<td><strong>Layer 4</strong></td>
+<td>Optimization Agent</td>
+<td>1</td>
+<td>5</td>
+<td><strong>6</strong></td>
+</tr>
+<tr>
+<td><strong>Layer 4</strong></td>
+<td>Learning &amp; Feedback Engine</td>
+<td>1</td>
+<td>4</td>
+<td><strong>5</strong></td>
+</tr>
+<tr>
+<td><strong>TOTAL</strong></td>
+<td></td>
+<td><strong>20</strong></td>
+<td><strong>~148</strong></td>
+<td><strong>~168</strong></td>
+</tr>
+</tbody>
+</table>
+<p><em>Layer 2 sub-agent counts pending final audit confirmation — estimated ~17 combined.</em></p>
+<hr />
+<h3>By Function</h3>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Agent Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Expert interface and routing</td>
+<td>7 (IQ Claw)</td>
+</tr>
+<tr>
+<td>Production orchestration and QA</td>
+<td>7 (Core Orchestrator)</td>
+</tr>
+<tr>
+<td>Expert intelligence capture</td>
+<td>11 (Onboarding)</td>
+</tr>
+<tr>
+<td>Strategic operating system</td>
+<td>~17 (Brand + Growth Strategy)</td>
+</tr>
+<tr>
+<td>Content production</td>
+<td>12 (Content Builder)</td>
+</tr>
+<tr>
+<td>Funnel production</td>
+<td>10 (Funnel Builder)</td>
+</tr>
+<tr>
+<td>Webinar production</td>
+<td>11 (Webinar Builder)</td>
+</tr>
+<tr>
+<td>Email &amp; SMS production</td>
+<td>12 (Email Builder)</td>
+</tr>
+<tr>
+<td>Ad creative production</td>
+<td>10 (Ad Creative Builder)</td>
+</tr>
+<tr>
+<td>Lead magnet production</td>
+<td>5 (Lead Magnet Builder)</td>
+</tr>
+<tr>
+<td>Sales enablement</td>
+<td>6 (Sales Script Builder)</td>
+</tr>
+<tr>
+<td>Program delivery</td>
+<td>11 (Program Builder)</td>
+</tr>
+<tr>
+<td>Website production</td>
+<td>6 (Website Builder)</td>
+</tr>
+<tr>
+<td>Podcast production + growth</td>
+<td>21 (Podcast Agent)</td>
+</tr>
+<tr>
+<td>Data and analytics</td>
+<td>5 (Analytics Dashboard)</td>
+</tr>
+<tr>
+<td>Performance intelligence</td>
+<td>5 (Performance Intelligence)</td>
+</tr>
+<tr>
+<td>Optimization execution</td>
+<td>6 (Optimization Agent)</td>
+</tr>
+<tr>
+<td>Learning and improvement</td>
+<td>5 (Learning &amp; Feedback Engine)</td>
+</tr>
+<tr>
+<td><strong>TOTAL</strong></td>
+<td><strong>~168</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>Data Flow Map — What Feeds What</h2>
+<pre><code>EXTERNAL WORLD
+    Meta Ads, GHL, Email Platform, Social Platforms, Google,
+    Apple/Spotify, IQ Platform, IQ Drive
+                    │
+                    ▼ (every 4–24 hours)
+            ANALYTICS DASHBOARD (Layer 4)
+                    │
+          ┌─────────┴──────────┐
+          ▼                    ▼
+  PERFORMANCE               LEARNING ENGINE
+  INTELLIGENCE              (Step 20)
+  (Step 18)                     │
+          │                     │ Updates priors
+          ▼                     ▼
+  OPTIMIZATION ─────────► ALL AGENTS (Layer 1–3)
+  AGENT (Step 19)          Voice DNA, hooks, thresholds,
+          │                templates, ad creative rankings
+          │
+  Auto-executes or
+  Proposes to expert
+  via IQ Claw
+          │
+          ▼
+  Monthly Review Brief ──► Growth Strategy Agent
+                           (Monthly Master Plan refresh)
+                                    │
+                                    ▼
+                           Core Orchestrator
+                                    │
+                                    ▼
+                           All Builder Agents (Layer 3)
+                                    │
+                                    ▼
+                                IQ Drive
+                                    │
+                                    ▼
+                         Analytics Dashboard (loop closes)
+</code></pre>
+<hr />
+<h2>Handoff Payload Standards</h2>
+<h3>Expert Dossier (Layer 1 → Layer 2 + All Builder Agents)</h3>
+<ul>
+<li>Format: JSON (164 fields) + human-readable narrative</li>
+<li>Gate: <code>handoff_ready: true</code> required before Layer 2 activates</li>
+<li>Key sections consumed by Builder agents: Voice DNA, Avatar Psychology (false beliefs, desires, objection map), Offer Architecture, Proof Bank, Mechanism, Visual DNA, Tech Stack</li>
+</ul>
+<h3>Strategy Package (Layer 2 → Core Orchestrator → Layer 3)</h3>
+<p>Five documents, all required before any Builder agent activates:
+1. Expert Dossier Brief (from Layer 1)
+2. Brand North Star Document — Part 2 (operational rules)
+3. Monthly Messaging Brief (hook bank, angle map, objection library)
+4. Monthly Master Plan Brief (campaign structure, CTA, webinar details)
+5. Asset Brief (per-request, generated by Core Orchestrator)</p>
+<h3>Asset Output (Layer 3 → Output Quality Agent → IQ Drive → Expert)</h3>
+<ul>
+<li>Every Builder output → Output Quality Agent (Voice QA + Brand QA)</li>
+<li>Pass → IQ Drive → Expert-facing delivery</li>
+<li>Fail (1st) → rewrite request back to originating sub-agent</li>
+<li>Fail (2nd) → "Needs Your Eye" flag → expert dashboard hold</li>
+</ul>
+<h3>Performance Data (IQ Drive + External APIs → Layer 4)</h3>
+<ul>
+<li>All asset performance metadata tagged in IQ Drive</li>
+<li>External platform data polled by Data Ingestion Agent</li>
+<li>Normalized into unified clinicIQ schema before any Layer 4 agent reads it</li>
+</ul>
+<hr />
+<h2>Open Architecture Decisions (From Step 21 Audit)</h2>
+<p>These must be resolved by the engineering team before build begins:</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Decision</th>
+<th>Recommended Direction</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Agent framework</td>
+<td>LangGraph (complex orchestration) or CrewAI (role-based teams) — team capability decides</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Model tier map</td>
+<td>Voice-critical: Claude 3.5+/GPT-4o. Extraction: smaller/faster. Classification: SLMs. Never premium for formatting.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Memory/state backend</td>
+<td>Vector DB (semantic) + PostgreSQL (structured) + Redis (session state)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>IQ Drive stack</td>
+<td>S3-compatible object storage + vector DB + PostgreSQL + React/Next.js UI</td>
+</tr>
+<tr>
+<td>5</td>
+<td>IQ Course Player</td>
+<td>React/Next.js + Mux + Puppeteer + PostgreSQL + vector DB — confirmed Step 16b</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Agent deployment</td>
+<td>Serverless for triggered agents; containers for always-on (IQ Claw, Data Ingestion)</td>
+</tr>
+<tr>
+<td>7</td>
+<td>IQ Claw interface</td>
+<td>Persistent web panel overlay within clinicIQ web app; mobile responsive V1, native V2</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Monthly Master Plan refresh</td>
+<td>Automatic: Layer 4 triggers Growth Strategy Agent on last day of month; expert approves before it takes effect</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>Files Reference</h2>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Contents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>layer1/step3_conversation_flow_architecture.md</code></td>
+<td>Onboarding conversation flow + gamification</td>
+</tr>
+<tr>
+<td><code>layer1/step4_voice_dna_extraction_methodology.md</code></td>
+<td>Voice DNA extraction, confirmation, enrichment</td>
+</tr>
+<tr>
+<td><code>layer1/step5_avatar_psychology_5_levels_awareness.md</code></td>
+<td>Avatar psychology + 5 Levels of Awareness</td>
+</tr>
+<tr>
+<td><code>layer1/step6_offer_architecture_extraction.md</code></td>
+<td>Offer stack extraction methodology</td>
+</tr>
+<tr>
+<td><code>layer1/step7_onboarding_output_payload_handoff.md</code></td>
+<td>Expert Dossier payload format + handoff spec</td>
+</tr>
+<tr>
+<td><code>layer2/step8_brand_strategy_agent.md</code></td>
+<td>Brand North Star production</td>
+</tr>
+<tr>
+<td><code>layer2/step9_growth_strategy_agent.md</code></td>
+<td>Monthly Master Plan + Messaging Brief + sub-agent team</td>
+</tr>
+<tr>
+<td><code>layer2/step10_full_strategy_output_stack.md</code></td>
+<td>Complete Layer 2 output stack</td>
+</tr>
+<tr>
+<td><code>layer2/step11_strategy_layer_handoff_payload.md</code></td>
+<td>Handoff to Layer 3 + quality gates</td>
+</tr>
+<tr>
+<td><code>layer3/step12_content_builder_agent.md</code></td>
+<td>Content Builder (post-audit: 12 agents)</td>
+</tr>
+<tr>
+<td><code>layer3/step13_funnel_and_webinar_builder_agents.md</code></td>
+<td>Funnel Builder overview</td>
+</tr>
+<tr>
+<td><code>layer3/step13b_webinar_builder_deep_spec.md</code></td>
+<td>Webinar Builder full spec</td>
+</tr>
+<tr>
+<td><code>layer3/step14_email_sms_builder_agent.md</code></td>
+<td>Email &amp; SMS Builder</td>
+</tr>
+<tr>
+<td><code>layer3/step15_ad_creative_and_lead_magnet_builder_agents.md</code></td>
+<td>Ad Creative + Lead Magnet Builders</td>
+</tr>
+<tr>
+<td><code>layer3/step16_sales_script_program_website_podcast_agents.md</code></td>
+<td>Step 16 overview</td>
+</tr>
+<tr>
+<td><code>layer3/step16b_program_builder_full_spec.md</code></td>
+<td>Program Builder full spec</td>
+</tr>
+<tr>
+<td><code>layer3/step16c_podcast_agent_full_spec.md</code></td>
+<td>Podcast Agent full spec (20 sub-agents)</td>
+</tr>
+<tr>
+<td><code>layer4/steps17_20_analytics_intelligence_optimization_learning.md</code></td>
+<td>Full Layer 4 spec</td>
+</tr>
+<tr>
+<td><code>platform/cliniciq_platform_architecture.md</code></td>
+<td>IQ Drive + IQ Claw + Patient AI architecture</td>
+</tr>
+<tr>
+<td><code>step21_consistency_audit.md</code></td>
+<td>This audit</td>
+</tr>
+<tr>
+<td><code>step22_master_agent_document.md</code></td>
+<td>This document</td>
+</tr>
+<tr>
+<td><code>ENGINEERING_KICKOFF_BRIEF.md</code></td>
+<td>Executive summary for engineering kickoff</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>Step 22 of 22 — Final Master Agent Description Document — v1.0</em>
+<em>clinicIQ Platform — Complete Agent Architecture</em>
+<em>~168 agents across Platform Services, Layers 1–4</em>
+<em>All 22 steps documented. Build-ready.</em></p>
+</section>
+<section id="mirofish-anchor" class="doc-section">
+<h2>Miro Fish — Pre-Launch Audience Simulation</h2>
+<p>Full spec: <code>platform/miro_fish_simulation_agent.md</code> — <a href="https://github.com/TheClinicIQ/cliniciq-master-build/blob/main/platform/miro_fish_simulation_agent.md" target="_blank">view on GitHub ↗</a></p>
+<h3>What It Is</h3>
+<p>Before any ad, webinar, or funnel goes live, it runs through a synthetic crowd of the expert's Core Avatar at each relevant level of awareness. It scores the asset, surfaces specific recommendations for anything that isn't landing, and either clears it for launch or triggers an automated refinement cycle.</p>
+<p><strong>Core principle: If it passes — roll. If not — here's exactly what to fix. Then roll.</strong> The platform never holds an asset hostage indefinitely. Maximum 2 automated refinement cycles, then the expert decides.</p>
+<h3>Pipeline Position</h3>
+<pre><code>Builder Agent → Output Quality Agent (Voice QA + Brand QA) → Miro Fish → IQ Drive (on pass)
+                                                                        → Builder refinement (on fail, max 2 cycles)</code></pre>
+<h3>The Synthetic Crowd</h3>
+<p>The Core Avatar (8-layer dossier profile) is instantiated at each relevant Level of Awareness, sampled across demographic variance ranges. Crowd size is fully configurable per asset type and per run.</p>
+<table>
+<thead><tr><th>Tier</th><th>Respondents/Level</th><th>Total (~3 levels)</th><th>Default For</th></tr></thead>
+<tbody>
+<tr><td>Quick</td><td>50</td><td>~150</td><td>Fast iteration, organic content tests</td></tr>
+<tr><td>Standard</td><td>200</td><td>~600</td><td>Regular ads, email sequences</td></tr>
+<tr><td>Deep</td><td>500</td><td>~1,500</td><td>Sales pages, ad campaigns</td></tr>
+<tr><td><strong>Full</strong></td><td><strong>1,000</strong></td><td><strong>~3,000</strong></td><td><strong>Webinars, VSLs, funnels (default)</strong></td></tr>
+<tr><td><strong>Max</strong></td><td><strong>2,500</strong></td><td><strong>~7,500</strong></td><td><strong>Flagship launches, new offer rollouts</strong></td></tr>
+</tbody>
+</table>
+<p>IQ Claw surfaces the estimated token cost before every simulation run. Expert can adjust tier per run. Confidence curve flattens above ~2,000 respondents per level — Max tier is reserved for genuinely high-stakes moments.</p>
+<h3>Scoring Dimensions</h3>
+<p>Universal (all asset types): Hook Strength (25%) · Avatar Mirror (20%) · Mechanism Clarity (15%) · Believability (20%) · Action Intent (20%). Plus asset-specific dimensions: ad thumb-stop power, webinar false-belief dismantling, funnel above-fold clarity, etc.</p>
+<h3>Verdict Thresholds</h3>
+<table>
+<thead><tr><th>Score</th><th>Verdict</th><th>Action</th></tr></thead>
+<tbody>
+<tr><td>85–100</td><td>🟢 Roll</td><td>Asset cleared — release to IQ Drive, publish</td></tr>
+<tr><td>70–84</td><td>🟡 Fix First</td><td>Automated refinement cycle triggered, re-score</td></tr>
+<tr><td>50–69</td><td>🔴 Significant Rework</td><td>2 refinement cycles, then escalate to expert</td></tr>
+<tr><td>&lt;50</td><td>⛔ Fundamental Problem</td><td>Expert review required — brief-level issue</td></tr>
+</tbody>
+</table>
+<h3>When It Runs</h3>
+<p><strong>Mandatory:</strong> All Meta ad creative · All webinar scripts (before recording) · All funnel pages · All VSL scripts · All email launch sequences</p>
+<p><strong>Optional (expert-triggered):</strong> High-stakes organic content · Podcast episode titles · Lead magnet concepts</p>
+<h3>Gets Smarter Over Time</h3>
+<p>Layer 4 compares every Miro Fish prediction to real post-launch performance. Accurate predictions reinforce the model. Wrong predictions (including expert overrides that went either way) update it. At platform level: anonymized patterns across experts in the same specialty improve default simulation parameters for new experts entering that niche.</p>
+<h3>Agent Count: 5</h3>
+<p>Miro Fish Lead + Crowd Synthesis Agent + Reaction Simulation Agent + Scorer &amp; Diagnostician + Recommendation Writer</p>
+</section>
+
+<section id="step21_consistency_audit" class="doc-section">
+<h1>clinicIQ — Step 21: Cross-Agent Consistency Audit</h1>
+<p><strong>Version 1.0</strong>
+<em>Step 21 of 22 | Reviews: All Steps 1–20 + Platform Architecture</em></p>
+<hr />
+<h2>Purpose</h2>
+<p>This audit reviews the entire clinicIQ agent architecture for:
+1. Naming conflicts and inconsistencies across documents
+2. Missing agent definitions (referenced but not fully defined)
+3. Handoff gaps (outputs produced that have no confirmed receiver)
+4. Redundant agents (same job defined in multiple places)
+5. Count discrepancies (agent counts in summary docs vs. actual defined counts)
+6. Shared service decisions (agents that should be platform-level vs. per-builder)
+7. Open architecture decisions that must be resolved before build</p>
+<p>Each finding is classified as:
+- 🔴 <strong>BLOCKING</strong> — Must resolve before engineers can build this component
+- 🟡 <strong>IMPORTANT</strong> — Should resolve before build; workaround exists but creates tech debt
+- 🟢 <strong>MINOR</strong> — Cosmetic or low-impact; note for Step 22 cleanup</p>
+<hr />
+<h2>SECTION 1 — Naming Inconsistencies</h2>
+<h3>1.1 "Growth Blueprint" vs. Document Name</h3>
+<p><strong>Status: 🟡 IMPORTANT</strong></p>
+<p>The term "Growth Blueprint" appears in multiple Layer 3 agent <code>Reads:</code> sections as something agents consume. However, there is no document called "Growth Blueprint" in the Layer 2 output stack. The actual document the agents should be reading is the <strong>Monthly Master Plan</strong> (which contains funnel variant, traffic sources, awareness level mix, program tier, and tech stack).</p>
+<p>"Growth Blueprint" appears to be an informal shorthand that crept in during drafting.</p>
+<p><strong>Resolution:</strong> In Step 22, all references to "Growth Blueprint" in Layer 3 agent specs should be replaced with "Monthly Master Plan" (for campaign/funnel data) or "Expert Dossier" (for offer architecture and tech stack data). The document the Funnel Builder, Webinar Builder, Website Builder, and Email Builder agents read is the Monthly Master Plan + Expert Dossier — not a separate Growth Blueprint document.</p>
+<hr />
+<h3>1.2 "Judge/Reviewer Agent" — Referenced but Not Defined in Layer 4</h3>
+<p><strong>Status: 🔴 BLOCKING</strong></p>
+<p>Multiple Layer 2 documents reference a "Judge/Reviewer Agent (Layer 4)" as a quality gate that:
+- Reviews every Builder agent output against the Brand North Star before it reaches the expert
+- Runs automated quality checks on the Brand North Star Part 2 document itself
+- Is the standard against which all outputs are reviewed</p>
+<p>This agent is referenced as a Layer 4 component but Layer 4 (Steps 17–20) does not define it. The Performance Intelligence Agent and Optimization Agent cover data-driven quality — but output brand/voice quality review is a different function.</p>
+<p><strong>Resolution:</strong> The Judge/Reviewer function should be formalized as a <strong>shared platform service</strong> sitting between the Core Orchestrator (Layer 2) and the Builder agents (Layer 3). It is not a Layer 4 agent — it is a quality gate in the production pipeline. Define it as:</p>
+<p><strong>Output Quality Agent</strong> (shared service, not Layer 4)
+- Runs on every Builder agent output before it reaches the expert
+- Voice QA check: compare against Voice DNA sample extracts
+- Brand QA check: compare against Brand North Star Part 2 operational rules
+- Consistency check: does this output align with the current Monthly Messaging Brief angle?
+- Pass → output delivered to expert
+- Fail → rewrite request back to originating Builder agent with specific failure reason
+- Two failures → "Needs Your Eye" flag, hold for expert</p>
+<p>This replaces the per-Builder Voice QA and Brand QA sub-agents referenced in the Content Builder and Ad Creative Builder with one shared platform service. This is consistent with the recommendation already noted in the Engineering Kickoff Brief.</p>
+<p><strong>In Step 22:</strong> Define the Output Quality Agent as a shared service under the Core Orchestrator. Remove per-builder Voice QA and Brand QA sub-agents from Content Builder (sub-agent #4 and #12) and from Ad Creative Builder. Update agent counts accordingly.</p>
+<p><strong>Count impact:</strong> Content Builder: 13 → 11 (remove Voice QA + Brand QA). Ad Creative Builder: 10 → 9 (remove Brand QA — Voice QA already removed in earlier merge). Net reduction: 3 agents removed from Layer 3, 1 shared Output Quality Agent added to Core Orchestrator. Net: -2 agents.</p>
+<hr />
+<h3>1.3 "Performance Learning Agent" — Defined in Content Builder, also in Layer 4</h3>
+<p><strong>Status: 🟡 IMPORTANT</strong></p>
+<p>The Content Builder (Step 12) defines sub-agent #13 as a "Performance Learning Agent" that receives engagement data and updates content production priors. Layer 4 Step 20 defines a "Learning &amp; Feedback Engine" with a "Performance Pattern Extractor" that does the same thing at platform scope.</p>
+<p>This is partial overlap. The Content Builder's Performance Learning Agent was the right call at the time it was written; Layer 4 now formally owns this function at platform scope.</p>
+<p><strong>Resolution:</strong> Remove the "Performance Learning Agent" from the Content Builder sub-agent list. Its function is fully covered by Layer 4's Learning &amp; Feedback Engine, which already explicitly reads Content Builder performance data. The Content Builder's data pipeline to Layer 4 stays — the agent that lives inside Content Builder does not.</p>
+<p><strong>Count impact:</strong> Content Builder: 11 → 10 (after Voice QA + Brand QA removal above, now remove Performance Learning Agent). Net total for Content Builder: <strong>Lead + 9 sub-agents = 10 agents.</strong></p>
+<hr />
+<h3>1.4 Onboarding Sub-Agent "Voice DNA Analyst" — Not Listed in Step 7 Summary</h3>
+<p><strong>Status: 🟢 MINOR</strong></p>
+<p>The Kickoff Brief and Step 7 summary list the Onboarding sub-agents without the "Voice DNA Analyst" (defined in Step 4 as a distinct sub-agent). The Step 9 Growth Strategy Agent document (which is where the onboarding sub-agent team was formally listed) includes it. The Kickoff Brief summary omits it.</p>
+<p><strong>Resolution:</strong> In Step 22, Onboarding sub-agent count is confirmed as <strong>10</strong> (Lead + 9 sub-agents): Web Scraper, Voice DNA Analyst, Avatar Psychology Builder, Offer Architecture Builder, Webinar Raw Material Extractor, Proof Bank Miner, Story Miner, Silent Diagnostician, Dossier Assembler, Progress Endowment Engine.</p>
+<p>Note: "Webinar Raw Material Extractor" appears in Step 9 but not in the Kickoff Brief or Step 7 summary. This is a confirmed sub-agent — add to Step 22.</p>
+<hr />
+<h3>1.5 "Webinar Raw Material Extractor" — Exists in Step 9, Missing from Layer 1 Summary</h3>
+<p><strong>Status: 🟢 MINOR</strong></p>
+<p>See 1.4 above. The Webinar Raw Material Extractor (extracts One Big Domino, 3 secrets, epiphany bridge during onboarding) is defined in Step 9 but not surfaced in the Onboarding Agent summary docs. Confirmed as a real sub-agent — add to Step 22 final count.</p>
+<hr />
+<h2>SECTION 2 — Missing Definitions</h2>
+<h3>2.1 Steps 1 and 2 — Not Present as Files</h3>
+<p><strong>Status: 🟡 IMPORTANT</strong></p>
+<p>The Layer 1 step files begin at Step 3 (step3_conversation_flow_architecture.md). Steps 1 and 2 are referenced throughout as:
+- Step 1: Agent Description (the full Onboarding Agent description and capability spec)
+- Step 2: Data Schema (the 164-field expert dossier schema)</p>
+<p>These are referenced as dependencies in every Layer 1 document but no corresponding files exist in the workspace.</p>
+<p><strong>Resolution:</strong> Step 22 Master Document should include these as defined sections. The 164-field schema is implicitly defined across the Layer 1 docs (Step 3 flow, Step 4 Voice DNA, Step 5 Avatar Psychology, Step 6 Offer Architecture, Step 7 payload) — it needs to be compiled into a single canonical schema file.</p>
+<p><strong>Action for Step 22:</strong> Produce a single <code>expert_dossier_schema.md</code> that enumerates all 164 fields with their section, type, source (onboarded vs. inferred vs. web-scraped), and which agents read them.</p>
+<hr />
+<h3>2.2 Core Orchestrator Agent — Defined in Layer 2 but Agent Count Not Included in Any Summary</h3>
+<p><strong>Status: 🟡 IMPORTANT</strong></p>
+<p>The Core Orchestrator Agent is defined in Step 11 with 5 sub-agents (Gate Checker, Brief Generator, Router, Context Loader, Output Tracker). It is a real, fully-spec'd agent group. But it appears in no agent count table — not in the Kickoff Brief, not in any Layer 2 summary.</p>
+<p><strong>Resolution:</strong> In Step 22, Core Orchestrator is classified as a <strong>platform orchestration service</strong> (not Layer 2, not Layer 3) — similar to IQ Claw. Its agent count: <strong>6</strong> (Core Orchestrator Lead + 5 sub-agents).</p>
+<p>With the Output Quality Agent added (from resolution 1.2 above), the Core Orchestrator team becomes: <strong>7</strong> (Lead + 5 original sub-agents + 1 Output Quality Agent).</p>
+<hr />
+<h3>2.3 "Patient AI" — Referenced in Platform Architecture, Not Detailed Elsewhere</h3>
+<p><strong>Status: 🟡 IMPORTANT</strong></p>
+<p>The Platform Architecture document defines a "Patient-Facing AI" with a brief description. The Program Builder (Step 16b) defines a "Patient AI Trainer" sub-agent that builds the knowledge base. But the Patient AI itself — its persona, capabilities, scope, and agent architecture — is deferred to V2.</p>
+<p><strong>Resolution:</strong> In Step 22, formally mark Patient AI as <strong>V2 scope</strong> with a placeholder definition. The Patient AI Trainer sub-agent in the Program Builder continues to prepare the knowledge base for V2. No blocking issue for V1 build.</p>
+<hr />
+<h3>2.4 Layer 2 "Campaign Planner Agent" — Mentioned, Not Defined</h3>
+<p><strong>Status: 🟡 IMPORTANT</strong></p>
+<p>The Growth Strategy Agent documents reference a "Campaign Planner Agent" as a primary consumer of the Growth Blueprint / Monthly Master Plan. This agent is not defined as a sub-agent within any documented agent team.</p>
+<p><strong>Resolution:</strong> The Campaign Planner function is likely the "Monthly Planner Sub-Agent" inside the Growth Strategy Agent's sub-agent team (which is defined). Confirm in Step 22 that these are the same agent under different names, and standardize to "Monthly Planner Sub-Agent."</p>
+<hr />
+<h2>SECTION 3 — Handoff Gaps</h2>
+<h3>3.1 Layer 4 → Layer 2 Feedback Loop — Not Fully Spec'd</h3>
+<p><strong>Status: 🟡 IMPORTANT</strong></p>
+<p>Step 20 (Monthly Review — originally scoped in the brief as a "Monthly Review &amp; Reporting Agent") was redesigned as the Learning &amp; Feedback Engine. However, one key function from the original scope is not fully addressed: <strong>closing the loop back to Layer 2.</strong></p>
+<p>Specifically: after a month of performance data, the Growth Strategy Agent should produce an updated Monthly Master Plan for the next month — informed by what worked and what didn't. The Learning &amp; Feedback Engine updates priors, but it does not explicitly trigger a Monthly Master Plan refresh.</p>
+<p><strong>Resolution:</strong> Add to the Learning &amp; Feedback Engine's Lead Agent responsibilities: "Monthly trigger: on the last day of each month, routes a Monthly Review Brief (performance data + learning updates) to the Growth Strategy Agent's Monthly Planner Sub-Agent. The Monthly Planner uses this brief to produce the next month's Monthly Master Plan, which feeds all Layer 3 Builder agents for the coming cycle." This closes the loop explicitly.</p>
+<hr />
+<h3>3.2 Podcast Agent → Layer 4 Data Flow — Not Defined</h3>
+<p><strong>Status: 🟡 IMPORTANT</strong></p>
+<p>The Podcast Agent (Step 16c) includes its own Analytics Reporting Agent (Agent I1), Competitor Intelligence Agent (I2), and Audience Intelligence Agent (P4). These agents gather and produce data. But the flow of podcast data into Layer 4's Analytics Dashboard (Step 17) is not explicitly mapped.</p>
+<p><strong>Resolution:</strong> In Step 22, define that:
+- Podcast Agent's Analytics Reporting Agent is a <strong>data producer</strong> for the Podcast Performance section of the Layer 4 Analytics Dashboard
+- Podcast Agent's Audience Intelligence Agent feeds its Monday brief to both the Podcast Agent Lead AND to the Layer 4 Performance Intelligence Agent's weekly opportunity scan
+- Layer 4 is the authority on cross-channel analysis; Podcast Agent's own analytics agents handle podcast-specific reporting, Layer 4 handles cross-channel correlation</p>
+<hr />
+<h3>3.3 Program Builder → Email Builder Handoff for Milestone Emails — Implicit, Not Formal</h3>
+<p><strong>Status: 🟢 MINOR</strong></p>
+<p>The Program Builder (Step 16b) specifies that the Support Structure Architect sub-agent "produces automated milestone email sequence spec → handed to Email Builder for production." This handoff is mentioned but the receiving agent in the Email Builder (Step 14) is not specifically identified.</p>
+<p><strong>Resolution:</strong> In Step 22, specify that Program Builder milestone email specs are received by the Email Builder's "Sequence Architect" sub-agent, which is the sub-agent that handles new sequence creation requests.</p>
+<hr />
+<h2>SECTION 4 — Redundant Agents</h2>
+<h3>4.1 Voice QA — Exists in Content Builder AND Referenced as Shared Service</h3>
+<p><strong>Status: 🔴 BLOCKING (same as 1.2)</strong></p>
+<p>Already addressed in Finding 1.2. Voice QA lives in the Content Builder (sub-agent #4) but should be a shared platform service through the Output Quality Agent. Remove from Content Builder. See resolution in 1.2.</p>
+<hr />
+<h3>4.2 Brand QA — Same Issue</h3>
+<p><strong>Status: 🔴 BLOCKING (same as 1.2)</strong></p>
+<p>Already addressed in Finding 1.2. Brand QA lives in the Content Builder (sub-agent #12) and is mentioned for Ad Creative Builder. Remove from both. Consolidated into Output Quality Agent. See resolution in 1.2.</p>
+<hr />
+<h3>4.3 Performance Learning — Content Builder + Layer 4</h3>
+<p><strong>Status: 🟡 (same as 1.3)</strong></p>
+<p>Already addressed in Finding 1.3. Remove from Content Builder. Layer 4 owns this.</p>
+<hr />
+<h3>4.4 Podcast Agent Analytics vs. Layer 4 Analytics — Scope Overlap</h3>
+<p><strong>Status: 🟡 IMPORTANT</strong></p>
+<p>The Podcast Agent has three intelligence/analytics agents (P4 Audience Intelligence, I1 Analytics Reporting, I2 Competitor Intelligence). Layer 4 also has Analytics, Performance Intelligence, and Competitor-adjacent capabilities.</p>
+<p>These are NOT duplicates — they serve different scopes:
+- <strong>Podcast Agent analytics:</strong> Podcast-specific, episode-level, show growth focus
+- <strong>Layer 4 analytics:</strong> Cross-channel, business-level, funnel and revenue focus</p>
+<p><strong>Resolution:</strong> Keep both. Clarify scope boundaries in Step 22:
+- Podcast Agent analytics = podcast-specific metrics and podcast-specific growth actions
+- Layer 4 = cross-channel business intelligence and optimization
+- Data flows from Podcast Agent analytics → Layer 4 (one direction), never the reverse</p>
+<hr />
+<h2>SECTION 5 — Count Reconciliation</h2>
+<h3>Corrected Agent Counts (after audit resolutions applied)</h3>
+<table>
+<thead>
+<tr>
+<th>Layer / Agent Group</th>
+<th>Prior Count</th>
+<th>Adjustments</th>
+<th>Corrected Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Platform: IQ Claw</strong></td>
+<td>7</td>
+<td>None</td>
+<td><strong>7</strong></td>
+</tr>
+<tr>
+<td><strong>Platform: Core Orchestrator</strong></td>
+<td>6 (not in summaries)</td>
+<td>+1 Output Quality Agent</td>
+<td><strong>7</strong></td>
+</tr>
+<tr>
+<td><strong>Layer 1: Onboarding Agent</strong></td>
+<td>~10</td>
+<td>Confirmed at 10 (+Webinar Raw Material Extractor)</td>
+<td><strong>10</strong></td>
+</tr>
+<tr>
+<td><strong>Layer 2: Brand Strategy Agent</strong></td>
+<td>~5</td>
+<td>To be finalized</td>
+<td><strong>~5</strong></td>
+</tr>
+<tr>
+<td><strong>Layer 2: Growth Strategy Agent</strong></td>
+<td>~12</td>
+<td>To be finalized</td>
+<td><strong>~12</strong></td>
+</tr>
+<tr>
+<td><strong>Layer 3: Content Builder</strong></td>
+<td>13</td>
+<td>-Voice QA, -Brand QA, -Performance Learning = -3</td>
+<td><strong>10</strong></td>
+</tr>
+<tr>
+<td><strong>Layer 3: Funnel Builder</strong></td>
+<td>10</td>
+<td>None</td>
+<td><strong>10</strong></td>
+</tr>
+<tr>
+<td><strong>Layer 3: Webinar Builder</strong></td>
+<td>11</td>
+<td>None</td>
+<td><strong>11</strong></td>
+</tr>
+<tr>
+<td><strong>Layer 3: Email &amp; SMS Builder</strong></td>
+<td>12</td>
+<td>None</td>
+<td><strong>12</strong></td>
+</tr>
+<tr>
+<td><strong>Layer 3: Ad Creative Builder</strong></td>
+<td>10</td>
+<td>-Brand QA = -1</td>
+<td><strong>9</strong></td>
+</tr>
+<tr>
+<td><strong>Layer 3: Lead Magnet Builder</strong></td>
+<td>5</td>
+<td>None</td>
+<td><strong>5</strong></td>
+</tr>
+<tr>
+<td><strong>Layer 3: Sales Script Builder</strong></td>
+<td>6</td>
+<td>None</td>
+<td><strong>6</strong></td>
+</tr>
+<tr>
+<td><strong>Layer 3: Program Builder</strong></td>
+<td>11</td>
+<td>None</td>
+<td><strong>11</strong></td>
+</tr>
+<tr>
+<td><strong>Layer 3: Website Builder</strong></td>
+<td>6</td>
+<td>None</td>
+<td><strong>6</strong></td>
+</tr>
+<tr>
+<td><strong>Layer 3: Podcast Agent</strong></td>
+<td>21</td>
+<td>None</td>
+<td><strong>21</strong></td>
+</tr>
+<tr>
+<td><strong>Layer 4: Analytics Dashboard</strong></td>
+<td>5</td>
+<td>None</td>
+<td><strong>5</strong></td>
+</tr>
+<tr>
+<td><strong>Layer 4: Performance Intelligence</strong></td>
+<td>5</td>
+<td>None</td>
+<td><strong>5</strong></td>
+</tr>
+<tr>
+<td><strong>Layer 4: Optimization Agent</strong></td>
+<td>6</td>
+<td>None</td>
+<td><strong>6</strong></td>
+</tr>
+<tr>
+<td><strong>Layer 4: Learning &amp; Feedback Engine</strong></td>
+<td>5</td>
+<td>None</td>
+<td><strong>5</strong></td>
+</tr>
+<tr>
+<td><strong>TOTAL</strong></td>
+<td><strong>~163</strong></td>
+<td>Net: +1 Core Orch (now counted), -3 removed</td>
+<td><strong>~158</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>SECTION 6 — Shared Service Decisions (Finalized)</h2>
+<p>The following are confirmed as <strong>platform-level shared services</strong> — not owned by any individual Builder agent:</p>
+<table>
+<thead>
+<tr>
+<th>Shared Service</th>
+<th>Function</th>
+<th>Owned By</th>
+<th>Called By</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Output Quality Agent</strong></td>
+<td>Voice QA + Brand QA on all Builder outputs</td>
+<td>Core Orchestrator</td>
+<td>All Layer 3 Builder agents</td>
+</tr>
+<tr>
+<td><strong>IQ Drive</strong></td>
+<td>Asset storage and metadata</td>
+<td>Platform</td>
+<td>All agents that produce assets</td>
+</tr>
+<tr>
+<td><strong>IQ Claw</strong></td>
+<td>Expert interface and request routing</td>
+<td>Platform</td>
+<td>Expert → all agents</td>
+</tr>
+<tr>
+<td><strong>Block Library Manager</strong></td>
+<td>Saved blocks — index, search, tag, update</td>
+<td>Program Builder (owns)</td>
+<td>All Builder agents can query</td>
+</tr>
+<tr>
+<td><strong>Layer 4 Learning Engine</strong></td>
+<td>Performance pattern learning and prior updates</td>
+<td>Layer 4</td>
+<td>All agents receive updated priors</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>SECTION 7 — Architecture Decisions Still Open</h2>
+<p>These were identified in the Engineering Kickoff Brief and remain unresolved. Must be decided before build begins.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Decision</th>
+<th>Options</th>
+<th>Recommendation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>Agent framework</strong></td>
+<td>LangGraph, CrewAI, OpenAI Agents SDK, custom</td>
+<td>Choose based on team capability — all production-viable. LangGraph for complex orchestration graphs; CrewAI for simpler role-based teams.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>Model tier map</strong></td>
+<td>Which LLM/SLM for which agent type</td>
+<td>Voice-critical outputs (QA, copy): Claude 3.5+ / GPT-4o. Structured extraction (data parsing, schema population): smaller/faster models. Classification tasks: SLMs. Never use expensive models for formatting or retrieval.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Memory/state backend</strong></td>
+<td>How Dossier + IQ Profile persist across sessions</td>
+<td>Vector DB (Pinecone/Weaviate) for semantic search + PostgreSQL for structured fields + Redis for session state. Standard 2026 pattern.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>IQ Drive tech stack</strong></td>
+<td>Underlying storage + metadata layer</td>
+<td>Object storage (S3-compatible) + vector DB for semantic search + PostgreSQL for metadata. IQ Drive UI: React/Next.js.</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>IQ Course Player</strong></td>
+<td>React/Next.js + Mux + Puppeteer + PostgreSQL + vector DB</td>
+<td>Confirmed in Step 16b. No change.</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>Agent deployment model</strong></td>
+<td>Serverless functions vs. containers vs. hosted API</td>
+<td>Serverless for episodic/triggered agents; containers for always-on agents (IQ Claw, Data Ingestion).</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>IQ Claw interface layer</strong></td>
+<td>Web app, embedded widget, native app</td>
+<td>Persistent web panel (always-on overlay) within the clinicIQ web app. Mobile: responsive web first, native app V2.</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>Monthly Master Plan refresh trigger</strong></td>
+<td>Manual vs. automatic vs. Layer 4 triggered</td>
+<td>Automatic: Layer 4 Learning Engine triggers Growth Strategy Agent monthly. Expert reviews and approves before it takes effect.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>SECTION 8 — Final Pre-Build Checklist</h2>
+<p>Before the engineering team begins building, confirm:</p>
+<p>☐ Output Quality Agent defined and added to Core Orchestrator (Finding 1.2)
+☐ "Growth Blueprint" terminology replaced with "Monthly Master Plan" + "Expert Dossier" (Finding 1.1)
+☐ Voice QA and Brand QA removed from Content Builder and Ad Creative Builder (Finding 4.1–4.2)
+☐ Performance Learning Agent removed from Content Builder (Finding 4.3)
+☐ Core Orchestrator agent count added to master count (Finding 2.2)
+☐ Expert Dossier Schema compiled as canonical file (Finding 2.1)
+☐ Steps 1–2 sections added to master document (Finding 2.1)
+☐ Monthly review → Layer 2 feedback loop defined (Finding 3.1)
+☐ Podcast → Layer 4 data flow scope boundaries documented (Finding 3.2)
+☐ All 8 open architecture decisions resolved (Section 7)
+☐ Model tier map produced and assigned to every agent type
+☐ All corrected agent counts reflected in Step 22 master document</p>
+<hr />
+<p><em>Step 21 of 22 — Cross-Agent Consistency Audit — v1.0</em>
+<em>Findings: 2 Blocking, 10 Important, 4 Minor</em>
+<em>Next: Step 22 — Final Master Agent Description Document</em></p>
+</section>
+<section id="ENGINEERING_KICKOFF_BRIEF" class="doc-section">
+<h1>ClinicIQ — Engineering Kickoff Brief</h1>
+<p><strong>Version 1.0 | March 30, 2026</strong>
+<em>For: Engineering &amp; Dev Team — Internal Kickoff</em>
+<em>Prepared by: Ryan Cole / ClinicIQ Product</em></p>
+<hr />
+<h2>What We're Building</h2>
+<p>ClinicIQ is an <strong>Agentic-as-a-Service platform</strong> for health experts. It automates the entire growth engine of a health expert's business — brand, strategy, content, funnels, emails, ads, and webinars — using AI agents that know the expert deeply and produce finished, publish-ready work on demand.</p>
+<p>The expert never writes a caption, builds a funnel page, or touches a prompt. They just talk to the platform and it builds.</p>
+<p><strong>The master build is 22 steps across 4 layers.</strong> Steps 1–11 are fully documented and locked. Steps 12–22 are partially documented. The job right now is to build what exists and finish speccing what doesn't.</p>
+<hr />
+<h2>The Architecture At-a-Glance</h2>
+<pre><code>EXPERT
+    │
+    ▼
+┌─────────────────────────────────────┐
+│         IQ CLAW (Layer 0)           │  ← Expert's AI operator. The front door to everything.
+│  &quot;Tell me what you need — I handle  │
+│   the rest.&quot;                        │
+└──────────────┬──────────────────────┘
+               │ routes to
+    ┌──────────┼──────────────────────────┐
+    ▼          ▼                          ▼
+LAYER 1    LAYER 2                    LAYER 3
+Onboarding  Strategy                  Builders
+(Who you    (How to grow)             (Make the stuff)
+ are)
+    │          │                          │
+    └──────────┴──────────────────────────┘
+                         │
+                         ▼
+                 IQ DRIVE (Storage)
+              Every asset produced lives here
+                         │
+                         ▼
+               ANALYTICS DASHBOARD (Layer 4)
+              Performance data feeds back in
+                         │
+                         ▼
+                PATIENT AI (V2 — deferred)
+</code></pre>
+<hr />
+<h2>Layer-by-Layer Breakdown</h2>
+<hr />
+<h3>LAYER 1 — Onboarding Agent (Steps 1–7) ✅ FULLY DOCUMENTED</h3>
+<p><strong>What it does:</strong> Builds a deep expert profile — Voice DNA, avatar psychology, offer stack, proof bank, mechanism, visual brand — across 164 data fields. This "Expert Dossier" is the intelligence that powers every other agent on the platform.</p>
+<p><strong>Two modes:</strong>
+- <strong>Fast-Start (20–30 min):</strong> Minimum viable dossier (~55–70 fields). Unlocks Layer 2.
+- <strong>Deep-Dive:</strong> All 164 fields. Unlocks full platform.</p>
+<p><strong>Key decisions locked:</strong>
+- Single onboarding flow with smart pre-fill (no re-asking what's already known)
+- Two payload formats: JSON (machine-readable for agents) + human-readable narrative
+- <code>handoff_ready</code> flag gates downstream agents — Layer 2 doesn't run until this is <code>true</code>
+- Achievement/gamification system baked into UX</p>
+<p><strong>Agents in this layer:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Agent</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Onboarding Lead Agent</td>
+<td>Orchestrates the full interview</td>
+</tr>
+<tr>
+<td>Web Scraper</td>
+<td>Pulls expert's existing web presence</td>
+</tr>
+<tr>
+<td>Voice DNA Analyst</td>
+<td>Extracts voice/tone from existing content</td>
+</tr>
+<tr>
+<td>Avatar Psychology Builder</td>
+<td>Builds the 8-layer avatar + 5 Levels of Awareness map</td>
+</tr>
+<tr>
+<td>Offer Architecture Builder</td>
+<td>Extracts and scores the full offer stack</td>
+</tr>
+<tr>
+<td>Proof Bank Miner</td>
+<td>Extracts transformation stories</td>
+</tr>
+<tr>
+<td>Story Miner</td>
+<td>Extracts the founder/expert's origin story</td>
+</tr>
+<tr>
+<td>Silent Diagnostician</td>
+<td>Identifies gaps and opportunities without asking</td>
+</tr>
+<tr>
+<td>Dossier Assembler</td>
+<td>Compiles the 164-field structured JSON payload</td>
+</tr>
+<tr>
+<td>Progress Endowment Engine</td>
+<td>Manages gamification, achievements, and momentum</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Agent count: ~10</strong> (Onboarding Lead + ~9 sub-agents — to be finalized in Step 21)</p>
+<p><strong>Output:</strong> Expert Dossier (JSON + narrative) → handed to Layer 2</p>
+<hr />
+<h3>LAYER 2 — Strategy Agents (Steps 8–11) ✅ FULLY DOCUMENTED</h3>
+<p><strong>What it does:</strong> Takes the Dossier and produces the strategic operating system for the expert's growth — brand rules, positioning, content framework, monthly messaging, campaign calendar, and asset briefs. This layer runs once to set up the platform, then monthly to update messaging.</p>
+<p><strong>Steps in this layer:</strong>
+- <strong>Step 8 — Brand Strategy Agent:</strong> Produces the Brand North Star Document — the expert's positioning, One Big Domino, ALWAYS/NEVER rules, Avatar Quick Reference, mechanism framing, content pillars. This is the creative guardrail that every Builder agent uses.
+- <strong>Step 9 — Growth Strategy Agent:</strong> Produces the Monthly Master Plan + Monthly Messaging Brief — hook bank, content calendar, campaign structure, creative briefs for every asset type. Also includes the Creative Production sub-agent team.
+- <strong>Step 10 — Full Strategy Output Stack:</strong> The compiled package of all Layer 2 outputs.
+- <strong>Step 11 — Strategy Layer Handoff Payload:</strong> The exact package handed to the Builder Layer (Layer 3). Includes: Expert Dossier Brief, Brand North Star, Monthly Messaging Brief, Monthly Master Plan, and Asset Brief per request.</p>
+<p><strong>Agents in this layer:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Agent</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Brand Strategy Lead</td>
+<td>Runs the full brand strategy session</td>
+</tr>
+<tr>
+<td>Growth Strategy Lead</td>
+<td>Runs the full growth strategy session</td>
+</tr>
+<tr>
+<td>Core Orchestrator</td>
+<td>Assembles the handoff payload + routes asset briefs to builders</td>
+</tr>
+<tr>
+<td>Brand North Star Writer</td>
+<td>Writes the positioning doc</td>
+</tr>
+<tr>
+<td>Competitive Research Agent</td>
+<td>Pulls and analyzes competitor landscape</td>
+</tr>
+<tr>
+<td>Hook Bank Builder</td>
+<td>Generates the expert's hook library</td>
+</tr>
+<tr>
+<td>Campaign Architect</td>
+<td>Builds the Monthly Master Plan structure</td>
+</tr>
+<tr>
+<td>Creative Brief Generator</td>
+<td>Produces the specific per-asset brief for each Builder request</td>
+</tr>
+<tr>
+<td>Creative Production sub-agents (×10)</td>
+<td>Produce detailed creative briefs by asset type</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Agent count: ~17</strong> (across both strategy agents — to be finalized in Step 21)</p>
+<p><strong>Output:</strong> Strategy Package (5 documents) → handed to Layer 3</p>
+<hr />
+<h3>LAYER 3 — Builder Agents (Steps 12–16) ⚠️ PARTIALLY DOCUMENTED</h3>
+<p>This is where everything gets made. Steps 12–15 are fully documented. Step 16 is partially documented. Steps 16b (Program Builder) and 16c (Podcast Agent) are in progress.</p>
+<hr />
+<h4>Step 12 — Content Builder Agent ✅ Documented</h4>
+<p><strong>What it builds:</strong> Instagram/Facebook images, carousels, b-roll, video scripts, UGC character scripts, captions — fully composited, platform-sized, and ready to publish.</p>
+<p><strong>Two modes:</strong>
+- <strong>Batch Mode:</strong> Full week/month of content in one session
+- <strong>Quick-Create:</strong> Single asset from a natural language request (target: &lt;90 seconds)</p>
+<p><strong>Notable features:</strong>
+- Awareness Level Distributor ensures content hits all 5 levels of buyer awareness
+- Every batch is also paid ad R&amp;D — best-performing organic posts flagged as ad candidates
+- Voice QA Agent reviews every piece of copy before it moves to visual production
+- Image Production calls Flux Pro 1.1 via fal.ai API (most photorealistic for health content)
+- HTML/CSS Layout Generator + Puppeteer renders final composited PNGs</p>
+<p><strong>Agent count: 16</strong> (Content Builder Lead + 15 sub-agents)</p>
+<hr />
+<h4>Step 13 — Funnel &amp; Webinar Builder Agents ✅ Documented</h4>
+<p><strong>What it builds:</strong>
+- <strong>Funnel Builder:</strong> Opt-in pages, registration pages, sales pages, order bumps, upsell pages, thank you pages — full funnel architecture
+- <strong>Webinar Builder:</strong> Complete webinar scripts (Russell Brunson Perfect Webinar + Jason Fladlein True/False frameworks), VSL scripts, slide decks, Q&amp;A scripts, live + recorded variants</p>
+<p><strong>Agent count: Funnel = 10, Webinar = 11</strong></p>
+<hr />
+<h4>Step 14 — Email &amp; SMS Builder Agent ✅ Documented</h4>
+<p><strong>What it builds:</strong> Every email and SMS sequence in the growth engine — welcome, post-webinar, promo, nurture, non-buyer, re-engagement, one-offs. Plus the Monthly Non-Buyer Engine (automated 30-email rotating library).</p>
+<p><strong>Agent count: 12</strong> (Email &amp; SMS Builder Lead + 11 sub-agents)</p>
+<hr />
+<h4>Step 15 — Ad Creative &amp; Lead Magnet Builder Agents ✅ Documented</h4>
+<p><strong>What it builds:</strong>
+- <strong>Ad Creative Builder:</strong> Full Meta campaign specs — primary ad creative (static, video, carousel), hooks, angle variants, audience targeting recommendations, split-test architecture
+- <strong>Lead Magnet &amp; Tool Builder:</strong> PDFs, guides, quizzes, calculators, and <strong>vibe-coded mini SaaS tools</strong> (interactive web apps used as lead magnets)</p>
+<p><strong>Agent count: Ad Creative = 11, Lead Magnet = 5</strong></p>
+<hr />
+<h4>Step 16 — Sales Script Builder + Program Builder + Website Builder + Podcast Agent ✅ Documented</h4>
+<p><strong>Four agents in one step:</strong></p>
+<ul>
+<li>
+<p><strong>Sales Script Builder:</strong> Phone/video consultation scripts, front desk scripts, discovery session scripts, full objection library, referral ask script, re-enrollment script. Built on Brunson's 4-question framework + Hormozi offer framing + health-specific belief architecture. <strong>Agent count: 6</strong></p>
+</li>
+<li>
+<p><strong>Program Builder:</strong> Full program delivery system — phase architecture, prescription-level protocols (supplement/food/lifestyle), complete course curriculum, hosted native course player inside IQ, patient AI assistant, block library, custom-per-patient builds from lab/intake data, coach call agendas, community content generation. Built-in course player (white-labeled, patient never sees IQ). <strong>Agent count: 11</strong></p>
+</li>
+<li>
+<p><strong>Website Builder:</strong> Full expert website — home, about, work with me, resources, blog template, contact/apply. Awareness-calibrated copy, mechanism-consistent, mobile-first HTML/CSS production, deployed to expert's domain. <strong>Agent count: 6</strong></p>
+</li>
+<li>
+<p><strong>Podcast Agent:</strong> Full podcast operating system — 20 sub-agents across 6 categories: show production (runsheet, show notes, slides, audience intelligence), SEO/distribution (episode article, back-catalog revival), launch &amp; distribution (launch orchestration, clip intelligence, content repurposing), optimization (title/packaging, YouTube), audience growth (guest amplification, cross-promotion, Instagram DM funnel, review campaigns, paid promotion), and intelligence (analytics reporting, competitor intelligence, quarterly growth opportunities). Scale-activation tiers — every expert gets every agent, depth increases automatically with show metrics. Built on the Dr. Josh Axe Show's 20-agent system. Josh Axe's team deploys this as a clinicIQ power user. <strong>Agent count: 21</strong></p>
+</li>
+</ul>
+<p><strong>Step 16 total: 26 agents (4 Leads + 22 sub-agents)</strong></p>
+<hr />
+<h3>LAYER 4 — Measure, Adjust &amp; Learn (Steps 17–20) ✅ Documented</h3>
+<p><strong>Step 17 — Analytics Dashboard:</strong> Single source of truth. Pulls from Meta Ads Manager, GHL/CRM, email platform, Instagram, Facebook, TikTok, YouTube, Google Search Console, Apple Podcasts, Spotify, IQ Platform (program + production), and more — 15+ data sources, normalized into one schema. Red/yellow/green status on every metric. Thresholds start from industry benchmarks (set in Layer 2), auto-calibrate to the expert's own 60-day rolling baseline after Day 60, recalibrate every 90 days. Command view shows everything critical on one screen. <strong>Agent count: 5</strong></p>
+<p><strong>Step 18 — Performance Intelligence Agent:</strong> The analyst. Every red/yellow flag triggers root cause analysis — not "your show rate is low" but the specific diagnosis with evidence ("cold traffic mix increased 36%, cold traffic shows at 35–45% vs. 65% for warm — traffic quality issue, not sequence issue"). Weekly opportunity scan surfaces positive anomalies, correlation patterns, replication opportunities. Cross-channel correlation agent finds relationships across data streams. <strong>Agent count: 5</strong></p>
+<p><strong>Step 19 — Optimization Agent:</strong> The executor. Three modes: Auto-Execute (standing authorization for defined categories), Approve-and-Execute (expert clicks approve, platform executes), and Propose-Only (human-required changes with a complete brief). Computer-executable changes (pause underperforming ads, shift budget, swap subject lines, update podcast titles, reorder lessons) execute automatically or on approval. Human-required changes (new webinar angle, protocol updates, offer changes) come with a full brief. Every change tracked for impact. <strong>Agent count: 6</strong></p>
+<p><strong>Step 20 — Learning &amp; Feedback Engine:</strong> Closes the loop. Captures all performance data, optimization outcomes, A/B test results, expert approvals/rejections/edits, and IQ Claw conversation signals. Updates expert-specific priors (Voice DNA, hook rankings, audience intelligence, ad creative performance, thresholds) and platform-level priors (anonymized universal benchmarks that improve defaults for all experts). Every agent in every layer gets smarter every cycle. <strong>Agent count: 5</strong></p>
+<p><strong>Layer 4 total: 21 agents (4 Leads + 17 sub-agents)</strong></p>
+<hr />
+<h3>SYSTEM-WIDE (Steps 21–22) ✅ Documented</h3>
+<ul>
+<li><strong>Step 21 — Cross-Agent Consistency Audit:</strong> Full review of all 22 steps. 2 blocking issues, 10 important findings, 4 minor. Key resolutions: Voice QA + Brand QA consolidated into shared Output Quality Agent (Core Orchestrator); Performance Learning Agent removed from Content Builder (Layer 4 owns this); "Growth Blueprint" standardized to Monthly Master Plan + Expert Dossier; Core Orchestrator added to master count; Onboarding confirmed at 11 agents.</li>
+<li><strong>Step 22 — Final Master Agent Description Document:</strong> Single source of truth for all ~168 agents. Complete sub-agent tables, corrected counts, universal data flow map, handoff payload standards, 8 open architecture decisions. File: <code>step22_master_agent_document.md</code></li>
+</ul>
+<hr />
+<h3>PLATFORM ARCHITECTURE — IQ Drive + IQ Claw (Cross-Cutting) ✅ FULLY DOCUMENTED</h3>
+<p>These are not steps — they're the foundational infrastructure every step depends on.</p>
+<p><strong>IQ Drive (Asset Storage):</strong>
+- Every asset produced by any Builder agent is stored here with rich metadata (asset type, platform, status, awareness level, hook angle, CTA type, performance score, etc.)
+- Smart filters, version history, in-drive editing
+- Performance data overlay (reach, saves, CTR, conversion rates, etc.)</p>
+<p><strong>IQ Claw (Expert AI Operator):</strong>
+- The expert's always-on operator — persistent panel accessible from every screen
+- Knows the expert at two levels: Standard Dossier (from onboarding) + IQ Profile (deeper living document)
+- Routes all expert requests to the correct Builder agent with full context pre-loaded
+- Orchestrates multi-agent workflows for complex requests
+- Proactive alerts (performance drops, content gaps, optimization opportunities)
+- Runs a 10-phase IQ Profile interview on first launch</p>
+<p><strong>IQ Claw sub-agents:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Sub-Agent</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IQ Profile Manager</td>
+<td>Owns the living IQ Profile, runs the 10-phase interview</td>
+</tr>
+<tr>
+<td>Request Router</td>
+<td>Parses requests, routes to correct Builder, monitors production</td>
+</tr>
+<tr>
+<td>Performance Analyst</td>
+<td>Live analytics interpretation + diagnosis</td>
+</tr>
+<tr>
+<td>Proactive Intelligence Agent</td>
+<td>Continuous monitoring, alerts, opportunity surfacing</td>
+</tr>
+<tr>
+<td>Platform Navigator</td>
+<td>"How do I..." answers + direct screen navigation</td>
+</tr>
+<tr>
+<td>Patient AI Manager</td>
+<td><em>(V2 — deferred)</em></td>
+</tr>
+</tbody>
+</table>
+<p><strong>IQ Claw agent count: 7</strong> (IQ Claw Lead + 6 sub-agents)</p>
+<hr />
+<h2>Full Agent Count — Current State</h2>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Agent Group</th>
+<th>Lead Agents</th>
+<th>Sub-Agents</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Platform</td>
+<td>IQ Claw</td>
+<td>1</td>
+<td>6</td>
+<td><strong>7</strong></td>
+</tr>
+<tr>
+<td>Layer 1</td>
+<td>Onboarding Agent</td>
+<td>1</td>
+<td>~9</td>
+<td><strong>~10</strong></td>
+</tr>
+<tr>
+<td>Layer 2</td>
+<td>Brand Strategy</td>
+<td>1</td>
+<td>~4</td>
+<td>~5</td>
+</tr>
+<tr>
+<td>Layer 2</td>
+<td>Growth Strategy</td>
+<td>1</td>
+<td>~11</td>
+<td>~12</td>
+</tr>
+<tr>
+<td>Layer 2</td>
+<td>Core Orchestrator</td>
+<td>1</td>
+<td>1</td>
+<td>~2</td>
+</tr>
+<tr>
+<td>Layer 3</td>
+<td>Content Builder</td>
+<td>1</td>
+<td>12</td>
+<td><strong>13</strong></td>
+</tr>
+<tr>
+<td>Layer 3</td>
+<td>Funnel Builder</td>
+<td>1</td>
+<td>9</td>
+<td><strong>10</strong></td>
+</tr>
+<tr>
+<td>Layer 3</td>
+<td>Webinar Builder</td>
+<td>1</td>
+<td>10</td>
+<td><strong>11</strong></td>
+</tr>
+<tr>
+<td>Layer 3</td>
+<td>Email &amp; SMS Builder</td>
+<td>1</td>
+<td>11</td>
+<td><strong>12</strong></td>
+</tr>
+<tr>
+<td>Layer 3</td>
+<td>Ad Creative Builder</td>
+<td>1</td>
+<td>9</td>
+<td><strong>10</strong></td>
+</tr>
+<tr>
+<td>Layer 3</td>
+<td>Lead Magnet Builder</td>
+<td>1</td>
+<td>4</td>
+<td><strong>5</strong></td>
+</tr>
+<tr>
+<td>Layer 3</td>
+<td>Sales Script Builder</td>
+<td>1</td>
+<td>5</td>
+<td><strong>6</strong></td>
+</tr>
+<tr>
+<td>Layer 3</td>
+<td>Program Builder</td>
+<td>1</td>
+<td>10</td>
+<td><strong>11</strong></td>
+</tr>
+<tr>
+<td>Layer 3</td>
+<td>Website Builder</td>
+<td>1</td>
+<td>5</td>
+<td><strong>6</strong></td>
+</tr>
+<tr>
+<td>Layer 3</td>
+<td>Podcast Agent</td>
+<td>1</td>
+<td>20</td>
+<td><strong>21</strong></td>
+</tr>
+<tr>
+<td>Layer 4</td>
+<td>Analytics Dashboard</td>
+<td>1</td>
+<td>4</td>
+<td><strong>5</strong></td>
+</tr>
+<tr>
+<td>Layer 4</td>
+<td>Performance Intelligence</td>
+<td>1</td>
+<td>4</td>
+<td><strong>5</strong></td>
+</tr>
+<tr>
+<td>Layer 4</td>
+<td>Optimization Agent</td>
+<td>1</td>
+<td>5</td>
+<td><strong>6</strong></td>
+</tr>
+<tr>
+<td>Layer 4</td>
+<td>Learning &amp; Feedback Engine</td>
+<td>1</td>
+<td>4</td>
+<td><strong>5</strong></td>
+</tr>
+<tr>
+<td><strong>TOTAL (documented)</strong></td>
+<td></td>
+<td><strong>~20</strong></td>
+<td><strong>~143</strong></td>
+<td><strong>~163+</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>What's Done vs. What Still Needs Work</h2>
+<h3>✅ Fully Documented &amp; Locked</h3>
+<ul>
+<li>Layer 1: All 7 steps — Onboarding Agent complete</li>
+<li>Layer 2: All 4 steps — Strategy Agents complete</li>
+<li>Layer 3: Steps 12–16 — All Builder Agents complete</li>
+<li>Layer 4: Steps 17–20 — Analytics, Intelligence, Optimization, Learning complete</li>
+<li>Platform Architecture: IQ Drive + IQ Claw complete</li>
+</ul>
+<h3>⚠️ In Progress / Partially Done</h3>
+<ul>
+<li>Step 13b: Webinar Builder Deep Spec — supplemental detail doc exists, may need finalization</li>
+</ul>
+<h3>❌ Not Yet Documented</h3>
+<ul>
+<li>System-Wide (Steps 21–22): ✅ Complete — Consistency Audit + Final Master Document</li>
+</ul>
+<hr />
+<h2>Architecture Health Check — Best Practices Review</h2>
+<p><em>This section was added specifically for the kickoff: an honest assessment of the current architecture against 2026 standards.</em></p>
+<h3>What We're Getting Right ✅</h3>
+<p><strong>1. Lead Agent + Sub-Agent Model</strong>
+Every major agent has a Lead Agent that orchestrates specialized sub-agents. This is exactly the pattern that's proven at production scale — it's what Anthropic calls "orchestrator-subagent" and what enterprise deployments run. The Lead Agent handles context and routing; sub-agents are narrow experts. Error isolation is clean.</p>
+<p><strong>2. Single Responsibility Per Sub-Agent</strong>
+Each sub-agent owns one clearly defined output (Voice QA, Image Production, Copy Writer, etc.). This is correct. Sub-agents that try to do too much become unpredictable and hard to debug in production.</p>
+<p><strong>3. Structured Handoff Payloads</strong>
+The Dossier → Layer 2 → Builder handoff chain uses defined payload structures (Step 7, Step 11). This is essential. Agents that share context through unstructured natural language break at scale. Structured payloads are version-controllable and testable.</p>
+<p><strong>4. Quality Gates Between Layers</strong>
+<code>handoff_ready</code> flags between layers prevent partial data from reaching downstream agents. This is the right call.</p>
+<p><strong>5. Tool Abstraction Layer (Content Builder)</strong>
+Every external API (Flux, fal.ai, etc.) is called through an abstraction layer. Best practice for longevity — swap models without touching the pipeline.</p>
+<p><strong>6. Performance Feedback Loop (Layer 4)</strong>
+Designed into the architecture from the start. Most platforms skip this and bolt it on later. Having it as a first-class layer means agents improve over time instead of degrading.</p>
+<h3>Questions to Resolve Before Build ⚠️</h3>
+<p><strong>1. Consolidation Opportunity — Layer 2 Creative Sub-Agents vs. Layer 3 Builders</strong>
+Layer 2 (Growth Strategy) has a "Creative Production" sub-agent team of 10 that writes creative <em>briefs</em> for every asset type. Layer 3 has the actual Builder agents that produce the assets. There's potential overlap that needs a clear dividing line in implementation:
+- Layer 2 sub-agents produce <em>briefs</em> (strategy-level specs)
+- Layer 3 agents do the <em>production</em> (actual asset generation)
+This distinction is clean in the docs but must be enforced in implementation. If brief-writing logic bleeds into the builders, you get duplication and conflicting instructions.</p>
+<p><strong>2. Voice QA Agent — Single or Shared?</strong>
+Currently, Voice QA lives inside the Content Builder as sub-agent #4. But every Builder agent needs voice quality control — Emails, Funnels, Webinar scripts all need the same Voice DNA check. Options:
+- <strong>Option A (Current):</strong> Each Builder has its own Voice QA sub-agent (adds complexity, potential inconsistency)
+- <strong>Option B (Recommended):</strong> Single shared Voice QA Agent called by any Builder via IQ Claw routing (consistent, single source of truth for Voice DNA enforcement)
+<strong>Recommendation: Shared Voice QA Agent as a platform service.</strong></p>
+<p><strong>3. Brand QA — Same Question</strong>
+Same issue as Voice QA. The Content Builder has a Brand QA Agent for visual assets. The Ad Creative Builder will need it too. Should be a shared service.</p>
+<p><strong>4. Performance Learning Agent — Single or Per-Builder?</strong>
+Currently scoped inside the Content Builder. But email performance, funnel conversion data, and ad ROAS all feed different builders. A single Performance Learning Agent at the platform level (Layer 4) that all builders query is cleaner than separate learning loops per builder.
+<strong>Recommendation: Elevate to Layer 4 as a platform-level agent.</strong></p>
+<p><strong>5. Agent Count — Is ~100 the Right Number?</strong>
+Short answer: <strong>Yes, if they're real sub-agents with scoped single jobs. No, if they're just labels on prompt variants.</strong>
+2026 best practice is clear: narrow agents that each own one output type, with a Lead Agent orchestrating. 100 agents across a platform of this complexity is not excessive — it's appropriate. The anti-pattern to avoid is "god agents" that try to produce 5 different outputs in one prompt. Those fail at quality and scale.
+<strong>The concern isn't count. It's clarity of responsibility. Every agent must have one job, one output format, and one clear hand-off.</strong></p>
+<p><strong>6. Hybrid Model Architecture</strong>
+Current docs don't specify which LLM powers which agents. 2026 best practice is <strong>hybrid SLM + LLM orchestration</strong> — fast/cheap smaller models for structured extraction tasks, premium models (Claude, GPT-4o, Gemini) for quality-critical outputs (Voice QA, copy writing, strategy). This is a cost-at-scale decision the engineers need clarity on.
+<strong>Recommendation: Define model tiers per agent type before build starts.</strong></p>
+<p><strong>7. Memory and State Architecture</strong>
+The IQ Profile and Expert Dossier are described as living documents. The platform needs a clear answer on: where does agent memory live, how is it accessed per-session, and how are updates persisted? This is the most common production failure point in multi-agent systems.
+<strong>Recommendation: Define the memory/state layer as a first-class architecture decision — parallel to the IQ Drive.</strong></p>
+<hr />
+<h2>The Open Build Queue (Priority Order)</h2>
+<table>
+<thead>
+<tr>
+<th>Priority</th>
+<th>Item</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>IQ Claw Lead + sub-agents</td>
+<td>❌ Not built</td>
+</tr>
+<tr>
+<td>2</td>
+<td>IQ Drive data layer + metadata schema</td>
+<td>❌ Not built</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Onboarding Agent (Layer 1)</td>
+<td>❌ Not built — fully specced</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Brand Strategy Agent (Layer 2)</td>
+<td>❌ Not built — fully specced</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Growth Strategy Agent (Layer 2)</td>
+<td>❌ Not built — fully specced</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Core Orchestrator + handoff payload</td>
+<td>❌ Not built — fully specced</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Content Builder Agent (Layer 3)</td>
+<td>❌ Not built — fully specced</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Email &amp; SMS Builder Agent (Layer 3)</td>
+<td>❌ Not built — fully specced</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Funnel Builder Agent (Layer 3)</td>
+<td>❌ Not built — fully specced</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Webinar Builder Agent (Layer 3)</td>
+<td>❌ Not built — fully specced</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Ad Creative Builder (Layer 3)</td>
+<td>❌ Not built — fully specced</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Lead Magnet Builder (Layer 3)</td>
+<td>❌ Not built — fully specced</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Sales Script Builder (Layer 3)</td>
+<td>✅ Documented</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Program Builder (Layer 3)</td>
+<td>✅ Documented</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Website Builder (Layer 3)</td>
+<td>✅ Documented</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Podcast Agent (Layer 3)</td>
+<td>✅ Documented</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Analytics Dashboard (Layer 4)</td>
+<td>❌ Not specced</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Performance Intelligence + Optimization (Layer 4)</td>
+<td>❌ Not specced</td>
+</tr>
+<tr>
+<td>17</td>
+<td>Monthly Review Agent (Layer 4)</td>
+<td>❌ Not specced</td>
+</tr>
+<tr>
+<td>18</td>
+<td>Step 21 Consistency Audit</td>
+<td>✅ Complete</td>
+</tr>
+<tr>
+<td>19</td>
+<td>Step 22 Master Agent Description</td>
+<td>✅ Complete</td>
+</tr>
+<tr>
+<td>20</td>
+<td>Patient AI (V2)</td>
+<td>❌ Deferred — decision pending</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>Key Engineering Decisions Needed</h2>
+<p>These are the things the engineering team needs explicit answers on before they can build:</p>
+<ol>
+<li><strong>Framework choice:</strong> LangGraph, CrewAI, OpenAI Agents SDK, or custom? (All are production-viable in 2026 — this is a team capability and cost decision)</li>
+<li><strong>Model tier map:</strong> Which LLM/SLM for which agent type?</li>
+<li><strong>Memory/state backend:</strong> How does the Dossier + IQ Profile persist and get accessed across sessions?</li>
+<li><strong>Shared services:</strong> Confirm Voice QA + Brand QA as platform-level shared agents (not per-builder)</li>
+<li><strong>IQ Drive tech stack:</strong> What's the underlying storage + metadata layer? (Object storage + vector DB is the most common pattern)</li>
+<li><strong>Deployment model:</strong> How are agents deployed — serverless functions, containers, hosted API endpoints?</li>
+<li><strong>The interface layer:</strong> What does IQ Claw's persistent panel actually run on? (Web app, embedded widget, native app?)</li>
+</ol>
+<hr />
+<h2>One-Sentence Summary (for the engineers)</h2>
+<blockquote>
+<p>We are building a multi-agent content and growth platform where a health expert talks to IQ Claw, which routes requests to ~12 specialized Builder agents, each coordinating ~5–15 sub-agents to produce finished assets stored in IQ Drive — the whole system calibrated to the expert's unique voice, brand, and offer from a deep onboarding interview.</p>
+</blockquote>
+<hr />
+<p><em>ClinicIQ Engineering Kickoff Brief — v1.0</em>
+<em>All detailed specs: <code>/home/work/.openclaw/workspace/cliniciq/</code></em></p>
+</section>
+
+    <footer style="margin-top:48px; padding-top:24px; border-top:1px solid var(--border); color: var(--muted); font-size:12px;">
+      clinicIQ Master Agent Architecture · Version 1.0 · Built March 2026 · Confidential
+    </footer>
+  </main>
+</div>
+
+</body>
+</html>
