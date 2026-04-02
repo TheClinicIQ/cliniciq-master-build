@@ -653,3 +653,318 @@ These must be resolved by the engineering team before build begins:
 *clinicIQ Platform — Complete Agent Architecture*
 *~168 agents across Platform Services, Layers 1–4*
 *All 22 steps documented. Build-ready.*
+
+---
+
+---
+
+# LAYER 5 — THE IQ INTELLIGENCE PLATFORM
+**Added: 2026-04-02 | Version 1.0**
+*The compounding intelligence layer that transforms ClinicIQ from a great platform into an unbeatable one*
+
+---
+
+## Layer 5 Overview
+
+Every layer below Layer 5 produces outputs. Layer 5 makes everything compound. It is the intelligence infrastructure that gets smarter with every expert who joins, every campaign that runs, every conversion that happens, and every market signal the platform monitors.
+
+Layer 5 is the Apple play completed — the reason no competitor can catch up once ClinicIQ reaches scale.
+
+```
+LAYER 5 — IQ INTELLIGENCE PLATFORM
+        │
+        ├── L5-1: Living Expert Profile      — The platform's memory of every expert
+        ├── L5-2: Proactive Intelligence     — IQ comes to the expert before they ask
+        ├── L5-3: One-Tap Deployment         — Approve → live across every platform
+        ├── L5-4: Network Intelligence       — Every expert makes every expert better
+        ├── L5-5: IQ Score                   — One number for the entire business
+        └── L5-6: IQ Growth Lab             — The platform playing its own game
+```
+
+---
+
+## L5-1 — Living Expert Profile (LEP)
+
+**Role:** The platform's continuously updating intelligence model of every expert — not a static intake document but a living system that gets more accurate every session, every approval, every data point.
+
+**Three layers of intelligence:**
+
+| Layer | Source | What It Contains |
+|-------|--------|-----------------|
+| **Layer A — Identity Core** | Expert-initiated | The 164-field onboarding dossier. Voice DNA, Visual DNA, Clinical Philosophy, Offer Stack, Proof Bank. Expert-controlled. |
+| **Layer B — Market Intelligence** | Platform-automated | Audience response profile, competitive intelligence, market trend signals, offer performance data. Built by the platform from real data. |
+| **Layer C — Behavioral Intelligence** | Learning loop | Output quality calibration, workflow preferences, expert evolution tracking. Learns what "good" looks like for this specific expert from every approval, edit, and rejection. |
+
+**Key mechanic — LEP Context Bundle:**
+Before any Builder agent generates a single word of output, it receives an auto-assembled LEP Context Bundle: Voice DNA snapshot, output quality calibration, audience response profile, brand north star, current offer context. Every output gets smarter because the context is always current.
+
+**The compound moat:**
+
+| | Day 1 | Month 12 |
+|--|-------|----------|
+| Voice DNA | Medium confidence | Exceptional — refined by 200+ approvals |
+| Hook performance data | None | Full year of seasonal patterns |
+| Output calibration | Baseline | Microscopically tuned |
+| Competitive picture | Snapshot | Full evolution map |
+
+**Agent count:** No new agents — LEP is a data architecture and update engine consumed by all existing agents
+**Full spec:** `layer5/L5-1_living_expert_profile.md`
+
+---
+
+## L5-2 — Proactive Intelligence Engine
+
+**Role:** IQ surfaces the right insight at the right time — before the expert asks. Every morning, by the time the expert opens ClinicIQ, IQ has already diagnosed the business, monitored competitors, caught the trend before it peaks, and built the fix.
+
+**Six signal categories monitored 24/7:**
+
+| Signal Category | Monitoring Cadence | What IQ Detects |
+|----------------|-------------------|-----------------|
+| **Performance Anomaly** | Hourly (paid) / Daily (organic) | Metric movements outside normal variance — drops flagged with fix, spikes flagged with scale opportunity |
+| **Competitive Intelligence** | Daily | Competitor content gaining traction, new offers, ad creative changes, negative sentiment emerging |
+| **Market Trend** | Daily | Rising search queries (+40% WoW threshold), trending social topics — surfaces before peak, when first-mover advantage exists |
+| **Calendar & Seasonal** | Weekly look-ahead | 6 weeks before seasonal peak, IQ pre-builds the full campaign — content, emails, ads, all in draft |
+| **Expert Behavior** | Continuous | Backlog building, approval rate dropping, ignored builders, repeated manual edits — all surface as calibration prompts |
+| **Growth Milestones** | Daily | List milestones, revenue thresholds, performance records — celebrated and leveraged |
+
+**The Morning Brief — delivered every morning at expert's natural login time:**
+```
+🔴 NEEDS YOUR ATTENTION     (max 2 critical, fix already built)
+📊 OVERNIGHT PERFORMANCE    (3 metric movements, diagnosed)
+🎯 TODAY'S RECOMMENDED ACTION (one thing, highest leverage, asset ready)
+👀 WHAT IQ IS WATCHING      (2-3 market signals + "so what")
+📅 COMING UP                (7-day calendar + pre-builds in progress)
+✅ WHAT HAPPENED OVERNIGHT  (automations run, approvals waiting)
+```
+
+**Priority scoring model:** Every signal scored on Revenue Impact (40%) + Time Sensitivity (25%) + Effort-to-Impact (20%) + Expert Receptivity (10%) + IQ Score Impact (5%). Only signals scoring >60 surface in the Morning Brief. Maximum 5 items total. No alert fatigue.
+
+**Agent count:** 1 Proactive Intelligence Agent (extension of existing IQ Claw sub-agent team)
+**Full spec:** `layer5/L5-2_proactive_intelligence_engine.md`
+
+---
+
+## L5-3 — One-Tap Deployment
+
+**Role:** Closes the gap between IQ's output and the real world. Expert approves — IQ does everything else. Asset routes to the correct platform, formatted correctly, placed in the right location, live — zero manual steps.
+
+**Full integration stack (Tier 1 — Launch):**
+
+| Platform | What Gets Deployed |
+|----------|-------------------|
+| **GoHighLevel (GHL)** | Email sequences, SMS sequences, automation workflows, funnel pages, landing pages |
+| **Meta Ads Manager** | Ad creative, ad sets — added to existing campaigns (never modifies budgets without separate approval) |
+| **Klaviyo / ActiveCampaign / ConvertKit** | Email sequences, broadcasts, automations, segments |
+| **YouTube** | Video uploads, titles, descriptions, thumbnails, scheduled publish |
+| **Buffer / Later / Publer** | Social posts across all platforms, reels, carousels, stories — batched weekly approval |
+| **Apple / Spotify / RSS** | Podcast episodes — audio, metadata, show notes, scheduled publish |
+| **Mux / IQ Course Player** | Video lessons, program phase content, patient access gates |
+| **Webflow / WordPress** | Blog posts, landing pages, website copy updates |
+
+**The approval flow:**
+```
+IQ builds → Expert reviews in right panel → "Approve & Deploy" tap
+→ Confirmation modal (destination + ETA shown explicitly)
+→ Deployment executes with live progress indicator
+→ "Live" confirmation + Layer 4 tracking activated automatically
+```
+
+**Hard limits — never automatic without separate explicit approval:**
+- Budget changes or ad spend increases
+- Deleting existing campaigns, sequences, or pages
+- Emails to full list >5,000 contacts
+- New paid campaign launches (vs. adding creative to existing)
+- Changes to funnel structure (vs. copy updates)
+
+**Agent count:** 1 Deployment Agent (new — orchestrates API calls to all connected platforms)
+**Full spec:** `layer5/L5-3_one_tap_deployment.md`
+
+---
+
+## L5-4 — Network Intelligence
+
+**Role:** Every expert on the platform makes every other expert better. Aggregated, anonymized performance data from every campaign across every expert builds five intelligence databases that give every expert — from Day 1 — the accumulated wisdom of the entire network.
+
+**The three laws:**
+1. Individual data is noise. Collective data is signal.
+2. Every expert's experience makes every other expert better.
+3. Privacy is non-negotiable. Aggregation is everything.
+
+**Five databases:**
+
+| Database | What It Contains | How It's Used |
+|----------|-----------------|---------------|
+| **Niche Performance Atlas** | Top hook structures, subject line formulas, conversion benchmarks, content topics — by niche × avatar | Builder agents query before generating any output |
+| **Hook & Copy Intelligence Library** | All copy element types ranked by emotional angle × platform × awareness level + saturation signals | Ad Creative and Content Builder foundation |
+| **Conversion Benchmark Engine** | Real conversion rate distribution at every funnel stage by niche × offer type × traffic temp | Powers Layer 4 red/yellow/green context + IQ Score dimension scoring |
+| **Avatar Language Corpus** | Exact words real health consumers use to describe their problems — from reviews, email replies, comments, forums | Injected into all copy generation — produces outputs that sound like the expert's audience wrote them |
+| **Day-1 Advantage Engine** | Synthesized starting benchmark for new experts — matched to their niche × avatar × model profile | Eliminates cold start — new expert begins with validated intelligence from Day 1 |
+
+**The saturation signal:** As a hook pattern is used by more experts and its performance declines across the board, the library flags it as saturating and stops recommending it as a primary structure. New experts never start with stale hooks.
+
+**The flywheel:**
+```
+More experts → more campaigns → richer databases
+→ better outputs for all experts → better results
+→ attracts more experts → [compounds forever]
+```
+
+**At 50,000 experts:** The most comprehensive health marketing performance database in existence. Years and billions in ad spend to replicate from scratch.
+
+**Agent count:** 4 Network Intelligence Agents (Data Aggregation, Pattern Extraction, Benchmark Calibration, Day-1 Package Assembly)
+**Full spec:** `layer5/L5-4_network_intelligence.md`
+
+---
+
+## L5-5 — IQ Score
+
+**Role:** One number, 0–100, that tells the expert exactly how healthy their entire growth engine is — every day, benchmarked against real niche data, with the highest-leverage action always identified and the fix always pre-built.
+
+**Eight dimensions:**
+
+| Dimension | Weight | What It Measures |
+|-----------|--------|-----------------|
+| **Conversion Engine** | 20% | Leads → buyers at a healthy rate across all funnel stages |
+| **Revenue & Monetization** | 18% | Revenue growing, durable (continuity multiplier applied), multi-offer-tier |
+| **Lead Generation** | 15% | Opt-in rate, volume, quality, source diversity — vs. niche benchmarks |
+| **Audience & Reach** | 12% | Audience size, growth rate, engagement rate, cross-platform distribution |
+| **Content Velocity** | 10% | Publishing consistency vs. own plan (consistency > volume), content-to-lead attribution |
+| **Patient Outcomes** | 10% | Program completion rate, testimonial capture, proof bank growth — unique to ClinicIQ |
+| **Platform Intelligence** | 8% | Dossier completion, pending approvals backlog, integration health, Voice DNA confidence |
+| **Growth Trajectory** | 7% | 30-day trend across all dimensions — velocity and momentum, not just current state |
+
+**All dimensions benchmarked against Network Intelligence Conversion Benchmark Engine — the score reflects where this expert sits in the real performance distribution for their niche, not against generic thresholds.**
+
+**Score tiers:**
+
+| Score | Tier | Status |
+|-------|------|--------|
+| 90–100 | 🏆 IQ Elite | Top 5% of platform — every engine firing |
+| 80–89 | ⚡ IQ Pro | Strong — one or two dimensions to optimize |
+| 70–79 | 🟢 IQ Active | Healthy — clear path to Pro |
+| 55–69 | 🟡 IQ Building | Foundation in place, gaps in conversion |
+| 40–54 | 🟠 IQ Early | Good starts, significant gaps |
+| 0–39 | 🔴 IQ Starting | Just activated or major gaps |
+
+**The Score Card always shows:** current score, trend vs. yesterday, niche percentile rank, all 8 dimensions with red/yellow/green, and — most importantly — the single highest-leverage action with the pre-built fix already waiting.
+
+**The habit loop:** Morning Brief surfaces score → expert opens Score Card → clicks "Review it" on biggest opportunity → approves pre-built asset → deployed → score updates in 24 hours → did it move? Come back and check. Variable reward. Tight feedback cycle. The loop that builds the daily habit.
+
+**The Monthly Master Plan is built around the IQ Score:** every month opens with two lowest dimensions identified, specific plan to close the gap, projected score improvement if executed.
+
+**Agent count:** 1 IQ Score Engine (new — calculation, benchmarking, and Score Card generation)
+**Full spec:** `layer5/L5-5_iq_score.md`
+
+---
+
+## L5-6 — IQ Growth Lab
+
+**Role:** The platform playing its own game. ClinicIQ's internal R&D and market operations engine — running its own health brands, testing campaigns before a dollar is spent, using THI as the live $100M+ proving ground, and feeding every win back into the platform for every expert.
+
+**Six engines:**
+
+### Engine 1 — Intelligence Aggregator
+Monitors everything 24/7 — internal platform data + external public sources:
+- **Meta Ad Library:** Systematic daily scraping of health category — ads running 30+ days are validated by definition. Tags every ad by niche, hook type, emotional angle, format, offer type.
+- **YouTube Intelligence:** Top 500 health channels — title structures, thumbnail patterns, hook analysis, view performance.
+- **Search Intelligence:** Rising query detection across all health niches before they peak.
+- **Review Mining:** Amazon, Google, Facebook, Trustpilot, Reddit — the rawest source of avatar language. Real health consumers describing their problems in their own words, at scale.
+- **Competitor Intelligence Feed:** Top 100 health experts monitored — content frequency, new offers, ad spend signals, funnel reverse-engineering, price changes.
+- **Internal Platform Intelligence:** Aggregated performance data from all experts, Miro Fish score patterns, IQ Score dimension trends.
+Output: **Market Intelligence Master File** — continuously updated, feeds the Ideation Engine.
+
+### Engine 2 — Ideation Engine
+Three agents converting intelligence into ranked concepts:
+- **Concept Architect Agent:** Generates 20–50 raw concepts per session (lead magnet concepts, webinar angles, offer ideas, hook concepts) — volume first, no filtering.
+- **Mechanism Naming Agent:** Turns raw concepts into ownable, differentiated vehicle names — tested for ownability, intuitiveness, aspiration, credibility.
+- **Hook Bank Agent:** Generates 20–30 hook variations per validated concept across all emotional angles and awareness levels — raw material for head-to-head Miro Fish testing.
+
+### Engine 3 — Miro Fish Focus Group (Enhanced)
+Three upgrades beyond standard Miro Fish:
+
+**Upgrade 1 — Broad Segment Simulation:** Test any health consumer segment on demand — not just a specific expert's avatar. Define parameters: niche, demographics, awareness level distribution, skepticism profile, past treatment history, emotional state. Instant synthetic crowd.
+
+**Upgrade 2 — Head-to-Head Concept Testing:** Up to 5 concepts simultaneously against the same crowd. Ranked with statistical significance. The winner identified with a full report on exactly why it won. What focus groups charge $50K+ for — done in hours.
+
+**Upgrade 3 — Campaign-Level Simulation:** Runs the synthetic crowd through the entire funnel end-to-end — ad → opt-in → lead magnet → email sequence → webinar → order page → upsell. Measures drop-off rate, belief progression, emotional arc, objection emergence, and conversion intent at every stage. Identifies the weak point before any production cost is sunk.
+
+### The Organic-to-Paid Intelligence Loop
+Two independent validation systems create launch confidence — together, nothing stronger exists in health marketing:
+
+**Signal 1 — Organic Performance Intelligence (Real-world validated)**
+Every organic post published by every expert on the platform is a live hook test against a real audience. That anonymized engagement data flows into the Hook & Copy Intelligence Library. When a new campaign launches — for any expert on the platform — the hooks it starts with have already been tested organically by dozens of other experts in the same niche against real humans. No guessing. Paid ads scale what organic has already proven.
+
+Additionally: competitor ads scraped from the Meta Ad Library show what the market has already validated with real spend. Long-running competitor ads = proven hooks, proven angles, proven offers. The Growth Lab reverse-engineers them.
+
+**Signal 2 — Miro Fish Simulation (Pre-launch synthetic validation)**
+Catches the specific execution issues that organic data can't — funnel flow problems, belief arc gaps, weak transition points, objection timing.
+
+**Together:** Organic intelligence says what real audiences respond to. Miro Fish says whether this execution will hold through a full funnel. Both cleared = strong launch position.
+
+### Engine 4 — Campaign Assembly Pipeline
+Validated concept → complete, ready-to-launch campaign in 5 days using the full Builder Layer:
+- **Day 1:** Brand brief, avatar brief, offer stack, campaign architecture
+- **Days 1–2:** VSL/webinar script + sales page + opt-in page (all Miro Fish Campaign-Level Simulation cleared)
+- **Days 2–3:** Ad creative batch (8–12 variations → only top 3 Miro Fish winners go to production)
+- **Days 3–4:** Lead magnet + 7–10 email nurture sequence + SMS sequence
+- **Days 4–5:** 21-post organic content batch + podcast/YouTube support assets
+- **Day 5:** Campaign Intelligence Package — predicted benchmarks, weak points, A/B test plan, optimization triggers
+
+Compare: Agency equivalent = 6–12 weeks, $50–200K, no simulation, no data foundation.
+
+### Engine 5 — THI as the Live Proving Ground
+The Health Institute ($120M/year telehealth clinic) runs entirely on the platform. Every major THI campaign is built in the Growth Lab, Miro Fish tested at Max tier, One-Tap Deployed, and tracked by Layer 4. This produces:
+1. The platform's most powerful proof of concept — "We run THI. Here's the data."
+2. The richest single-expert dataset in the Network Intelligence layer
+3. The beta environment for every new platform feature before broader rollout
+4. The acquisition engine for ClinicIQ — THI's results are ClinicIQ's sales argument
+
+Dr. Josh Axe (largest natural health website in the world) and Dr. Will Cole (NYT bestselling celebrity doctor) serve as second and third proving ground archetypes — covering authority brand and premium clinical brand profiles.
+
+### Engine 6 — The Feedback Loop
+Every Growth Lab win flows back into the platform:
+- New validated hooks → Hook & Copy Intelligence Library
+- New conversion data → Conversion Benchmark Engine
+- Miro Fish prediction vs. actual results → continuous simulation model recalibration
+- New niche entries → seeds Day-1 Advantage Packages for every expert entering that niche
+- Scraped competitor intelligence → Competitor swipe databases for all experts' Ad Creative Builders
+
+**Agent count:** 8 Growth Lab agents (Intelligence Aggregator, Concept Architect, Mechanism Naming Agent, Hook Bank Agent, Miro Fish Focus Group Coordinator, Campaign Assembly Orchestrator, THI Integration Manager, Feedback Loop Agent)
+**Full spec:** `layer5/L5-6_iq_growth_lab.md`
+
+---
+
+## Layer 5 — Updated Agent Count
+
+| Layer 5 Component | New Agents |
+|-------------------|-----------|
+| L5-1 Living Expert Profile | 0 (data architecture consumed by existing agents) |
+| L5-2 Proactive Intelligence Engine | 1 |
+| L5-3 One-Tap Deployment | 1 |
+| L5-4 Network Intelligence | 4 |
+| L5-5 IQ Score | 1 |
+| L5-6 IQ Growth Lab | 8 |
+| **Layer 5 Total** | **15 new agents** |
+
+**Revised platform total: ~183 agents** (168 original + 15 Layer 5)
+
+---
+
+## Updated Files Reference — Layer 5
+
+| File | Contents |
+|------|---------|
+| `layer5/L5-1_living_expert_profile.md` | Living Expert Profile — full architecture, 3 intelligence layers, update engine, compound moat |
+| `layer5/L5-2_proactive_intelligence_engine.md` | Proactive Intelligence — 6 signal categories, Morning Brief spec, priority scoring, noise filter |
+| `layer5/L5-3_one_tap_deployment.md` | One-Tap Deployment — full integration stack, approval flow, deployment pathways, safeguards |
+| `layer5/L5-4_network_intelligence.md` | Network Intelligence — 5 databases, flywheel, Day-1 Advantage Engine, privacy architecture |
+| `layer5/L5-5_iq_score.md` | IQ Score — 8 dimensions, scoring model, Score Card, habit loop, tier system |
+| `layer5/L5-6_iq_growth_lab.md` | IQ Growth Lab — 6 engines, organic-to-paid loop, Miro Fish Focus Group, THI proving ground |
+| `layer5/README.md` | Layer 5 index and platform completion summary |
+
+---
+
+*Step 22 — Updated with Layer 5 — v2.0*
+*clinicIQ Platform — Complete Agent Architecture including IQ Intelligence Platform*
+*~183 agents across Platform Services, Layers 1–5*
+*Full platform specced. Build-ready.*
