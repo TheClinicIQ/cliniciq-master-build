@@ -344,8 +344,206 @@ section > * { position: relative; z-index: 1; }
 @keyframes pulse { 0%,100%{ box-shadow: 0 0 8px var(--gold); } 50%{ box-shadow: 0 0 18px var(--gold), 0 0 30px rgba(200,169,90,0.4); } }
 
 /* ═══════════════════════════════════════
-   SECTION — THE WORKFORCE
+   SECTION — WHAT IS AN AGENT
+   SECTION — AGENT TEAM
+   SECTION — THE WORKFORCE REVEAL
 ═══════════════════════════════════════ */
+
+/* ── WHAT IS AN AGENT ── */
+.agent-explainer {
+  background: var(--ink);
+  padding: 130px 0;
+}
+.agent-explainer .glow-gold { width: 700px; height: 500px; top: -100px; right: -50px; opacity: 0.3; }
+
+.ae-inner {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 80px; align-items: center;
+}
+@media(max-width:860px){ .ae-inner { grid-template-columns: 1fr; gap: 48px; } }
+
+.ae-kicker {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--arc2); margin-bottom: 20px; display: flex; align-items: center; gap: 8px;
+}
+.ae-kicker::before { content: ''; width: 20px; height: 1px; background: var(--arc2); }
+.ae-h { font-size: clamp(30px, 4vw, 50px); font-weight: 900; line-height: 1.08; letter-spacing: -0.03em; color: var(--white); margin-bottom: 24px; }
+.ae-p { font-size: 17px; color: var(--text); line-height: 1.8; margin-bottom: 22px; }
+.ae-p:last-child { margin-bottom: 0; }
+
+/* Agent anatomy card */
+.agent-anatomy {
+  background: var(--ink2); border: 1px solid var(--border2);
+  border-radius: 18px; padding: 32px; position: relative;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+}
+.agent-anatomy::before {
+  content: 'ONE AGENT';
+  position: absolute; top: -11px; left: 24px;
+  font-size: 10px; font-weight: 800; letter-spacing: 0.14em;
+  color: var(--arc2); background: var(--ink2);
+  padding: 0 10px; border: 1px solid var(--border-arc, rgba(0,180,216,0.3));
+  border-radius: 100px;
+}
+.anatomy-head {
+  display: flex; align-items: center; gap: 14px; margin-bottom: 24px;
+  padding-bottom: 24px; border-bottom: 1px solid var(--border);
+}
+.anatomy-avatar {
+  width: 52px; height: 52px; border-radius: 12px;
+  background: linear-gradient(135deg, rgba(0,180,216,0.2), rgba(0,180,216,0.05));
+  border: 1px solid rgba(0,180,216,0.3);
+  display: flex; align-items: center; justify-content: center; font-size: 24px;
+  flex-shrink: 0;
+}
+.anatomy-id {}
+.anatomy-name { font-size: 16px; font-weight: 700; color: var(--white); margin-bottom: 3px; }
+.anatomy-role { font-size: 12px; color: var(--arc2); font-weight: 600; }
+
+.anatomy-rows { display: flex; flex-direction: column; gap: 14px; }
+.anatomy-row { display: flex; gap: 12px; align-items: flex-start; }
+.ar-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--muted); width: 80px; flex-shrink: 0; padding-top: 2px;
+}
+.ar-val { font-size: 14px; color: var(--text); line-height: 1.55; flex: 1; }
+.ar-tag {
+  display: inline-block; font-size: 11px; font-weight: 700;
+  background: rgba(0,180,216,0.12); color: var(--arc2);
+  padding: 2px 8px; border-radius: 100px; margin: 2px 2px 0 0;
+}
+
+/* ── AGENT TEAM ── */
+.agent-team-section {
+  background: var(--black);
+  padding: 130px 0;
+}
+.agent-team-section .glow-arc { width: 800px; height: 600px; bottom: -100px; left: -100px; opacity: 0.3; }
+
+.ats-top { text-align: center; max-width: 700px; margin: 0 auto 72px; }
+.ats-kicker {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 20px;
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+}
+.ats-kicker::before, .ats-kicker::after { content: ''; flex: 1; max-width: 48px; height: 1px; background: rgba(200,169,90,0.3); }
+.ats-h { font-size: clamp(30px, 4vw, 52px); font-weight: 900; line-height: 1.08; letter-spacing: -0.03em; color: var(--white); margin-bottom: 20px; }
+.ats-h .g { background: var(--goldg); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.ats-sub { font-size: 18px; color: var(--text); line-height: 1.7; }
+
+/* Content team diagram */
+.team-diagram {
+  max-width: 900px; margin: 0 auto;
+}
+.team-lead {
+  display: flex; justify-content: center; margin-bottom: 0;
+}
+.lead-card {
+  background: var(--ink2); border: 2px solid rgba(200,169,90,0.4);
+  border-radius: 16px; padding: 24px 32px; text-align: center; min-width: 260px;
+  position: relative;
+  box-shadow: 0 0 60px rgba(200,169,90,0.12);
+}
+.lead-card::after {
+  content: '';
+  position: absolute; bottom: -33px; left: 50%;
+  transform: translateX(-50%);
+  width: 2px; height: 33px;
+  background: linear-gradient(to bottom, rgba(200,169,90,0.5), transparent);
+}
+.lead-icon { font-size: 32px; margin-bottom: 10px; }
+.lead-name { font-size: 16px; font-weight: 800; color: var(--white); margin-bottom: 4px; }
+.lead-role { font-size: 12px; color: var(--gold); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+
+.connector-bar {
+  display: flex; justify-content: center; margin: 0;
+  position: relative; height: 40px;
+}
+.connector-bar::before {
+  content: '';
+  position: absolute; top: 0; left: 15%; right: 15%;
+  height: 1px; background: linear-gradient(90deg, transparent, rgba(200,169,90,0.3) 20%, rgba(200,169,90,0.3) 80%, transparent);
+  top: 50%;
+}
+/* Vertical lines from bar to sub-agents */
+.conn-lines {
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  display: flex; justify-content: space-around; padding: 0 10%;
+}
+.conn-line {
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, rgba(200,169,90,0.25));
+}
+
+.sub-agents {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+}
+@media(max-width:700px){ .sub-agents { grid-template-columns: repeat(2,1fr); } }
+
+.sub-card {
+  background: var(--ink2); border: 1px solid var(--border);
+  border-radius: 12px; padding: 18px 16px; text-align: center;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.sub-card:hover { border-color: rgba(200,169,90,0.25); transform: translateY(-3px); }
+.sub-icon { font-size: 22px; margin-bottom: 8px; }
+.sub-name { font-size: 13px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+.sub-job  { font-size: 12px; color: var(--muted); line-height: 1.4; }
+
+.team-result {
+  margin-top: 48px; text-align: center;
+  padding: 28px 32px;
+  background: rgba(200,169,90,0.05);
+  border: 1px solid rgba(200,169,90,0.2); border-radius: 14px;
+  font-size: 18px; font-weight: 700; color: var(--white); line-height: 1.5;
+}
+.team-result em { color: var(--gold2); font-style: normal; }
+
+/* ── WORKFORCE REVEAL ── */
+.workforce-reveal {
+  background: var(--ink);
+  padding: 130px 0;
+}
+.workforce-reveal .glow-gold { width: 1000px; height: 700px; top: 50%; left: 50%; transform: translate(-50%,-50%); opacity: 0.25; }
+
+.wr-inner { text-align: center; max-width: 820px; margin: 0 auto 72px; }
+.wr-kicker {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--arc2); margin-bottom: 20px;
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+}
+.wr-kicker::before, .wr-kicker::after { content: ''; flex: 1; max-width: 48px; height: 1px; background: rgba(0,180,216,0.3); }
+.wr-h { font-size: clamp(32px, 4.5vw, 60px); font-weight: 900; line-height: 1.05; letter-spacing: -0.035em; color: var(--white); margin-bottom: 24px; }
+.wr-h .g { background: var(--goldg); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.wr-sub { font-size: 19px; color: var(--text); line-height: 1.7; }
+
+/* Workforce equation visual */
+.workforce-eq {
+  display: flex; align-items: center; justify-content: center;
+  gap: 20px; flex-wrap: wrap; margin: 56px 0;
+}
+.eq-block {
+  background: var(--ink2); border: 1px solid var(--border);
+  border-radius: 14px; padding: 24px 28px; text-align: center; min-width: 160px;
+}
+.eq-block.highlight {
+  border-color: rgba(200,169,90,0.4); background: rgba(200,169,90,0.05);
+  box-shadow: 0 0 40px rgba(200,169,90,0.1);
+}
+.eq-icon { font-size: 30px; margin-bottom: 10px; }
+.eq-label { font-size: 13px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+.eq-sub { font-size: 12px; color: var(--muted); }
+.eq-op { font-size: 32px; font-weight: 900; color: var(--muted); }
+.eq-result .eq-label { font-size: 18px; background: var(--goldg); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.eq-result .eq-sub { color: var(--gold); }
+
+.wr-count {
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  font-size: 15px; color: var(--text); margin-top: 16px;
+}
+.wr-count strong { font-size: 48px; font-weight: 900; letter-spacing: -0.04em; background: var(--goldg); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+/* ── EXISTING WORKFORCE SECTION ── */
 .workforce-section {
   background: var(--ink);
   padding: 120px 0;
@@ -749,6 +947,184 @@ footer {
       <div class="workforce-pill">
         <div class="dot"></div>
         Your AI Workforce is active 24 hours a day, 7 days a week
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 1 OF 3 — WHAT IS AN AGENT?
+     Job: Zero to one. Make AI agents feel like something
+     they already understand — a specialist with one job.
+     Left = copy. Right = anatomy card (visual, specific).
+═══════════════════════════════════════════════════════ -->
+<section class="agent-explainer">
+  <div class="glow-gold"></div>
+  <div class="w">
+    <div class="ae-inner">
+
+      <div>
+        <div class="ae-kicker">Step 1 — Understand the Building Block</div>
+        <h2 class="ae-h">First — what actually is an AI agent?</h2>
+        <p class="ae-p">Think of an AI agent as a specialist you just hired. Not a generalist. Not a tool that does everything mediocrely. <strong>One expert. One job. Done exceptionally well.</strong></p>
+        <p class="ae-p">You give a human specialist a role, a set of knowledge, a clear objective, and the tools to execute. An AI agent works the same way — except it never sleeps, never gets sick, never needs managing, and operates in seconds instead of days.</p>
+        <p class="ae-p">A Content Hook Agent knows every hook structure that has stopped the scroll for your specific audience. That's all it knows. That's all it does. And because that's its entire world, <strong>it does it better than any human generalist ever could.</strong></p>
+      </div>
+
+      <div>
+        <div class="agent-anatomy">
+          <div class="anatomy-head">
+            <div class="anatomy-avatar">✍️</div>
+            <div class="anatomy-id">
+              <div class="anatomy-name">Content Hook Agent</div>
+              <div class="anatomy-role">Specialist · Attention Layer</div>
+            </div>
+          </div>
+          <div class="anatomy-rows">
+            <div class="anatomy-row">
+              <div class="ar-label">One Job</div>
+              <div class="ar-val">Write hooks that stop the scroll and pull your ideal client into your content</div>
+            </div>
+            <div class="anatomy-row">
+              <div class="ar-label">Knows</div>
+              <div class="ar-val">
+                <span class="ar-tag">Your voice</span>
+                <span class="ar-tag">Your avatar</span>
+                <span class="ar-tag">Your niche's top hooks</span>
+                <span class="ar-tag">5 levels of awareness</span>
+              </div>
+            </div>
+            <div class="anatomy-row">
+              <div class="ar-label">Runs</div>
+              <div class="ar-val">Every time new content is being built — automatically</div>
+            </div>
+            <div class="anatomy-row">
+              <div class="ar-label">Output</div>
+              <div class="ar-val">3–5 tested hook variations ranked by predicted performance for your audience</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 2 OF 3 — AGENT TEAMS
+     Job: The compound effect. One agent is powerful.
+     A coordinated team is exponential.
+     Show a real team diagram — the Content Team as the example.
+═══════════════════════════════════════════════════════ -->
+<section class="agent-team-section">
+  <div class="glow-arc"></div>
+  <div class="w">
+    <div class="ats-top">
+      <div class="ats-kicker">Step 2 — Now Multiply It</div>
+      <h2 class="ats-h">One agent is powerful.<br><span class="g">A team of agents is unstoppable.</span></h2>
+      <p class="ats-sub">Now take that specialist and give them a team. A Lead Agent runs the operation — strategy, coordination, quality control. Under it: a crew of sub-agents, each owning one slice of the work. Together they execute something no single person could do alone.</p>
+    </div>
+
+    <div class="team-diagram">
+      <!-- LEAD AGENT -->
+      <div class="team-lead">
+        <div class="lead-card">
+          <div class="lead-icon">🎯</div>
+          <div class="lead-name">Content Lead Agent</div>
+          <div class="lead-role">Runs the content operation</div>
+        </div>
+      </div>
+
+      <!-- CONNECTOR -->
+      <div class="connector-bar">
+        <div class="conn-lines">
+          <div class="conn-line"></div>
+          <div class="conn-line"></div>
+          <div class="conn-line"></div>
+          <div class="conn-line"></div>
+        </div>
+      </div>
+
+      <!-- SUB-AGENTS -->
+      <div class="sub-agents">
+        <div class="sub-card">
+          <div class="sub-icon">✍️</div>
+          <div class="sub-name">Hook Agent</div>
+          <div class="sub-job">Writes the opening line that stops the scroll</div>
+        </div>
+        <div class="sub-card">
+          <div class="sub-icon">📖</div>
+          <div class="sub-name">Story Agent</div>
+          <div class="sub-job">Builds the narrative arc that creates belief shifts</div>
+        </div>
+        <div class="sub-card">
+          <div class="sub-icon">📅</div>
+          <div class="sub-name">Calendar Agent</div>
+          <div class="sub-job">Plans the full publishing schedule across every platform</div>
+        </div>
+        <div class="sub-card">
+          <div class="sub-icon">♻️</div>
+          <div class="sub-name">Repurpose Agent</div>
+          <div class="sub-job">Turns one piece of content into 8 platform-specific formats</div>
+        </div>
+      </div>
+
+      <div class="team-result">
+        The result? A <em>complete content operation</em> — strategy, creation, scheduling, repurposing — running 24/7 in your voice, without a single human hire. <em>One team. One job. Done at a level no individual could sustain.</em>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 3 OF 3 — THE WORKFORCE REVEAL
+     Job: The payoff. Now they understand agents and teams —
+     the reveal that ClinicIQ is ALL of them working together
+     hits like a gut punch. The equation visual seals it.
+═══════════════════════════════════════════════════════ -->
+<section class="workforce-reveal grid-bg">
+  <div class="glow-gold"></div>
+  <div class="w">
+    <div class="wr-inner">
+      <div class="wr-kicker">Step 3 — The Full Picture</div>
+      <h2 class="wr-h">Now imagine every team<br>in your business<br><span class="g">working like that.</span></h2>
+      <p class="wr-sub">Not just content. Every function. Every department. Every part of capturing attention, converting it to leads, converting leads to clients, building your programs, running your analytics, deploying everything live — all coordinated by one chief operator who knows your entire strategy.</p>
+    </div>
+
+    <!-- EQUATION -->
+    <div class="workforce-eq">
+      <div class="eq-block">
+        <div class="eq-icon">🤖</div>
+        <div class="eq-label">One Agent</div>
+        <div class="eq-sub">One specialist.<br>One job.</div>
+      </div>
+      <div class="eq-op">×</div>
+      <div class="eq-block">
+        <div class="eq-icon">👥</div>
+        <div class="eq-label">Agent Teams</div>
+        <div class="eq-sub">Lead + specialists.<br>One function.</div>
+      </div>
+      <div class="eq-op">×</div>
+      <div class="eq-block">
+        <div class="eq-icon">🧠</div>
+        <div class="eq-label">IQ Claw</div>
+        <div class="eq-sub">The chief operator<br>coordinating all of it.</div>
+      </div>
+      <div class="eq-op">=</div>
+      <div class="eq-block highlight eq-result">
+        <div class="eq-icon">⚡</div>
+        <div class="eq-label">Your AI Workforce</div>
+        <div class="eq-sub">Every department.<br>Running 24/7.</div>
+      </div>
+    </div>
+
+    <div style="text-align:center;">
+      <div class="wr-count">
+        <strong>183</strong>
+        <span>specialized agents across 9 teams — all coordinated, all trained on your practice, all working while you sleep</span>
       </div>
     </div>
   </div>
