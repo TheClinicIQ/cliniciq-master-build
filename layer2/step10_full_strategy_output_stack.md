@@ -1,5 +1,5 @@
 # clinicIQ — Layer 2: Strategy Agents — Step 10: Full Strategy Output Stack
-**Version 1.0 — Draft**
+**Version 1.1 — Revised**
 *Step 10 of 22 | Depends on: Steps 8–9 (Brand Strategy Agent + Growth Strategy Agent)*
 
 ---
@@ -320,6 +320,133 @@ OUTPUT 2D: Quarterly Strategy Review (feeds back to update Outputs 1A, 1B, 2A, 2
         ↓
 FLYWHEEL CONTINUES
 ```
+
+---
+
+## Strategic Integrity Check — Pre-Build Quality Gate
+
+**This gate runs after the Brand North Star Document and Growth Blueprint are produced — before the Monthly Master Plan is generated and before any Builder agent is activated.**
+
+The Strategic Integrity Check is a mandatory quality pass that stress-tests the strategic foundation for the most common failure modes. Its job is not to assess whether the documents are complete (that's Gate 2 and Gate 3). Its job is to assess whether they are **strategically strong** — whether a Builder agent running on this foundation will produce outputs that actually work in the market, or outputs that are well-formatted but strategically mediocre.
+
+This is a separate agent: the **Strategic Integrity Agent**, operating under the Core Orchestrator and running once at Layer 2 completion.
+
+### Why This Gate Exists
+
+The Brand North Star Document could be produced with a weak One Big Domino — one that is generic enough to apply to any health practitioner in the space. The Growth Blueprint could be built on a differentiation argument that sounds good but doesn't actually answer why this expert is different from any other practitioner who uses root cause language. The Builder agents will consume these documents faithfully and produce professional, well-formatted, on-voice content that is built on the wrong strategic foundation. The outputs will look good. They will not convert.
+
+This gate catches those problems before a single asset is built.
+
+### The Six Strategic Integrity Tests
+
+**Test 1 — One Big Domino Specificity**
+
+*Question:* If a skeptical avatar read this One Big Domino statement, would they say "I've never heard anyone frame it this way" — or "I've seen this angle a dozen times"?
+
+*Failure pattern:* Generic One Big Domino statements contain no specific mechanism, no falsifiable claim, and no genuine insight. They could appear under any health expert's name.
+
+*Examples:*
+- ❌ FAIL: "If you could finally address the root cause of your thyroid issues instead of just managing symptoms, everything would change." → Any functional medicine practitioner could say this. No specific mechanism. Not memorable. Will not convert cold traffic.
+- ✅ PASS: "If your thyroid symptoms are being driven by an autoimmune process that conventional medicine never tests for — and we can identify that exact process — then every treatment you've been told you need to be on for life was built on an incomplete picture." → Specific mechanism (autoimmune trigger), specific failure (untested), specific implication (treatments are wrong). This creates genuine curiosity and a belief shift.
+
+*What happens on failure:* The Strategic Integrity Agent surfaces the specific weakness, references the One Big Domino from the dossier (`root_cause_map.one_big_domino_draft`), and routes back to the Brand Strategy Agent with a targeted brief: "The current One Big Domino passes the completion check but fails the specificity test. Here is the specific mechanism data from the dossier that should be incorporated. Regenerate with this as the anchor." The Brand Strategy Agent regenerates. The check re-runs.
+
+---
+
+**Test 2 — Positioning Singularity**
+
+*Question:* Can you replace the expert's name in the positioning statement with any other practitioner in the same niche and have it still be accurate?
+
+*Failure pattern:* Positioning statements that describe a category ("I help women with autoimmune thyroid disease heal naturally through root cause functional medicine") are not positions. They are category descriptions. They do not create a Category of One.
+
+*Scoring approach:* The Strategic Integrity Agent tests the positioning statement against the `competitive_landscape.direct_competitors` list. If the positioning statement could appear on any of those competitors' websites without modification, it fails.
+
+*What happens on failure:* Routes back to Brand Strategy Agent with the competitor differentiation data from the dossier (`competitive_landscape.competitor_differentiation`) and the instruction: "This positioning statement describes the category, not this expert's unique position within it. Use the mechanism name, the specific testing approach, and the differentiator data to construct a statement that only this expert can claim."
+
+---
+
+**Test 3 — Avatar Specificity**
+
+*Question:* Does the primary avatar description match a specific human being — or an archetype?
+
+*Failure pattern:* Avatar descriptions that use general terms ("women aged 40–55 with fatigue and thyroid issues who have tried conventional medicine") describe a demographic, not a psychological profile. The Builder agents need a human they can write to — one with a specific fear, a specific failure history, and a specific identity they're trying to recover.
+
+*Tests run:*
+- Is `avatar_psychology.core_fear` a specific, emotional statement or a category description?
+- Does `avatar_psychology.transformation_identity` describe a new identity (who they become) or just a health outcome (how they feel)?
+- Does `avatar_psychology.language_patterns` contain at least 4 specific verbatim phrases — not paraphrases?
+- Are all three false belief fields (`false_belief_vehicle`, `false_belief_internal`, `false_belief_external`) populated with specific, distinct belief statements — not variations of the same general skepticism?
+
+*What happens on failure:* Routes back to Onboarding Agent with instruction to surface the specific field and prompt the expert for enrichment. The session re-opens on that section only.
+
+---
+
+**Test 4 — Mechanism Demonstrability**
+
+*Question:* Can the new vehicle mechanism be demonstrated — not just described?
+
+*Failure pattern:* A mechanism that can only be stated ("we address root causes") cannot be demonstrated in a webinar. A mechanism that can be shown — "here is the specific autoimmune panel, here is what it shows, here is a before-and-after of the same patient's markers after the protocol" — creates the proof moment that establishes belief before the offer is presented.
+
+*What it checks:*
+- Is `root_cause_map.new_vehicle_name` a named, ownable concept — or a generic process description?
+- Is `webinar_raw_material.mechanism_demonstration` populated with a specific demonstration concept — not just "explain the mechanism"?
+- Does `webinar_raw_material.case_study_primary` contain a before/after data point that demonstrates the mechanism working — not just a testimonial?
+
+*What happens on failure:* Routes to Growth Strategy Agent to enrich `webinar_raw_material.mechanism_demonstration` with a specific demonstration concept, and to Onboarding Agent to source a before/after data point from the expert's proof bank.
+
+---
+
+**Test 5 — Unit Economics Integrity**
+
+*Question:* Does the 90-day plan survive the pessimistic scenario without requiring results that have never been achieved before?
+
+*This test is already partially covered by Gate 3 (LTV:CAC ≥ 3:1 in pessimistic scenario) — the Strategic Integrity Check runs two additional stress points:*
+
+- **The conversion rate sanity check:** Are the conversion rates assumed in the plan within the ranges benchmarked in Step 9 (Section 7 — funnel benchmarks)? If the plan requires a 25% webinar conversion rate on cold traffic to break even — and the benchmark for cold traffic is 8–15% — the plan will fail in execution. Flag it before a dollar is spent.
+- **The traffic volume sanity check:** Does the organic content plan produce enough warm audience to run a meaningful webinar before paid traffic is added? If the expert has 1,200 Instagram followers and the plan assumes 200 webinar registrations from organic in month one, the math doesn't work. Flag the expectation gap.
+
+*What happens on failure:* Routes back to Growth Strategy Agent with the specific conversion assumption and benchmark. The 90-day plan is revised to a lower-expectation launch sequencing before moving forward.
+
+---
+
+**Test 6 — Proof Bank Minimum**
+
+*Question:* Is there sufficient proof to run the funnel that's being built?
+
+*Minimum thresholds for Builder Layer activation:*
+- `proof_bank.transformation_stories`: minimum 3 complete stories (before state, result, timeline, quote)
+- `proof_bank.most_dramatic_transformation`: populated
+- `proof_bank.collective_results_stats`: at minimum `patients_treated` and `avg_time_to_first_result` populated
+
+*What happens on failure:* The Builder Layer activates with a restricted build queue — funnel pages and email sequences can be built, but the Webinar Builder Agent is held until proof bank minimum is met. Growth Strategy Agent adds a 30-day proof bank sprint to the 90-day plan as a P1 action.
+
+---
+
+### Strategic Integrity Check — Output
+
+The Strategic Integrity Agent produces a single output: a **Strategic Integrity Report** with a pass/fail for each of the six tests, specific failure details where applicable, and routing instructions for each failure.
+
+```
+STRATEGIC INTEGRITY REPORT
+Expert: [Name]
+Run date: [Date]
+
+Test 1 — One Big Domino Specificity:        PASS / FAIL
+Test 2 — Positioning Singularity:           PASS / FAIL
+Test 3 — Avatar Specificity:                PASS / FAIL
+Test 4 — Mechanism Demonstrability:         PASS / FAIL
+Test 5 — Unit Economics Integrity:          PASS / FAIL
+Test 6 — Proof Bank Minimum:               PASS / FAIL
+
+Overall: ALL PASS → Proceed to Monthly Master Plan generation
+         FAILURES PRESENT → Routing instructions below
+
+[Per-failure routing detail]
+```
+
+Only when all six tests pass does the Core Orchestrator proceed to Monthly Master Plan generation and Builder Layer activation.
+
+**The principle behind this gate:** The Builder Layer is powerful. Give it a weak strategic foundation and it will produce a large volume of well-crafted content that doesn't convert. Give it a strong strategic foundation and it compounds. The Strategic Integrity Check is what ensures the machine is pointed in the right direction before it starts running.
 
 ---
 

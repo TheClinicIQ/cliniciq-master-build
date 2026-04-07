@@ -629,5 +629,267 @@ The programmatic compositor enforces the layout. The Voice QA Agent enforces the
 
 ---
 
-*Step 12 of 22 — Content Builder Agent — Knowledge & Skill Description — v1.0 Draft*
+---
+
+## Engineering Spec Appendix — Layer 3 Builder Agents
+
+**Audience:** Dev team. This appendix defines implementation decisions that are not self-evident from the narrative spec above and that will cause inconsistency, rework, or integration failures if left to individual developer interpretation.
+
+This appendix covers the Content Builder production pipeline in full. The same conventions apply to all Layer 3 Builder agents (Steps 12–16) unless a step explicitly overrides them.
+
+---
+
+### A. Image Generation — Model, API, and Fallback Cascade
+
+**Primary model:** Flux Pro 1.1 via fal.ai API
+**Endpoint:** `https://fal.run/fal-ai/flux-pro/v1.1`
+**Auth:** `FAL_KEY` environment variable
+**Invocation:** Asynchronous — submit job, poll for completion, retrieve image URL
+
+**Fallback cascade (in order):**
+```
+Flux Pro 1.1 (fal.ai)
+  → on failure (API error, rate limit, 5xx): retry x2 with 2s backoff
+  → on continued failure: Flux Schnell (fal.ai) — faster, lower quality, acceptable for non-hero images
+      → on failure: DALL-E 3 (OpenAI API) — reliable fallback, slightly different aesthetic
+          → on failure: flag asset as "Image Generation Failed" — route to expert dashboard for manual upload
+```
+
+**Never silently skip the image** — always surface a failure to the expert if all fallbacks are exhausted. Never ship a composited asset with a placeholder or missing image.
+
+**Prompt construction:** The Image Production sub-agent generates all Flux prompts. Prompt format:
+```
+[Subject/scene description]. [Lighting and mood]. [Color palette hint]. [Aesthetic direction from visual_dna]. [Negative prompt: text, words, letters, logos, watermarks, UI elements].
+```
+The negative prompt `text, words, letters, logos, watermarks, UI elements` is **always appended** — no exceptions. The compositor handles all text. Flux never renders text.
+
+**Output format:** PNG, minimum 1024px on the shortest side. The compositor upscales/crops to final dimensions — never downscales below 1080px output.
+
+**Rate limits:** fal.ai Flux Pro 1.1 — 60 requests/minute on standard tier. For batch mode (40 assets), serialize image generation calls with a 1-second minimum interval between requests. Do not parallelize more than 10 concurrent image generation requests.
+
+---
+
+### B. HTML/CSS Layout → PNG Rendering Pipeline
+
+**Technology:** Puppeteer (Node.js) + headless Chromium
+**Chromium version:** Use the version bundled with the installed Puppeteer package — do not use a separately installed Chromium binary (version mismatches cause rendering inconsistencies)
+**Environment:** Runs server-side (not in browser, not in worker thread for the screenshot step)
+
+**Pipeline — exact sequence:**
+```
+1. Image Production Agent returns image URL (Flux output or CDN URL)
+2. Copy & Script Writer returns finalized copy for the asset
+3. HTML/CSS Generator sub-agent receives: {image_url, copy, visual_dna fields, asset_type, target_dimensions, brand_colors_hex, typography_direction}
+4. HTML/CSS Generator produces a complete self-contained HTML document
+   - All CSS is inline in <style> tags (no external stylesheets — external requests fail in headless environment)
+   - All fonts are loaded via @font-face from CDN URLs OR system font fallbacks
+   - The Flux image is referenced as: background-image: url('[image_url]') or <img src="[image_url]">
+   - Document has no <script> tags (no JS required — pure HTML/CSS render)
+5. Puppeteer launches headless Chromium
+6. page.setViewport({width: [target_width], height: [target_height], deviceScaleFactor: 2})
+   — deviceScaleFactor: 2 produces a 2x retina-quality PNG at exactly 2× the viewport dimensions
+   — For a 1080×1350 asset: viewport = 1080×1350, output PNG = 2160×2700px
+   — The output is then downscaled to 1080×1350px for final delivery (sharp edges, high quality)
+7. page.setContent(htmlString, {waitUntil: 'networkidle0'})
+   — waitUntil: 'networkidle0' ensures all font CDN requests and the Flux image URL complete loading
+   — Timeout: 15 seconds. If networkidle0 is not reached in 15s, fall back to waitUntil: 'load'
+8. page.screenshot({type: 'png', fullPage: false})
+   — fullPage: false — screenshot only the viewport (the asset dimensions), not the full document height
+9. PNG buffer returned → downscaled to target dimensions → saved to Asset Library
+10. Puppeteer browser instance closed after each render batch (do not reuse across batches — memory leak risk)
+```
+
+**Critical implementation notes:**
+- **Always use `networkidle0`** for font + image loading. Assets that render before the Flux image loads will have a blank background in the output PNG. This is the most common production bug.
+- **Always close the Puppeteer browser** after each batch. Leaving instances open causes memory exhaustion in batch mode.
+- **deviceScaleFactor: 2** is non-negotiable for production quality. 1x renders look soft on modern displays.
+- **Font loading:** Google Fonts CDN links work in headless Chromium with `networkidle0`. If a brand guide specifies a non-Google font, the font file must be included as a base64-encoded @font-face declaration in the HTML (not a CDN link) to guarantee rendering.
+
+**Viewport dimensions by asset type:**
+```
+Instagram Feed Portrait:  1080 × 1350  → deviceScaleFactor 2 → 2160 × 2700 PNG → downscale to 1080 × 1350
+Instagram Feed Square:    1080 × 1080  → deviceScaleFactor 2 → 2160 × 2160 PNG → downscale to 1080 × 1080
+Reels / Stories:         1080 × 1920  → deviceScaleFactor 2 → 2160 × 3840 PNG → downscale to 1080 × 1920
+Facebook Feed:           1080 × 1080  (same as IG square)
+Facebook Link Share:     1200 × 628   → deviceScaleFactor 2 → 2400 × 1256 PNG → downscale to 1200 × 628
+Meta Ad Carousel Card:   1080 × 1080  (same as IG square)
+```
+
+---
+
+### C. Asset Storage — Naming Convention, Folder Structure, CDN Delivery
+
+**Storage backend:** S3-compatible object storage (AWS S3 or equivalent — Cloudflare R2 recommended for CDN proximity)
+
+**Folder structure:**
+```
+/assets/
+  {expert_id}/
+    {YYYY-MM}/                          ← monthly folder
+      {asset_id}_{slug}_{format}.png    ← final delivered asset
+      /working/
+        {asset_id}_bg.png               ← raw Flux background image
+        {asset_id}_layout.html          ← HTML/CSS source (preserved for re-render)
+        {asset_id}_2x.png               ← 2x retina render (before downscale)
+      /variants/
+        {asset_id}_ig_feed.png
+        {asset_id}_ig_story.png
+        {asset_id}_fb_feed.png
+        {asset_id}_meta_ad.png
+```
+
+**File naming convention:**
+```
+{expert_id}_{YYYYMMDD}_{asset_type_slug}_{pillar_slug}_{sequence_number}.png
+
+Example:
+exp_abc123_20260401_static_rootcause_001.png
+exp_abc123_20260401_carousel_slide_003.png
+exp_abc123_20260401_reel_bgonly_001.mp4
+```
+
+**Rules:**
+- No spaces in filenames — use underscores only
+- All slugs lowercase
+- Sequence numbers zero-padded to 3 digits (001, 002, ..., 040)
+- The HTML/CSS source file is always preserved in `/working/` — never deleted — enables re-render at any dimensions without calling Flux again
+
+**CDN delivery:**
+- All final assets are served from CDN (not directly from S3)
+- Signed URLs with 7-day expiry for in-platform preview
+- Permanent public URLs generated only when expert explicitly requests share link or deploys to scheduler
+- Asset Library UI loads thumbnail previews from CDN at 400px width (downscaled) — never loads full 1080px in the grid view
+
+---
+
+### D. In-Platform Editor — Fabric.js Integration
+
+**Purpose:** Allow the expert to edit any finished asset without leaving clinicIQ. Drag-and-drop repositioning, text edits, color swaps, image swaps.
+
+**How it works:**
+- The HTML/CSS source file (preserved in `/working/`) is parsed to reconstruct a Fabric.js canvas object
+- The expert edits in the Fabric.js canvas editor
+- On "Save," the editor serializes the updated layout back to HTML/CSS and triggers a re-render through the Puppeteer pipeline
+- The new PNG replaces the previous version in the Asset Library (previous version moved to `/working/revisions/`)
+
+**What the editor supports:**
+- Text: font, size, color, weight, position, line height
+- Images: swap background (triggers new Flux generation or upload), opacity, position
+- Colors: any background, overlay, or element color can be changed to a hex value
+- Layout: element position and size via drag/resize
+- Crops: aspect ratio lock, crop to platform spec
+
+**What the editor does NOT support** (out of scope for v1):
+- Adding new elements (only editing existing layout elements)
+- Changing the fundamental layout template (that requires a re-brief to the HTML/CSS Generator)
+- Animating static assets (video editing is separate)
+
+---
+
+### E. Video Asset Pipeline — B-Roll with Text Overlay
+
+**Different pipeline from static images.** B-roll video files cannot be composited with text via Puppeteer. The text overlay for video assets is applied via FFmpeg.
+
+**Pipeline:**
+```
+1. Kling v1.6 generates b-roll clip (5–10 seconds, no text, lifestyle/documentary aesthetic)
+   → Fallback: Runway Gen-3 if Kling unavailable
+   → Output: MP4, 1080×1920 (Reels) or 1080×1350 (Feed)
+2. Copy & Script Writer produces the text overlay content (hook + CTA text)
+3. FFmpeg applies text overlay:
+   - Font: brand font or system fallback
+   - Position: lower 40% of frame by default (safe zone for Reels UI)
+   - Color: brand primary text color with semi-transparent background box
+   - Fade in: 0.5s at start; fade out: 0.5s before end
+4. Final MP4 stored in Asset Library under same naming convention
+```
+
+**FFmpeg command pattern:**
+```bash
+ffmpeg -i input.mp4 \
+  -vf "drawtext=fontfile=/path/to/font.ttf:text='[HOOK TEXT]':fontcolor=white:fontsize=52:x=(w-text_w)/2:y=h*0.65:alpha='if(lt(t,0.5),t/0.5,if(gt(t,ih-0.5),(ih-t)/0.5,1))'" \
+  -codec:a copy output.mp4
+```
+Text content, font size, position, and fade parameters are generated by the Copy & Script Writer and passed as structured parameters — not as a raw FFmpeg command string — to prevent injection.
+
+---
+
+### F. Data Handoff Between Sub-Agents — Payload Format
+
+All sub-agents within the Content Builder communicate via a structured JSON job object. No sub-agent reads from a previous sub-agent's database record directly — all communication is via the job object passed through the pipeline.
+
+**Job object schema:**
+```json
+{
+  "job_id": "string",
+  "expert_id": "string",
+  "asset_id": "string",
+  "asset_type": "static_image | carousel | reel | broll | script",
+  "platform": "instagram | facebook | meta_ad | both",
+  "dimensions": {"width": 1080, "height": 1350},
+  "status": "queued | ideation | copy | image_gen | layout | render | qc | delivered | failed",
+  "brief": {
+    "hook_text": "string",
+    "body_copy": "string",
+    "cta_text": "string",
+    "pillar": "string",
+    "angle": "string",
+    "emotional_beat": "string",
+    "proof_element": "string | null",
+    "compliance_notes": "string | null"
+  },
+  "voice_dna": {
+    "sample_extracts": ["string"],
+    "tone_primary": "string",
+    "sentence_rhythm": "string",
+    "words_they_avoid": ["string"]
+  },
+  "visual_dna": {
+    "aesthetic_keywords": ["string"],
+    "color_palette_hex": ["string"],
+    "typography_direction": "string"
+  },
+  "outputs": {
+    "image_url": "string | null",
+    "html_source_path": "string | null",
+    "rendered_2x_path": "string | null",
+    "final_asset_path": "string | null",
+    "caption": "string | null",
+    "qc_passed": "boolean | null",
+    "failure_reason": "string | null"
+  }
+}
+```
+
+Each sub-agent receives the full job object, reads only the fields it needs, writes only to `outputs.*` and `status`, and returns the updated job object. No sub-agent modifies `brief`, `voice_dna`, or `visual_dna` — those are read-only after the Ideation Engine populates them.
+
+---
+
+### G. Quality Gate Implementation — Automated Checks
+
+The Voice QA Agent and Brand QA Agent run automated checks before any asset is flagged for expert review. These checks are rule-based, not AI-judgment-based, to ensure consistency:
+
+**Voice QA automated checks:**
+```
+☐ No word from voice_dna.words_they_avoid appears in copy
+☐ Sentence count in the hook is within ±1 of the sentence_rhythm median from sample_extracts
+☐ No generic health marketing filler phrases present (checked against a 200-word prohibited filler list)
+☐ CTA matches the assigned CTA type from the Monthly Messaging Brief
+☐ Compliance filter: no prohibited claim types for this expert's specialty
+```
+
+**Brand QA automated checks:**
+```
+☐ All text elements are within the center 80% safe zone
+☐ At least one color from visual_dna.color_palette_hex is present in the layout
+☐ Font family matches visual_dna.typography_direction
+☐ Logo present if visual_dna.logo_status = 'Exists-uploaded'
+☐ No text appears on the Flux background layer (text must be on the HTML overlay layer only)
+```
+
+Any failed check routes the asset to the "Needs Your Eye" queue — never silently passes a failed check.
+
+---
+
+*Step 12 of 22 — Content Builder Agent — Knowledge & Skill Description — v1.1 Revised*
 *Next: Step 13 — Funnel Builder Agent + Webinar Builder Agent*

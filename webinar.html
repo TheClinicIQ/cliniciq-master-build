@@ -9,118 +9,113 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --black:   #03060A;
-  --ink:     #070D14;
-  --ink2:    #0C1520;
-  --ink3:    #111C28;
-  --ink4:    #172030;
-  --border:  rgba(255,255,255,0.06);
-  --border2: rgba(255,255,255,0.1);
+  /* Clean white foundation */
+  --white:   #FFFFFF;
+  --off:     #FAFAFA;
+  --surface: #F5F5F7;
+  --surface2:#EFEFEF;
+  --border:  #E5E5E7;
+  --border2: #D1D1D6;
 
-  /* Gold — the premium signal */
-  --gold:    #C8A95A;
-  --gold2:   #E8C97A;
-  --gold3:   #F5DFA0;
-  --goldg:   linear-gradient(135deg, #C8A95A 0%, #F5DFA0 50%, #C8A95A 100%);
+  /* Ink */
+  --ink:     #0A0A0B;
+  --ink2:    #1A1A1C;
+  --text:    #3A3A3C;
+  --muted:   #8E8E93;
+  --subtle:  #C7C7CC;
 
-  /* Accent — electric blue-teal for tech energy */
-  --arc:     #00B4D8;
-  --arc2:    #48CAE4;
+  /* Gold — premium signal */
+  --gold:    #B8942A;
+  --gold2:   #D4A936;
+  --gold3:   #F0C040;
+  --goldg:   linear-gradient(135deg, #B8942A 0%, #F0C040 50%, #B8942A 100%);
+  --goldbg:  rgba(184,148,42,0.08);
+  --goldborder: rgba(184,148,42,0.2);
 
-  --text:    #A8BAC8;
-  --white:   #F2F6FA;
-  --muted:   #4A6070;
+  /* Accent — deep navy/blue for tech credibility */
+  --arc:     #1B4FDB;
+  --arc2:    #2B5CE6;
+  --arcbg:   rgba(27,79,219,0.07);
+  --arcborder: rgba(27,79,219,0.18);
+
+  /* Success */
+  --green:   #1A9E5E;
+  --red:     #C7352A;
 }
 
 html { scroll-behavior: smooth; }
 
 body {
-  font-family: 'Inter', sans-serif;
-  background: var(--black);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--white);
   color: var(--text);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
 
 /* ─── UTILS ─── */
-.w { max-width: 1100px; margin: 0 auto; padding: 0 32px; }
-.wn { max-width: 760px; margin: 0 auto; padding: 0 32px; }
+.w  { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
+.wn { max-width: 760px;  margin: 0 auto; padding: 0 40px; }
+@media(max-width:640px){ .w, .wn { padding: 0 20px; } }
 
 /* ─── NAV ─── */
 nav {
   position: fixed; top: 0; width: 100%; z-index: 200;
-  background: rgba(3,6,10,0.85); backdrop-filter: blur(20px) saturate(180%);
+  background: rgba(255,255,255,0.92); backdrop-filter: blur(20px) saturate(180%);
   border-bottom: 1px solid var(--border);
   height: 64px; display: flex; align-items: center; padding: 0 40px;
   justify-content: space-between;
 }
 .logo {
-  font-size: 20px; font-weight: 900; letter-spacing: -0.03em; color: var(--white);
+  font-size: 20px; font-weight: 900; letter-spacing: -0.03em; color: var(--ink);
 }
 .logo span {
   background: var(--goldg); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
+.nav-tag {
+  font-size: 12px; font-weight: 500; color: var(--muted);
+}
 .nav-pill {
-  background: transparent; border: 1px solid rgba(200,169,90,0.4);
-  color: var(--gold2); font-size: 13px; font-weight: 700; padding: 9px 22px;
+  background: var(--ink); border: 1px solid var(--ink);
+  color: #fff; font-size: 13px; font-weight: 700; padding: 9px 22px;
   border-radius: 100px; cursor: pointer; letter-spacing: 0.01em;
   transition: all 0.2s; text-decoration: none;
 }
 .nav-pill:hover {
-  background: var(--gold); color: var(--black); border-color: var(--gold);
+  background: var(--arc); border-color: var(--arc);
 }
 
 /* ─── SECTION BASE ─── */
 section { position: relative; overflow: hidden; }
-
-/* ─── NOISE TEXTURE OVERLAY ─── */
-section::before {
-  content: '';
-  position: absolute; inset: 0; pointer-events: none; z-index: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-  opacity: 0.4;
-}
-
-/* ─── GRID LINES BG ─── */
-.grid-bg::after {
-  content: '';
-  position: absolute; inset: 0; pointer-events: none;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
-  background-size: 80px 80px;
-  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
-}
-
-/* ─── GLOW ─── */
-.glow-gold {
-  position: absolute; border-radius: 50%; pointer-events: none;
-  background: radial-gradient(circle, rgba(200,169,90,0.18) 0%, transparent 70%);
-  filter: blur(1px);
-}
-.glow-arc {
-  position: absolute; border-radius: 50%; pointer-events: none;
-  background: radial-gradient(circle, rgba(0,180,216,0.12) 0%, transparent 70%);
-}
-
-/* ─── SECTION CONTENT ABOVE PSEUDO ─── */
-section > * { position: relative; z-index: 1; }
 
 /* ═══════════════════════════════════════
    HERO
 ═══════════════════════════════════════ */
 .hero {
   min-height: 100vh;
-  background: var(--black);
+  background: var(--white);
   display: flex; align-items: center;
   padding: 120px 0 80px;
+  border-bottom: 1px solid var(--border);
 }
-.hero .glow-gold { width: 900px; height: 900px; top: -200px; left: 50%; transform: translateX(-30%); }
-.hero .glow-arc  { width: 600px; height: 600px; bottom: -100px; left: -100px; }
+
+/* Subtle grid pattern */
+.hero::after {
+  content: '';
+  position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0.4;
+  mask-image: radial-gradient(ellipse 70% 70% at 70% 50%, black 20%, transparent 80%);
+}
+
+.hero > * { position: relative; z-index: 1; }
 
 .hero-inner {
   display: grid; grid-template-columns: 1fr 1fr;
-  gap: 64px; align-items: center;
+  gap: 72px; align-items: center;
 }
 @media(max-width:900px){ .hero-inner { grid-template-columns: 1fr; } .hero-img { display: none; } }
 
@@ -128,14 +123,20 @@ section > * { position: relative; z-index: 1; }
   display: inline-flex; align-items: center; gap: 8px;
   font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
   color: var(--gold); margin-bottom: 28px;
+  background: var(--goldbg); border: 1px solid var(--goldborder);
+  padding: 5px 12px 5px 10px; border-radius: 100px;
 }
 .hero-eyebrow::before {
-  content: ''; width: 24px; height: 1px; background: var(--gold);
+  content: ''; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--gold); display: block;
+  animation: pulse 2s infinite;
 }
+@keyframes pulse { 0%,100%{ opacity:1; } 50%{ opacity:0.4; } }
+
 .hero h1 {
   font-size: clamp(40px, 5vw, 68px);
   font-weight: 900; line-height: 1.0;
-  letter-spacing: -0.035em; color: var(--white);
+  letter-spacing: -0.035em; color: var(--ink);
   margin-bottom: 28px;
 }
 .hero h1 .g {
@@ -152,7 +153,7 @@ section > * { position: relative; z-index: 1; }
 }
 .hero-bullets li {
   display: flex; align-items: flex-start; gap: 12px;
-  font-size: 15px; color: var(--white); font-weight: 500;
+  font-size: 15px; color: var(--ink); font-weight: 500;
 }
 .hero-bullets li::before {
   content: '✦'; color: var(--gold); font-size: 10px; flex-shrink: 0; margin-top: 4px;
@@ -160,91 +161,77 @@ section > * { position: relative; z-index: 1; }
 
 .btn-gold {
   display: inline-flex; align-items: center; gap: 10px;
-  background: var(--gold); color: var(--black);
+  background: var(--ink); color: #fff;
   font-size: 15px; font-weight: 800; padding: 16px 36px;
   border-radius: 100px; text-decoration: none; letter-spacing: 0.01em;
   transition: all 0.2s;
-  box-shadow: 0 0 40px rgba(200,169,90,0.3);
+  box-shadow: 0 4px 24px rgba(10,10,11,0.18);
 }
 .btn-gold:hover {
-  background: var(--gold3); transform: translateY(-2px);
-  box-shadow: 0 0 60px rgba(200,169,90,0.5);
+  background: var(--arc); transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(27,79,219,0.25);
 }
 .btn-ghost {
   display: inline-flex; align-items: center; gap: 8px;
-  font-size: 14px; font-weight: 600; color: var(--text-muted);
+  font-size: 14px; font-weight: 600; color: var(--muted);
   text-decoration: none; padding: 16px 0; margin-left: 28px;
   transition: color 0.2s;
 }
-.btn-ghost:hover { color: var(--white); }
+.btn-ghost:hover { color: var(--ink); }
 
 /* HERO IMAGE SIDE */
-.hero-img {
-  position: relative;
-}
+.hero-img { position: relative; }
 .hero-img-card {
-  background: var(--ink2);
-  border: 1px solid var(--border2);
+  background: var(--white);
+  border: 1px solid var(--border);
   border-radius: 20px; padding: 28px;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 40px 120px rgba(0,0,0,0.8), 0 0 0 1px rgba(200,169,90,0.08);
+  box-shadow: 0 20px 80px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.04);
 }
 .hero-img-card-top {
   display: flex; align-items: center; gap: 10px; margin-bottom: 20px;
 }
 .card-dots { display: flex; gap: 6px; }
 .card-dots span { width: 10px; height: 10px; border-radius: 50%; }
-.cd1 { background: #ff5f57; }
-.cd2 { background: #ffbd2e; }
-.cd3 { background: #28c840; }
+.cd1 { background: #ff5f57; } .cd2 { background: #ffbd2e; } .cd3 { background: #28c840; }
 .card-title { font-size: 12px; font-weight: 600; color: var(--muted); letter-spacing: 0.06em; }
 
 .iq-score-display {
-  background: var(--ink3); border-radius: 12px; padding: 20px 24px; margin-bottom: 16px;
-  border: 1px solid rgba(200,169,90,0.15);
+  background: var(--surface); border-radius: 12px; padding: 20px 24px; margin-bottom: 16px;
+  border: 1px solid var(--border);
   display: flex; align-items: center; justify-content: space-between;
 }
 .iq-score-num { font-size: 52px; font-weight: 900; letter-spacing: -0.04em; line-height: 1; }
 .iq-score-num span { background: var(--goldg); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 .iq-score-right { text-align: right; }
 .iq-score-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 6px; }
-.iq-score-badge { background: rgba(200,169,90,0.15); color: var(--gold2); font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 100px; }
+.iq-score-badge { background: var(--goldbg); color: var(--gold); font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 100px; border: 1px solid var(--goldborder); }
 
 .mini-feed { display: flex; flex-direction: column; gap: 8px; }
 .feed-item {
-  background: var(--ink3); border-radius: 8px; padding: 12px 14px;
+  background: var(--surface); border-radius: 8px; padding: 12px 14px;
   display: flex; align-items: center; gap: 10px;
-  font-size: 13px; color: var(--text);
-  border: 1px solid var(--border);
-  animation: slideIn 0.5s ease both;
-}
-.feed-item:nth-child(1) { animation-delay: 0.1s; }
-.feed-item:nth-child(2) { animation-delay: 0.3s; }
-.feed-item:nth-child(3) { animation-delay: 0.5s; }
-@keyframes slideIn {
-  from { opacity: 0; transform: translateX(12px); }
-  to   { opacity: 1; transform: translateX(0); }
+  font-size: 13px; color: var(--text); border: 1px solid var(--border);
 }
 .feed-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
-.fd-green { background: #2DD4A0; box-shadow: 0 0 6px #2DD4A0; }
-.fd-gold  { background: var(--gold); box-shadow: 0 0 6px var(--gold); }
-.fd-arc   { background: var(--arc); box-shadow: 0 0 6px var(--arc); }
+.fd-green { background: #1A9E5E; }
+.fd-gold  { background: var(--gold2); }
+.fd-arc   { background: var(--arc); }
 
 .social-proof-bar {
   display: flex; gap: 28px; flex-wrap: wrap; padding-top: 40px;
   border-top: 1px solid var(--border); margin-top: 40px;
 }
 .sp-item { font-size: 13px; color: var(--muted); }
-.sp-item strong { color: var(--white); display: block; font-size: 22px; font-weight: 900; letter-spacing: -0.02em; }
+.sp-item strong { color: var(--ink); display: block; font-size: 22px; font-weight: 900; letter-spacing: -0.02em; }
 
 /* ═══════════════════════════════════════
    SECTION — THE HARD TRUTH
 ═══════════════════════════════════════ */
 .hard-truth {
-  background: var(--ink);
+  background: var(--surface);
   padding: 120px 0;
+  border-bottom: 1px solid var(--border);
 }
-.hard-truth .glow-arc { width: 800px; height: 800px; top: -200px; right: -200px; opacity: 0.5; }
 
 .ht-eyebrow {
   display: inline-flex; align-items: center; gap: 8px;
@@ -254,10 +241,10 @@ section > * { position: relative; z-index: 1; }
 
 .ht-headline {
   font-size: clamp(32px, 4.5vw, 58px); font-weight: 900; line-height: 1.05;
-  letter-spacing: -0.03em; color: var(--white);
+  letter-spacing: -0.03em; color: var(--ink);
   margin-bottom: 24px; max-width: 800px;
 }
-.ht-headline .r { color: #E55A5A; }
+.ht-headline .r { color: var(--red); }
 
 .ht-sub {
   font-size: 19px; color: var(--text); line-height: 1.7;
@@ -265,51 +252,44 @@ section > * { position: relative; z-index: 1; }
 }
 
 .pain-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
   margin-bottom: 64px;
 }
 @media(max-width:700px){ .pain-grid { grid-template-columns: 1fr; } }
 
 .pain-card {
-  background: var(--ink2); padding: 36px 32px;
-  border: 1px solid var(--border); position: relative;
-  transition: border-color 0.3s;
+  background: var(--white); padding: 36px 32px;
+  border: 1px solid var(--border); border-radius: 16px;
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
-.pain-card:hover { border-color: rgba(229,90,90,0.3); }
-.pain-card:first-child { border-radius: 14px 0 0 14px; }
-.pain-card:last-child  { border-radius: 0 14px 14px 0; }
-@media(max-width:700px){
-  .pain-card:first-child { border-radius: 14px 14px 0 0; }
-  .pain-card:last-child  { border-radius: 0 0 14px 14px; }
-}
+.pain-card:hover { border-color: var(--border2); box-shadow: 0 8px 32px rgba(0,0,0,0.06); }
 
 .pain-num {
   font-size: 48px; font-weight: 900; letter-spacing: -0.03em;
-  color: #E55A5A; line-height: 1; margin-bottom: 12px;
-  font-variant-numeric: tabular-nums;
+  color: var(--red); line-height: 1; margin-bottom: 12px;
 }
-.pain-label { font-size: 16px; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+.pain-label { font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
 .pain-desc  { font-size: 14px; color: var(--muted); line-height: 1.6; }
 
 .ht-statement {
   max-width: 720px;
   font-size: clamp(20px, 2.8vw, 30px); font-weight: 700; line-height: 1.4;
-  color: var(--white); letter-spacing: -0.015em;
+  color: var(--ink); letter-spacing: -0.015em;
   border-left: 3px solid var(--gold);
   padding: 28px 36px;
-  background: rgba(200,169,90,0.05);
+  background: var(--goldbg);
   border-radius: 0 12px 12px 0;
 }
-.ht-statement em { color: var(--gold2); font-style: normal; }
+.ht-statement em { color: var(--gold); font-style: normal; }
 
 /* ═══════════════════════════════════════
    SECTION — THE SHIFT
 ═══════════════════════════════════════ */
 .the-shift {
-  background: var(--black);
+  background: var(--white);
   padding: 140px 0;
+  border-bottom: 1px solid var(--border);
 }
-.the-shift .glow-gold { width: 1000px; height: 600px; top: 50%; left: 50%; transform: translate(-50%,-50%); opacity: 0.5; }
 
 .shift-inner { text-align: center; max-width: 820px; margin: 0 auto; }
 .shift-kicker {
@@ -317,11 +297,11 @@ section > * { position: relative; z-index: 1; }
   color: var(--gold); margin-bottom: 24px;
   display: flex; align-items: center; justify-content: center; gap: 14px;
 }
-.shift-kicker::before, .shift-kicker::after { content: ''; flex: 1; max-width: 60px; height: 1px; background: rgba(200,169,90,0.3); }
+.shift-kicker::before, .shift-kicker::after { content: ''; flex: 1; max-width: 60px; height: 1px; background: var(--goldborder); }
 
 .shift-h {
   font-size: clamp(36px, 5vw, 72px); font-weight: 900; line-height: 1.0;
-  letter-spacing: -0.04em; color: var(--white); margin-bottom: 32px;
+  letter-spacing: -0.04em; color: var(--ink); margin-bottom: 32px;
 }
 .shift-h .big {
   display: block;
@@ -334,27 +314,21 @@ section > * { position: relative; z-index: 1; }
 
 .workforce-pill {
   display: inline-flex; align-items: center; gap: 12px;
-  background: var(--ink2); border: 1px solid rgba(200,169,90,0.25);
+  background: var(--goldbg); border: 1px solid var(--goldborder);
   padding: 10px 20px 10px 14px; border-radius: 100px; font-size: 14px;
-  color: var(--gold2); font-weight: 600;
-  box-shadow: 0 0 40px rgba(200,169,90,0.1);
+  color: var(--gold); font-weight: 700;
   margin-bottom: 72px;
 }
-.workforce-pill .dot { width: 8px; height: 8px; background: var(--gold); border-radius: 50%; box-shadow: 0 0 8px var(--gold); animation: pulse 2s infinite; }
-@keyframes pulse { 0%,100%{ box-shadow: 0 0 8px var(--gold); } 50%{ box-shadow: 0 0 18px var(--gold), 0 0 30px rgba(200,169,90,0.4); } }
+.workforce-pill .dot { width: 8px; height: 8px; background: var(--gold); border-radius: 50%; animation: pulse 2s infinite; }
 
 /* ═══════════════════════════════════════
    SECTION — WHAT IS AN AGENT
-   SECTION — AGENT TEAM
-   SECTION — THE WORKFORCE REVEAL
 ═══════════════════════════════════════ */
-
-/* ── WHAT IS AN AGENT ── */
 .agent-explainer {
-  background: var(--ink);
+  background: var(--surface);
   padding: 130px 0;
+  border-bottom: 1px solid var(--border);
 }
-.agent-explainer .glow-gold { width: 700px; height: 500px; top: -100px; right: -50px; opacity: 0.3; }
 
 .ae-inner {
   display: grid; grid-template-columns: 1fr 1fr;
@@ -367,58 +341,27 @@ section > * { position: relative; z-index: 1; }
   color: var(--arc2); margin-bottom: 20px; display: flex; align-items: center; gap: 8px;
 }
 .ae-kicker::before { content: ''; width: 20px; height: 1px; background: var(--arc2); }
-.ae-h { font-size: clamp(30px, 4vw, 50px); font-weight: 900; line-height: 1.08; letter-spacing: -0.03em; color: var(--white); margin-bottom: 24px; }
+.ae-h { font-size: clamp(30px, 4vw, 50px); font-weight: 900; line-height: 1.08; letter-spacing: -0.03em; color: var(--ink); margin-bottom: 24px; }
 .ae-p { font-size: 17px; color: var(--text); line-height: 1.8; margin-bottom: 22px; }
 .ae-p:last-child { margin-bottom: 0; }
 
-/* Agent anatomy card */
-.agent-anatomy {
-  background: var(--ink2); border: 1px solid var(--border2);
-  border-radius: 18px; padding: 32px; position: relative;
-  box-shadow: 0 30px 80px rgba(0,0,0,0.5);
-}
-.agent-anatomy::before {
-  content: 'ONE AGENT';
-  position: absolute; top: -11px; left: 24px;
-  font-size: 10px; font-weight: 800; letter-spacing: 0.14em;
-  color: var(--arc2); background: var(--ink2);
-  padding: 0 10px; border: 1px solid var(--border-arc, rgba(0,180,216,0.3));
-  border-radius: 100px;
-}
-.anatomy-head {
-  display: flex; align-items: center; gap: 14px; margin-bottom: 24px;
-  padding-bottom: 24px; border-bottom: 1px solid var(--border);
-}
-.anatomy-avatar {
-  width: 52px; height: 52px; border-radius: 12px;
-  background: linear-gradient(135deg, rgba(0,180,216,0.2), rgba(0,180,216,0.05));
-  border: 1px solid rgba(0,180,216,0.3);
-  display: flex; align-items: center; justify-content: center; font-size: 24px;
-  flex-shrink: 0;
-}
-.anatomy-id {}
-.anatomy-name { font-size: 16px; font-weight: 700; color: var(--white); margin-bottom: 3px; }
-.anatomy-role { font-size: 12px; color: var(--arc2); font-weight: 600; }
-
-.anatomy-rows { display: flex; flex-direction: column; gap: 14px; }
-.anatomy-row { display: flex; gap: 12px; align-items: flex-start; }
-.ar-label {
-  font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--muted); width: 80px; flex-shrink: 0; padding-top: 2px;
-}
-.ar-val { font-size: 14px; color: var(--text); line-height: 1.55; flex: 1; }
-.ar-tag {
-  display: inline-block; font-size: 11px; font-weight: 700;
-  background: rgba(0,180,216,0.12); color: var(--arc2);
-  padding: 2px 8px; border-radius: 100px; margin: 2px 2px 0 0;
+/* ── Agent radial diagram ── */
+.agent-diagram-wrap {
+  position: relative; display: flex; align-items: center; justify-content: center;
 }
 
-/* ── AGENT TEAM ── */
+.agent-diagram-wrap svg {
+  width: 100%; max-width: 440px; height: auto;
+  overflow: visible;
+  filter: drop-shadow(0 8px 40px rgba(0,0,0,0.07));
+}
+
+/* ─── AGENT TEAM ─── */
 .agent-team-section {
-  background: var(--black);
+  background: var(--white);
   padding: 130px 0;
+  border-bottom: 1px solid var(--border);
 }
-.agent-team-section .glow-arc { width: 800px; height: 600px; bottom: -100px; left: -100px; opacity: 0.3; }
 
 .ats-top { text-align: center; max-width: 700px; margin: 0 auto 72px; }
 .ats-kicker {
@@ -426,85 +369,32 @@ section > * { position: relative; z-index: 1; }
   color: var(--gold); margin-bottom: 20px;
   display: flex; align-items: center; justify-content: center; gap: 14px;
 }
-.ats-kicker::before, .ats-kicker::after { content: ''; flex: 1; max-width: 48px; height: 1px; background: rgba(200,169,90,0.3); }
-.ats-h { font-size: clamp(30px, 4vw, 52px); font-weight: 900; line-height: 1.08; letter-spacing: -0.03em; color: var(--white); margin-bottom: 20px; }
+.ats-kicker::before, .ats-kicker::after { content: ''; flex: 1; max-width: 48px; height: 1px; background: var(--goldborder); }
+.ats-h { font-size: clamp(30px, 4vw, 52px); font-weight: 900; line-height: 1.08; letter-spacing: -0.03em; color: var(--ink); margin-bottom: 20px; }
 .ats-h .g { background: var(--goldg); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 .ats-sub { font-size: 18px; color: var(--text); line-height: 1.7; }
 
-/* Content team diagram */
-.team-diagram {
-  max-width: 900px; margin: 0 auto;
-}
-.team-lead {
-  display: flex; justify-content: center; margin-bottom: 0;
-}
-.lead-card {
-  background: var(--ink2); border: 2px solid rgba(200,169,90,0.4);
-  border-radius: 16px; padding: 24px 32px; text-align: center; min-width: 260px;
-  position: relative;
-  box-shadow: 0 0 60px rgba(200,169,90,0.12);
-}
-.lead-card::after {
-  content: '';
-  position: absolute; bottom: -33px; left: 50%;
-  transform: translateX(-50%);
-  width: 2px; height: 33px;
-  background: linear-gradient(to bottom, rgba(200,169,90,0.5), transparent);
-}
-.lead-icon { font-size: 32px; margin-bottom: 10px; }
-.lead-name { font-size: 16px; font-weight: 800; color: var(--white); margin-bottom: 4px; }
-.lead-role { font-size: 12px; color: var(--gold); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+.team-diagram { max-width: 900px; margin: 0 auto; }
 
-.connector-bar {
-  display: flex; justify-content: center; margin: 0;
-  position: relative; height: 40px;
+/* Team SVG diagram */
+.team-svg-wrap {
+  display: flex; justify-content: center; margin-bottom: 48px;
 }
-.connector-bar::before {
-  content: '';
-  position: absolute; top: 0; left: 15%; right: 15%;
-  height: 1px; background: linear-gradient(90deg, transparent, rgba(200,169,90,0.3) 20%, rgba(200,169,90,0.3) 80%, transparent);
-  top: 50%;
-}
-/* Vertical lines from bar to sub-agents */
-.conn-lines {
-  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-  display: flex; justify-content: space-around; padding: 0 10%;
-}
-.conn-line {
-  width: 1px;
-  background: linear-gradient(to bottom, transparent, rgba(200,169,90,0.25));
-}
-
-.sub-agents {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
-}
-@media(max-width:700px){ .sub-agents { grid-template-columns: repeat(2,1fr); } }
-
-.sub-card {
-  background: var(--ink2); border: 1px solid var(--border);
-  border-radius: 12px; padding: 18px 16px; text-align: center;
-  transition: border-color 0.2s, transform 0.2s;
-}
-.sub-card:hover { border-color: rgba(200,169,90,0.25); transform: translateY(-3px); }
-.sub-icon { font-size: 22px; margin-bottom: 8px; }
-.sub-name { font-size: 13px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
-.sub-job  { font-size: 12px; color: var(--muted); line-height: 1.4; }
+.team-svg-wrap svg { width: 100%; max-width: 900px; height: auto; overflow: visible; }
 
 .team-result {
-  margin-top: 48px; text-align: center;
-  padding: 28px 32px;
-  background: rgba(200,169,90,0.05);
-  border: 1px solid rgba(200,169,90,0.2); border-radius: 14px;
-  font-size: 18px; font-weight: 700; color: var(--white); line-height: 1.5;
+  text-align: center; padding: 28px 32px;
+  background: var(--goldbg); border: 1px solid var(--goldborder); border-radius: 14px;
+  font-size: 18px; font-weight: 700; color: var(--ink); line-height: 1.5;
 }
-.team-result em { color: var(--gold2); font-style: normal; }
+.team-result em { color: var(--gold); font-style: normal; }
 
-/* ── WORKFORCE REVEAL ── */
+/* ─── WORKFORCE REVEAL ─── */
 .workforce-reveal {
-  background: var(--ink);
+  background: var(--surface);
   padding: 130px 0;
+  border-bottom: 1px solid var(--border);
 }
-.workforce-reveal .glow-gold { width: 1000px; height: 700px; top: 50%; left: 50%; transform: translate(-50%,-50%); opacity: 0.25; }
 
 .wr-inner { text-align: center; max-width: 820px; margin: 0 auto 72px; }
 .wr-kicker {
@@ -512,8 +402,8 @@ section > * { position: relative; z-index: 1; }
   color: var(--arc2); margin-bottom: 20px;
   display: flex; align-items: center; justify-content: center; gap: 14px;
 }
-.wr-kicker::before, .wr-kicker::after { content: ''; flex: 1; max-width: 48px; height: 1px; background: rgba(0,180,216,0.3); }
-.wr-h { font-size: clamp(32px, 4.5vw, 60px); font-weight: 900; line-height: 1.05; letter-spacing: -0.035em; color: var(--white); margin-bottom: 24px; }
+.wr-kicker::before, .wr-kicker::after { content: ''; flex: 1; max-width: 48px; height: 1px; background: var(--arcborder); }
+.wr-h { font-size: clamp(32px, 4.5vw, 60px); font-weight: 900; line-height: 1.05; letter-spacing: -0.035em; color: var(--ink); margin-bottom: 24px; }
 .wr-h .g { background: var(--goldg); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 .wr-sub { font-size: 19px; color: var(--text); line-height: 1.7; }
 
@@ -523,19 +413,26 @@ section > * { position: relative; z-index: 1; }
   gap: 20px; flex-wrap: wrap; margin: 56px 0;
 }
 .eq-block {
-  background: var(--ink2); border: 1px solid var(--border);
+  background: var(--white); border: 1px solid var(--border);
   border-radius: 14px; padding: 24px 28px; text-align: center; min-width: 160px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
 }
 .eq-block.highlight {
-  border-color: rgba(200,169,90,0.4); background: rgba(200,169,90,0.05);
-  box-shadow: 0 0 40px rgba(200,169,90,0.1);
+  border-color: var(--goldborder); background: var(--goldbg);
+  box-shadow: 0 4px 24px rgba(184,148,42,0.12);
 }
 .eq-icon { font-size: 30px; margin-bottom: 10px; }
-.eq-label { font-size: 13px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+.eq-label { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
 .eq-sub { font-size: 12px; color: var(--muted); }
-.eq-op { font-size: 32px; font-weight: 900; color: var(--muted); }
+.eq-op { font-size: 32px; font-weight: 900; color: var(--subtle); }
 .eq-result .eq-label { font-size: 18px; background: var(--goldg); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 .eq-result .eq-sub { color: var(--gold); }
+
+/* Workforce SVG diagram */
+.workforce-svg-wrap {
+  display: flex; justify-content: center; margin: 48px 0 32px;
+}
+.workforce-svg-wrap svg { width: 100%; max-width: 960px; height: auto; overflow: visible; }
 
 .wr-count {
   display: flex; align-items: center; justify-content: center; gap: 12px;
@@ -543,10 +440,11 @@ section > * { position: relative; z-index: 1; }
 }
 .wr-count strong { font-size: 48px; font-weight: 900; letter-spacing: -0.04em; background: var(--goldg); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-/* ── EXISTING WORKFORCE SECTION ── */
+/* ─── WORKFORCE SECTION ─── */
 .workforce-section {
-  background: var(--ink);
+  background: var(--white);
   padding: 120px 0;
+  border-bottom: 1px solid var(--border);
 }
 
 .wf-top {
@@ -561,49 +459,44 @@ section > * { position: relative; z-index: 1; }
 }
 .wf-eyebrow::before { content: ''; width: 20px; height: 1px; background: var(--arc2); }
 
-.wf-h { font-size: clamp(30px, 4vw, 50px); font-weight: 900; line-height: 1.05; letter-spacing: -0.03em; color: var(--white); margin-bottom: 24px; }
+.wf-h { font-size: clamp(30px, 4vw, 50px); font-weight: 900; line-height: 1.05; letter-spacing: -0.03em; color: var(--ink); margin-bottom: 24px; }
 .wf-p  { font-size: 17px; color: var(--text); line-height: 1.75; }
 
 .wf-right-quote {
-  font-size: 20px; font-weight: 700; line-height: 1.55; color: var(--white);
+  font-size: 20px; font-weight: 700; line-height: 1.55; color: var(--ink);
   letter-spacing: -0.01em;
   padding: 32px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
 }
-.wf-right-quote em { color: var(--gold2); font-style: normal; }
+.wf-right-quote em { color: var(--gold); font-style: normal; }
 
-/* AGENT CARDS */
+/* AGENT TILES */
 .agent-row {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px;
-  margin-bottom: 2px;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+  margin-bottom: 12px;
 }
 @media(max-width:900px){ .agent-row { grid-template-columns: repeat(2, 1fr); } }
 @media(max-width:500px){ .agent-row { grid-template-columns: 1fr; } }
 
 .agent-tile {
-  background: var(--ink2); padding: 28px 26px;
-  border: 1px solid var(--border);
-  transition: border-color 0.25s, background 0.25s;
-  cursor: default;
+  background: var(--white); padding: 28px 24px;
+  border: 1px solid var(--border); border-radius: 14px;
+  transition: border-color 0.25s, box-shadow 0.25s;
 }
-.agent-tile:hover { background: var(--ink3); border-color: rgba(200,169,90,0.2); }
-.agent-tile:first-child { border-radius: 14px 0 0 0; }
-.agent-tile.r2first { border-radius: 0 0 0 14px; }
-.agent-tile.r1last  { border-radius: 0 14px 0 0; }
-.agent-tile.r2last  { border-radius: 0 0 14px 0; }
+.agent-tile:hover { border-color: var(--goldborder); box-shadow: 0 4px 20px rgba(184,148,42,0.08); }
 
 .at-icon { font-size: 28px; margin-bottom: 14px; }
-.at-name { font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 6px; }
+.at-name { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
 .at-desc { font-size: 13px; color: var(--muted); line-height: 1.55; }
-.at-tag  { display: inline-block; margin-top: 10px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); background: rgba(200,169,90,0.1); padding: 3px 10px; border-radius: 100px; }
+.at-tag  { display: inline-block; margin-top: 10px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); background: var(--goldbg); padding: 3px 10px; border-radius: 100px; border: 1px solid var(--goldborder); }
 
 /* ═══════════════════════════════════════
-   SECTION — MONDAY MORNING (VISUAL DEMO)
+   SECTION — MONDAY MORNING
 ═══════════════════════════════════════ */
 .monday {
-  background: var(--black);
+  background: var(--surface);
   padding: 120px 0;
+  border-bottom: 1px solid var(--border);
 }
-.monday .glow-arc { width: 700px; height: 700px; top: -100px; right: -100px; opacity: 0.4; }
 
 .mon-inner {
   display: grid; grid-template-columns: 1fr 1fr;
@@ -611,30 +504,28 @@ section > * { position: relative; z-index: 1; }
 }
 @media(max-width:900px){ .mon-inner { grid-template-columns: 1fr; } }
 
-.mon-text {}
 .mon-kicker {
   font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
   color: var(--gold); margin-bottom: 20px; display: flex; align-items: center; gap: 8px;
 }
 .mon-kicker::before { content: ''; width: 20px; height: 1px; background: var(--gold); }
-.mon-h { font-size: clamp(28px, 3.5vw, 46px); font-weight: 900; line-height: 1.1; letter-spacing: -0.025em; color: var(--white); margin-bottom: 24px; }
-.mon-p { font-size: 17px; color: var(--text); line-height: 1.75; margin-bottom: 0; }
+.mon-h { font-size: clamp(28px, 3.5vw, 46px); font-weight: 900; line-height: 1.1; letter-spacing: -0.025em; color: var(--ink); margin-bottom: 24px; }
+.mon-p { font-size: 17px; color: var(--text); line-height: 1.75; }
 
 /* IQ BRIEF UI MOCKUP */
 .iq-brief {
-  background: var(--ink2);
-  border: 1px solid rgba(200,169,90,0.2);
-  border-radius: 18px; overflow: hidden;
-  box-shadow: 0 40px 100px rgba(0,0,0,0.7), 0 0 0 1px rgba(200,169,90,0.06);
+  background: var(--white);
+  border: 1px solid var(--border); border-radius: 18px; overflow: hidden;
+  box-shadow: 0 20px 80px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.04);
 }
 .brief-header {
-  background: var(--ink3); padding: 14px 20px;
+  background: var(--surface); padding: 14px 20px;
   display: flex; align-items: center; justify-content: space-between;
   border-bottom: 1px solid var(--border);
 }
-.brief-title { font-size: 12px; font-weight: 700; color: var(--white); letter-spacing: 0.04em; }
+.brief-title { font-size: 12px; font-weight: 700; color: var(--ink); letter-spacing: 0.04em; }
 .brief-time  { font-size: 11px; color: var(--muted); }
-.brief-score { font-size: 11px; font-weight: 700; color: var(--gold); background: rgba(200,169,90,0.12); padding: 3px 10px; border-radius: 100px; }
+.brief-score { font-size: 11px; font-weight: 700; color: var(--gold); background: var(--goldbg); padding: 3px 10px; border-radius: 100px; border: 1px solid var(--goldborder); }
 
 .brief-body { padding: 0; }
 .brief-item {
@@ -644,18 +535,17 @@ section > * { position: relative; z-index: 1; }
 .brief-item:last-child { border-bottom: none; }
 .bi-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
 .bi-text { font-size: 13px; color: var(--text); line-height: 1.55; flex: 1; }
-.bi-text strong { color: var(--white); font-size: 12px; display: block; margin-bottom: 3px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
-.bi-cta { font-size: 11px; font-weight: 700; color: var(--arc2); flex-shrink: 0; margin-top: 2px; cursor: pointer; }
+.bi-text strong { color: var(--ink); font-size: 12px; display: block; margin-bottom: 3px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+.bi-cta { font-size: 11px; font-weight: 700; color: var(--arc); flex-shrink: 0; margin-top: 2px; cursor: pointer; }
 
 /* ═══════════════════════════════════════
    SECTION — HEALTH 3.0
 ═══════════════════════════════════════ */
 .h3zero {
-  background: var(--ink);
+  background: var(--white);
   padding: 140px 0;
-  overflow: hidden;
+  border-bottom: 1px solid var(--border);
 }
-.h3zero .glow-gold { width: 1200px; height: 800px; top: 50%; left: 50%; transform: translate(-50%,-50%); opacity: 0.35; }
 
 .h3-inner { text-align: center; max-width: 880px; margin: 0 auto 80px; }
 .h3-kicker {
@@ -663,11 +553,11 @@ section > * { position: relative; z-index: 1; }
   color: var(--gold); margin-bottom: 24px;
   display: flex; align-items: center; justify-content: center; gap: 14px;
 }
-.h3-kicker::before, .h3-kicker::after { content: ''; flex: 1; max-width: 48px; height: 1px; background: rgba(200,169,90,0.3); }
+.h3-kicker::before, .h3-kicker::after { content: ''; flex: 1; max-width: 48px; height: 1px; background: var(--goldborder); }
 
 .h3-h {
   font-size: clamp(36px, 5vw, 70px); font-weight: 900; line-height: 1.0;
-  letter-spacing: -0.04em; color: var(--white); margin-bottom: 24px;
+  letter-spacing: -0.04em; color: var(--ink); margin-bottom: 24px;
 }
 .h3-h .g { background: var(--goldg); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
@@ -675,50 +565,47 @@ section > * { position: relative; z-index: 1; }
 
 /* EVOLUTION TRACK */
 .evolution {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
   position: relative; margin-bottom: 80px;
 }
 @media(max-width:700px){ .evolution { grid-template-columns: 1fr; } }
 
 .evo-card {
-  background: var(--ink2); padding: 40px 32px;
-  border: 1px solid var(--border);
-  position: relative; transition: border-color 0.3s;
+  background: var(--surface); padding: 40px 32px;
+  border: 1px solid var(--border); border-radius: 16px;
+  position: relative; transition: border-color 0.3s, box-shadow 0.3s;
 }
-.evo-card:first-child { border-radius: 14px 0 0 14px; }
-.evo-card:last-child  { border-radius: 0 14px 14px 0; }
-.evo-card.active { border-color: rgba(200,169,90,0.4); background: rgba(200,169,90,0.04); }
+.evo-card:hover { border-color: var(--border2); box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+.evo-card.active { border-color: var(--goldborder); background: var(--goldbg); box-shadow: 0 4px 32px rgba(184,148,42,0.1); }
 .evo-card.active::after {
   content: '← YOU ARE HERE';
   position: absolute; bottom: 16px; right: 16px;
   font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
-  color: var(--gold); opacity: 0.8;
-}
-@media(max-width:700px){
-  .evo-card:first-child { border-radius: 14px 14px 0 0; }
-  .evo-card:last-child  { border-radius: 0 0 14px 14px; }
-  .evo-card.active::after { bottom: 12px; right: 12px; }
+  color: var(--gold); opacity: 0.9;
 }
 
 .evo-era  { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
-.evo-name { font-size: 22px; font-weight: 800; color: var(--white); margin-bottom: 14px; letter-spacing: -0.01em; }
+.evo-name { font-size: 22px; font-weight: 800; color: var(--ink); margin-bottom: 14px; letter-spacing: -0.01em; }
 .evo-card.active .evo-name { background: var(--goldg); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 .evo-copy { font-size: 14px; color: var(--muted); line-height: 1.65; }
 .evo-card.active .evo-copy { color: var(--text); }
 
 .h3-manifesto {
   max-width: 700px; margin: 0 auto; text-align: center;
-  font-size: clamp(18px, 2.5vw, 24px); font-weight: 700; color: var(--white);
+  font-size: clamp(18px, 2.5vw, 24px); font-weight: 700; color: var(--ink);
   line-height: 1.55; letter-spacing: -0.01em;
+  padding: 36px 40px;
+  background: var(--goldbg); border: 1px solid var(--goldborder); border-radius: 16px;
 }
 .h3-manifesto .g { background: var(--goldg); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
 /* ═══════════════════════════════════════
-   SECTION — PROOF / WHO'S BEHIND IT
+   SECTION — PROOF
 ═══════════════════════════════════════ */
 .proof-section {
-  background: var(--black);
+  background: var(--surface);
   padding: 120px 0;
+  border-bottom: 1px solid var(--border);
 }
 .proof-inner {
   display: grid; grid-template-columns: 1fr 1fr;
@@ -726,23 +613,21 @@ section > * { position: relative; z-index: 1; }
 }
 @media(max-width:900px){ .proof-inner { grid-template-columns: 1fr; } }
 
-.proof-text {}
 .proof-kicker { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--arc2); margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
 .proof-kicker::before { content: ''; width: 20px; height: 1px; background: var(--arc2); }
-.proof-h { font-size: clamp(28px, 3.5vw, 46px); font-weight: 900; line-height: 1.1; letter-spacing: -0.025em; color: var(--white); margin-bottom: 24px; }
-.proof-p { font-size: 16px; color: var(--text); line-height: 1.75; margin-bottom: 0; }
+.proof-h { font-size: clamp(28px, 3.5vw, 46px); font-weight: 900; line-height: 1.1; letter-spacing: -0.025em; color: var(--ink); margin-bottom: 24px; }
+.proof-p { font-size: 16px; color: var(--text); line-height: 1.75; }
 
 .proof-cards { display: flex; flex-direction: column; gap: 12px; }
 .proof-card {
-  background: var(--ink2); border: 1px solid var(--border);
+  background: var(--white); border: 1px solid var(--border);
   border-radius: 12px; padding: 20px 24px;
   display: flex; gap: 16px; align-items: flex-start;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
-.proof-card:hover { border-color: rgba(200,169,90,0.2); }
-.pc-num { font-size: 32px; font-weight: 900; letter-spacing: -0.03em; color: var(--gold2); line-height: 1; flex-shrink: 0; width: 90px; }
-.pc-text {}
-.pc-name { font-size: 15px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+.proof-card:hover { border-color: var(--goldborder); box-shadow: 0 4px 16px rgba(184,148,42,0.06); }
+.pc-num { font-size: 32px; font-weight: 900; letter-spacing: -0.03em; color: var(--gold); line-height: 1; flex-shrink: 0; width: 90px; }
+.pc-name { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
 .pc-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
 
 /* ═══════════════════════════════════════
@@ -753,42 +638,52 @@ section > * { position: relative; z-index: 1; }
   padding: 160px 0;
   text-align: center;
 }
-.final .glow-gold { width: 1000px; height: 600px; top: 50%; left: 50%; transform: translate(-50%,-50%); opacity: 0.4; }
 
 .final-inner { max-width: 760px; margin: 0 auto; }
 .final-kicker {
   font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
-  color: var(--gold); margin-bottom: 28px;
+  color: var(--gold2); margin-bottom: 28px;
   display: flex; align-items: center; justify-content: center; gap: 14px;
 }
-.final-kicker::before, .final-kicker::after { content: ''; flex: 1; max-width: 48px; height: 1px; background: rgba(200,169,90,0.3); }
+.final-kicker::before, .final-kicker::after { content: ''; flex: 1; max-width: 48px; height: 1px; background: rgba(200,169,90,0.25); }
 
 .final-h {
   font-size: clamp(36px, 5vw, 68px); font-weight: 900; line-height: 1.02;
-  letter-spacing: -0.035em; color: var(--white); margin-bottom: 24px;
+  letter-spacing: -0.035em; color: #fff; margin-bottom: 24px;
 }
 .final-h .g { background: var(--goldg); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-.final-sub { font-size: 18px; color: var(--text); line-height: 1.7; margin-bottom: 52px; }
+.final-sub { font-size: 18px; color: rgba(255,255,255,0.65); line-height: 1.7; margin-bottom: 52px; }
 
 .btn-group { display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; }
-.final-micro { font-size: 13px; color: var(--muted); margin-top: 20px; }
+.btn-final {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--gold3); color: var(--ink);
+  font-size: 17px; font-weight: 900; padding: 20px 48px;
+  border-radius: 100px; text-decoration: none; letter-spacing: 0.01em;
+  transition: all 0.2s; box-shadow: 0 0 40px rgba(240,192,64,0.25);
+}
+.btn-final:hover { background: #fff; transform: translateY(-2px); box-shadow: 0 8px 40px rgba(255,255,255,0.2); }
+
+.final-micro { font-size: 13px; color: rgba(255,255,255,0.35); margin-top: 20px; }
 
 /* ─── FOOTER ─── */
 footer {
-  background: var(--black); border-top: 1px solid var(--border);
-  padding: 36px 0; text-align: center; font-size: 13px; color: var(--muted);
+  background: var(--ink2); border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 36px 0; text-align: center; font-size: 13px; color: rgba(255,255,255,0.3);
 }
-.footer-logo { font-size: 17px; font-weight: 900; letter-spacing: -0.02em; color: var(--white); margin-bottom: 10px; }
+.footer-logo { font-size: 17px; font-weight: 900; letter-spacing: -0.02em; color: rgba(255,255,255,0.7); margin-bottom: 10px; }
 .footer-logo span { background: var(--goldg); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
 /* ─── MOBILE ─── */
 @media(max-width:640px){
-  .w, .wn { padding: 0 20px; }
   nav { padding: 0 20px; }
   .nav-tag { display: none; }
   .pain-num { font-size: 36px; }
   .final { padding: 100px 0; }
+  .workforce-eq { gap: 8px; }
+  .eq-block { min-width: 120px; padding: 16px 14px; }
+  .eq-op { font-size: 22px; }
 }
 </style>
 </head>
@@ -798,7 +693,7 @@ footer {
 <nav>
   <div class="logo">Clinic<span>IQ</span></div>
   <div style="display:flex;align-items:center;gap:20px;">
-    <span style="font-size:12px;color:var(--muted);font-weight:500;">The AI Workforce for Health & Wellness Experts</span>
+    <span class="nav-tag">The AI Workforce for Health &amp; Wellness Experts</span>
     <a href="#final" class="nav-pill">Get Started →</a>
   </div>
 </nav>
@@ -806,12 +701,8 @@ footer {
 
 <!-- ═══════════════════════════════════════════════════════
      HERO
-     Job: Stop them cold. The pain is in the headline.
-     The image is the proof it's real. Short. Arresting.
 ═══════════════════════════════════════════════════════ -->
-<section class="hero grid-bg">
-  <div class="glow-gold"></div>
-  <div class="glow-arc"></div>
+<section class="hero">
   <div class="w">
     <div class="hero-inner">
 
@@ -839,7 +730,7 @@ footer {
         <div class="social-proof-bar">
           <div class="sp-item"><strong>$120M+</strong>built on this system</div>
           <div class="sp-item"><strong>183</strong>specialized agents</div>
-          <div class="sp-item"><strong>8 hats</strong>off your plate day one</div>
+          <div class="sp-item"><strong>Every hat</strong>handled from day one</div>
         </div>
       </div>
 
@@ -854,7 +745,7 @@ footer {
             <div>
               <div style="font-size:11px;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.1em;">Your IQ Score</div>
               <div class="iq-score-num"><span>84</span></div>
-              <div style="font-size:12px;color:#2DD4A0;margin-top:6px;font-weight:700;">▲ +7 this week</div>
+              <div style="font-size:12px;color:var(--green);margin-top:6px;font-weight:700;">▲ +7 this week</div>
             </div>
             <div class="iq-score-right">
               <div class="iq-score-label">Niche Rank</div>
@@ -886,11 +777,8 @@ footer {
 
 <!-- ═══════════════════════════════════════════════════════
      THE HARD TRUTH
-     Job: Make them confront the cost of inaction.
-     Three numbers. One statement. Can't hide from it.
 ═══════════════════════════════════════════════════════ -->
 <section class="hard-truth" id="the-pain">
-  <div class="glow-arc"></div>
   <div class="w">
     <div class="ht-eyebrow">⚡ The Cost of Running It Alone</div>
     <h2 class="ht-headline">
@@ -914,9 +802,9 @@ footer {
         <div class="pain-desc">Content. Emails. Analytics. Tech. Ad management. None of it is what you trained a decade to do — and all of it is stealing time from the patients and clients who need you.</div>
       </div>
       <div class="pain-card">
-        <div class="pain-num">8</div>
-        <div class="pain-label">Full-time roles you're filling</div>
-        <div class="pain-desc">Marketer. Analyst. Email strategist. Program builder. Podcast producer. Tech operator. Strategist. Patient experience director. Any serious company has a department for each. You have yourself.</div>
+        <div class="pain-num">All<br>of it</div>
+        <div class="pain-label">Every role you never had time to fill</div>
+        <div class="pain-desc">Marketer. Analyst. Email strategist. Program builder. Podcast producer. Tech operator. Sales closer. Patient experience director. Community manager. Content director. Every serious company has a department for each. You've been trying to do all of it — alone — while also being the clinician.</div>
       </div>
     </div>
 
@@ -929,11 +817,8 @@ footer {
 
 <!-- ═══════════════════════════════════════════════════════
      THE SHIFT
-     Job: The new vehicle reveal. Short. Powerful.
-     "AI Workforce" lands as a category, not a feature.
 ═══════════════════════════════════════════════════════ -->
-<section class="the-shift grid-bg">
-  <div class="glow-gold"></div>
+<section class="the-shift">
   <div class="wn">
     <div class="shift-inner">
       <div class="shift-kicker">The New Category</div>
@@ -954,13 +839,10 @@ footer {
 
 
 <!-- ═══════════════════════════════════════════════════════
-     SECTION 1 OF 3 — WHAT IS AN AGENT?
-     Job: Zero to one. Make AI agents feel like something
-     they already understand — a specialist with one job.
-     Left = copy. Right = anatomy card (visual, specific).
+     SECTION 1 — WHAT IS AN AGENT?
+     Visual: Radial diagram — agent in center, attributes branching out
 ═══════════════════════════════════════════════════════ -->
-<section class="agent-explainer">
-  <div class="glow-gold"></div>
+<section class="agent-explainer" id="how-it-works">
   <div class="w">
     <div class="ae-inner">
 
@@ -972,39 +854,70 @@ footer {
         <p class="ae-p">A Content Hook Agent knows every hook structure that has stopped the scroll for your specific audience. That's all it knows. That's all it does. And because that's its entire world, <strong>it does it better than any human generalist ever could.</strong></p>
       </div>
 
-      <div>
-        <div class="agent-anatomy">
-          <div class="anatomy-head">
-            <div class="anatomy-avatar">✍️</div>
-            <div class="anatomy-id">
-              <div class="anatomy-name">Content Hook Agent</div>
-              <div class="anatomy-role">Specialist · Attention Layer</div>
-            </div>
-          </div>
-          <div class="anatomy-rows">
-            <div class="anatomy-row">
-              <div class="ar-label">One Job</div>
-              <div class="ar-val">Write hooks that stop the scroll and pull your ideal client into your content</div>
-            </div>
-            <div class="anatomy-row">
-              <div class="ar-label">Knows</div>
-              <div class="ar-val">
-                <span class="ar-tag">Your voice</span>
-                <span class="ar-tag">Your avatar</span>
-                <span class="ar-tag">Your niche's top hooks</span>
-                <span class="ar-tag">5 levels of awareness</span>
-              </div>
-            </div>
-            <div class="anatomy-row">
-              <div class="ar-label">Runs</div>
-              <div class="ar-val">Every time new content is being built — automatically</div>
-            </div>
-            <div class="anatomy-row">
-              <div class="ar-label">Output</div>
-              <div class="ar-val">3–5 tested hook variations ranked by predicted performance for your audience</div>
-            </div>
-          </div>
-        </div>
+      <!-- AGENT RADIAL DIAGRAM -->
+      <div class="agent-diagram-wrap">
+        <svg viewBox="0 0 440 440" xmlns="http://www.w3.org/2000/svg" aria-label="Agent anatomy diagram">
+          <defs>
+            <radialGradient id="agCenterGrad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#EAF0FF"/>
+              <stop offset="100%" stop-color="#C8D8FF"/>
+            </radialGradient>
+            <filter id="agShadow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="rgba(27,79,219,0.12)"/>
+            </filter>
+          </defs>
+
+          <!-- Spoke lines -->
+          <line x1="220" y1="220" x2="220" y2="60"  stroke="#D1D1D6" stroke-width="1.5" stroke-dasharray="4 4"/>
+          <line x1="220" y1="220" x2="390" y2="155" stroke="#D1D1D6" stroke-width="1.5" stroke-dasharray="4 4"/>
+          <line x1="220" y1="220" x2="360" y2="340" stroke="#D1D1D6" stroke-width="1.5" stroke-dasharray="4 4"/>
+          <line x1="220" y1="220" x2="80"  y2="340" stroke="#D1D1D6" stroke-width="1.5" stroke-dasharray="4 4"/>
+          <line x1="220" y1="220" x2="50"  y2="155" stroke="#D1D1D6" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+          <!-- Center node -->
+          <circle cx="220" cy="220" r="64" fill="url(#agCenterGrad)" stroke="#2B5CE6" stroke-width="2" filter="url(#agShadow)"/>
+          <text x="220" y="207" text-anchor="middle" font-family="Inter,sans-serif" font-size="26" fill="#1B4FDB">✍️</text>
+          <text x="220" y="228" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="700" fill="#1B4FDB" letter-spacing="0.5">CONTENT HOOK</text>
+          <text x="220" y="243" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="700" fill="#1B4FDB" letter-spacing="0.5">AGENT</text>
+
+          <!-- Dot connectors -->
+          <circle cx="220" cy="60"  r="5" fill="#2B5CE6"/>
+          <circle cx="390" cy="155" r="5" fill="#2B5CE6"/>
+          <circle cx="360" cy="340" r="5" fill="#2B5CE6"/>
+          <circle cx="80"  cy="340" r="5" fill="#2B5CE6"/>
+          <circle cx="50"  cy="155" r="5" fill="#2B5CE6"/>
+
+          <!-- Attribute bubbles -->
+          <!-- Top: One Job -->
+          <rect x="135" y="20" width="170" height="48" rx="10" fill="#FAFAFA" stroke="#D1D1D6" stroke-width="1"/>
+          <text x="220" y="39" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="#1B4FDB" letter-spacing="0.8">ONE JOB</text>
+          <text x="220" y="56" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#3A3A3C">Write hooks that stop the scroll</text>
+
+          <!-- Right: Knows -->
+          <rect x="300" y="120" width="150" height="72" rx="10" fill="#FAFAFA" stroke="#D1D1D6" stroke-width="1"/>
+          <text x="375" y="138" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="#1B4FDB" letter-spacing="0.8">KNOWS</text>
+          <text x="375" y="155" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#3A3A3C">Your voice &amp; avatar</text>
+          <text x="375" y="170" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#3A3A3C">Top hooks in your niche</text>
+          <text x="375" y="185" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#3A3A3C">5 Levels of Awareness</text>
+
+          <!-- Bottom-right: Output -->
+          <rect x="270" y="312" width="160" height="60" rx="10" fill="#FFFBF0" stroke="#E8C940" stroke-width="1"/>
+          <text x="350" y="331" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="#B8942A" letter-spacing="0.8">OUTPUT</text>
+          <text x="350" y="348" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#3A3A3C">3–5 ranked hook</text>
+          <text x="350" y="363" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#3A3A3C">variations, auto-scored</text>
+
+          <!-- Bottom-left: Runs -->
+          <rect x="8" y="312" width="150" height="48" rx="10" fill="#FAFAFA" stroke="#D1D1D6" stroke-width="1"/>
+          <text x="83" y="331" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="#1B4FDB" letter-spacing="0.8">RUNS</text>
+          <text x="83" y="348" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#3A3A3C">Every build cycle, auto</text>
+
+          <!-- Left: Tech Stack -->
+          <rect x="-10" y="120" width="155" height="72" rx="10" fill="#FAFAFA" stroke="#D1D1D6" stroke-width="1"/>
+          <text x="67" y="138" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="#1B4FDB" letter-spacing="0.8">TECH LAYER</text>
+          <text x="67" y="155" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#3A3A3C">LLM + Knowledge Base</text>
+          <text x="67" y="170" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#3A3A3C">Retrieval (RAG)</text>
+          <text x="67" y="185" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#3A3A3C">Workflow Orchestration</text>
+        </svg>
       </div>
 
     </div>
@@ -1013,62 +926,88 @@ footer {
 
 
 <!-- ═══════════════════════════════════════════════════════
-     SECTION 2 OF 3 — AGENT TEAMS
-     Job: The compound effect. One agent is powerful.
-     A coordinated team is exponential.
-     Show a real team diagram — the Content Team as the example.
+     SECTION 2 — AGENT TEAMS
+     Visual: Hierarchical diagram with lead → sub-agents + result
 ═══════════════════════════════════════════════════════ -->
 <section class="agent-team-section">
-  <div class="glow-arc"></div>
   <div class="w">
     <div class="ats-top">
       <div class="ats-kicker">Step 2 — Now Multiply It</div>
       <h2 class="ats-h">One agent is powerful.<br><span class="g">A team of agents is unstoppable.</span></h2>
-      <p class="ats-sub">Now take that specialist and give them a team. A Lead Agent runs the operation — strategy, coordination, quality control. Under it: a crew of sub-agents, each owning one slice of the work. Together they execute something no single person could do alone.</p>
+      <p class="ats-sub">Take that specialist and give them a team. A Lead Agent runs the operation — strategy, coordination, quality control. Under it: sub-agents, each owning one slice of the work. Together they execute something no single person could sustain.</p>
     </div>
 
     <div class="team-diagram">
-      <!-- LEAD AGENT -->
-      <div class="team-lead">
-        <div class="lead-card">
-          <div class="lead-icon">🎯</div>
-          <div class="lead-name">Content Lead Agent</div>
-          <div class="lead-role">Runs the content operation</div>
-        </div>
-      </div>
+      <!-- TEAM SVG DIAGRAM -->
+      <div class="team-svg-wrap">
+        <svg viewBox="0 0 900 340" xmlns="http://www.w3.org/2000/svg" aria-label="Agent team diagram">
+          <defs>
+            <linearGradient id="leadGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#FFF8E8"/>
+              <stop offset="100%" stop-color="#FFF0CC"/>
+            </linearGradient>
+            <filter id="leadShadow" x="-15%" y="-15%" width="130%" height="130%">
+              <feDropShadow dx="0" dy="4" stdDeviation="10" flood-color="rgba(184,148,42,0.18)"/>
+            </filter>
+            <filter id="subShadow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="2" stdDeviation="6" flood-color="rgba(0,0,0,0.06)"/>
+            </filter>
+          </defs>
 
-      <!-- CONNECTOR -->
-      <div class="connector-bar">
-        <div class="conn-lines">
-          <div class="conn-line"></div>
-          <div class="conn-line"></div>
-          <div class="conn-line"></div>
-          <div class="conn-line"></div>
-        </div>
-      </div>
+          <!-- Connector lines from lead to sub-agents -->
+          <!-- Vertical drop from lead center bottom -->
+          <line x1="450" y1="112" x2="450" y2="160" stroke="#E5E5E7" stroke-width="2"/>
+          <!-- Horizontal bar -->
+          <line x1="110" y1="160" x2="790" y2="160" stroke="#E5E5E7" stroke-width="2"/>
+          <!-- Verticals down to each sub-agent -->
+          <line x1="110" y1="160" x2="110" y2="196" stroke="#E5E5E7" stroke-width="2"/>
+          <line x1="337" y1="160" x2="337" y2="196" stroke="#E5E5E7" stroke-width="2"/>
+          <line x1="563" y1="160" x2="563" y2="196" stroke="#E5E5E7" stroke-width="2"/>
+          <line x1="790" y1="160" x2="790" y2="196" stroke="#E5E5E7" stroke-width="2"/>
 
-      <!-- SUB-AGENTS -->
-      <div class="sub-agents">
-        <div class="sub-card">
-          <div class="sub-icon">✍️</div>
-          <div class="sub-name">Hook Agent</div>
-          <div class="sub-job">Writes the opening line that stops the scroll</div>
-        </div>
-        <div class="sub-card">
-          <div class="sub-icon">📖</div>
-          <div class="sub-name">Story Agent</div>
-          <div class="sub-job">Builds the narrative arc that creates belief shifts</div>
-        </div>
-        <div class="sub-card">
-          <div class="sub-icon">📅</div>
-          <div class="sub-name">Calendar Agent</div>
-          <div class="sub-job">Plans the full publishing schedule across every platform</div>
-        </div>
-        <div class="sub-card">
-          <div class="sub-icon">♻️</div>
-          <div class="sub-name">Repurpose Agent</div>
-          <div class="sub-job">Turns one piece of content into 8 platform-specific formats</div>
-        </div>
+          <!-- LEAD AGENT BOX -->
+          <rect x="310" y="16" width="280" height="96" rx="14" fill="url(#leadGrad)" stroke="#D4A936" stroke-width="1.5" filter="url(#leadShadow)"/>
+          <text x="450" y="48" text-anchor="middle" font-family="Inter,sans-serif" font-size="22">🎯</text>
+          <text x="450" y="73" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="800" fill="#0A0A0B">Content Lead Agent</text>
+          <text x="450" y="92" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#B8942A" letter-spacing="0.6">RUNS THE CONTENT OPERATION</text>
+
+          <!-- SUB-AGENT BOXES -->
+          <!-- Hook Agent -->
+          <rect x="20" y="196" width="180" height="118" rx="12" fill="#FAFAFA" stroke="#E5E5E7" stroke-width="1" filter="url(#subShadow)"/>
+          <text x="110" y="225" text-anchor="middle" font-family="Inter,sans-serif" font-size="20">✍️</text>
+          <text x="110" y="247" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="#0A0A0B">Hook Agent</text>
+          <text x="110" y="265" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#8E8E93">Writes the opening line</text>
+          <text x="110" y="280" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#8E8E93">that stops the scroll</text>
+          <rect x="52" y="295" width="116" height="16" rx="8" fill="#EAF0FF"/>
+          <text x="110" y="307" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="#2B5CE6">Attention Layer</text>
+
+          <!-- Story Agent -->
+          <rect x="247" y="196" width="180" height="118" rx="12" fill="#FAFAFA" stroke="#E5E5E7" stroke-width="1" filter="url(#subShadow)"/>
+          <text x="337" y="225" text-anchor="middle" font-family="Inter,sans-serif" font-size="20">📖</text>
+          <text x="337" y="247" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="#0A0A0B">Story Agent</text>
+          <text x="337" y="265" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#8E8E93">Builds narrative arcs</text>
+          <text x="337" y="280" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#8E8E93">that create belief shifts</text>
+          <rect x="279" y="295" width="116" height="16" rx="8" fill="#EAF0FF"/>
+          <text x="337" y="307" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="#2B5CE6">Belief Layer</text>
+
+          <!-- Calendar Agent -->
+          <rect x="473" y="196" width="180" height="118" rx="12" fill="#FAFAFA" stroke="#E5E5E7" stroke-width="1" filter="url(#subShadow)"/>
+          <text x="563" y="225" text-anchor="middle" font-family="Inter,sans-serif" font-size="20">📅</text>
+          <text x="563" y="247" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="#0A0A0B">Calendar Agent</text>
+          <text x="563" y="265" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#8E8E93">Full publishing schedule</text>
+          <text x="563" y="280" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#8E8E93">across every platform</text>
+          <rect x="505" y="295" width="116" height="16" rx="8" fill="#EAF0FF"/>
+          <text x="563" y="307" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="#2B5CE6">Schedule Layer</text>
+
+          <!-- Repurpose Agent -->
+          <rect x="700" y="196" width="180" height="118" rx="12" fill="#FAFAFA" stroke="#E5E5E7" stroke-width="1" filter="url(#subShadow)"/>
+          <text x="790" y="225" text-anchor="middle" font-family="Inter,sans-serif" font-size="20">♻️</text>
+          <text x="790" y="247" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="#0A0A0B">Repurpose Agent</text>
+          <text x="790" y="265" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#8E8E93">1 piece → 8 platform-</text>
+          <text x="790" y="280" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#8E8E93">specific formats</text>
+          <rect x="732" y="295" width="116" height="16" rx="8" fill="#EAF0FF"/>
+          <text x="790" y="307" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="#2B5CE6">Distribution Layer</text>
+        </svg>
       </div>
 
       <div class="team-result">
@@ -1080,13 +1019,10 @@ footer {
 
 
 <!-- ═══════════════════════════════════════════════════════
-     SECTION 3 OF 3 — THE WORKFORCE REVEAL
-     Job: The payoff. Now they understand agents and teams —
-     the reveal that ClinicIQ is ALL of them working together
-     hits like a gut punch. The equation visual seals it.
+     SECTION 3 — THE WORKFORCE REVEAL
+     Visual: Full workforce hub-and-spoke diagram
 ═══════════════════════════════════════════════════════ -->
-<section class="workforce-reveal grid-bg">
-  <div class="glow-gold"></div>
+<section class="workforce-reveal">
   <div class="w">
     <div class="wr-inner">
       <div class="wr-kicker">Step 3 — The Full Picture</div>
@@ -1094,7 +1030,91 @@ footer {
       <p class="wr-sub">Not just content. Every function. Every department. Every part of capturing attention, converting it to leads, converting leads to clients, building your programs, running your analytics, deploying everything live — all coordinated by one chief operator who knows your entire strategy.</p>
     </div>
 
-    <!-- EQUATION -->
+    <!-- WORKFORCE HUB-AND-SPOKE DIAGRAM -->
+    <div class="workforce-svg-wrap">
+      <svg viewBox="0 0 960 520" xmlns="http://www.w3.org/2000/svg" aria-label="AI Workforce diagram">
+        <defs>
+          <radialGradient id="iqGrad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#0A0A0B"/>
+            <stop offset="100%" stop-color="#1A1A2E"/>
+          </radialGradient>
+          <filter id="iqShadow" x="-30%" y="-30%" width="160%" height="160%">
+            <feDropShadow dx="0" dy="6" stdDeviation="16" flood-color="rgba(184,148,42,0.22)"/>
+          </filter>
+          <filter id="teamShadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="3" stdDeviation="8" flood-color="rgba(0,0,0,0.08)"/>
+          </filter>
+        </defs>
+
+        <!-- Spoke lines from IQ Claw center (480, 260) to 8 team nodes -->
+        <!-- Top -->        <line x1="480" y1="260" x2="480" y2="68"  stroke="#E5E5E7" stroke-width="1.5" stroke-dasharray="5 4"/>
+        <!-- Top-right -->  <line x1="480" y1="260" x2="730" y2="112" stroke="#E5E5E7" stroke-width="1.5" stroke-dasharray="5 4"/>
+        <!-- Right -->      <line x1="480" y1="260" x2="870" y2="260" stroke="#E5E5E7" stroke-width="1.5" stroke-dasharray="5 4"/>
+        <!-- Bot-right -->  <line x1="480" y1="260" x2="730" y2="408" stroke="#E5E5E7" stroke-width="1.5" stroke-dasharray="5 4"/>
+        <!-- Bottom -->     <line x1="480" y1="260" x2="480" y2="452" stroke="#E5E5E7" stroke-width="1.5" stroke-dasharray="5 4"/>
+        <!-- Bot-left -->   <line x1="480" y1="260" x2="230" y2="408" stroke="#E5E5E7" stroke-width="1.5" stroke-dasharray="5 4"/>
+        <!-- Left -->       <line x1="480" y1="260" x2="90"  y2="260" stroke="#E5E5E7" stroke-width="1.5" stroke-dasharray="5 4"/>
+        <!-- Top-left -->   <line x1="480" y1="260" x2="230" y2="112" stroke="#E5E5E7" stroke-width="1.5" stroke-dasharray="5 4"/>
+
+        <!-- IQ CLAW CENTER -->
+        <circle cx="480" cy="260" r="72" fill="url(#iqGrad)" stroke="#D4A936" stroke-width="2.5" filter="url(#iqShadow)"/>
+        <text x="480" y="244" text-anchor="middle" font-family="Inter,sans-serif" font-size="28">🧠</text>
+        <text x="480" y="267" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="800" fill="#F0C040" letter-spacing="0.5">IQ CLAW</text>
+        <text x="480" y="284" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="600" fill="rgba(240,192,64,0.65)" letter-spacing="0.4">CHIEF OPERATOR</text>
+
+        <!-- TEAM NODES (each ~130×80 rounded rect) -->
+
+        <!-- Top: Content -->
+        <rect x="390" y="16" width="180" height="70" rx="12" fill="#FAFAFA" stroke="#E5E5E7" stroke-width="1" filter="url(#teamShadow)"/>
+        <text x="480" y="43" text-anchor="middle" font-family="Inter,sans-serif" font-size="18">✍️</text>
+        <text x="480" y="62" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="700" fill="#0A0A0B">Content Workforce</text>
+        <text x="480" y="78" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#8E8E93">12 agents · Every platform</text>
+
+        <!-- Top-right: Conversion -->
+        <rect x="636" y="72" width="188" height="70" rx="12" fill="#FAFAFA" stroke="#E5E5E7" stroke-width="1" filter="url(#teamShadow)"/>
+        <text x="730" y="99" text-anchor="middle" font-family="Inter,sans-serif" font-size="18">⚡</text>
+        <text x="730" y="118" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="700" fill="#0A0A0B">Conversion Workforce</text>
+        <text x="730" y="134" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#8E8E93">Funnels · VSLs · Webinars</text>
+
+        <!-- Right: Ad -->
+        <rect x="776" y="222" width="188" height="70" rx="12" fill="#FAFAFA" stroke="#E5E5E7" stroke-width="1" filter="url(#teamShadow)"/>
+        <text x="870" y="249" text-anchor="middle" font-family="Inter,sans-serif" font-size="18">📢</text>
+        <text x="870" y="268" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="700" fill="#0A0A0B">Ad Workforce</text>
+        <text x="870" y="284" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#8E8E93">Paid traffic · Proven creatives</text>
+
+        <!-- Bot-right: Email & SMS -->
+        <rect x="636" y="378" width="188" height="70" rx="12" fill="#FAFAFA" stroke="#E5E5E7" stroke-width="1" filter="url(#teamShadow)"/>
+        <text x="730" y="405" text-anchor="middle" font-family="Inter,sans-serif" font-size="18">📧</text>
+        <text x="730" y="424" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="700" fill="#0A0A0B">Email &amp; SMS Workforce</text>
+        <text x="730" y="440" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#8E8E93">Sequences · Campaigns · Auto</text>
+
+        <!-- Bottom: Program -->
+        <rect x="390" y="434" width="180" height="70" rx="12" fill="#FFFBF0" stroke="#E8C940" stroke-width="1.5" filter="url(#teamShadow)"/>
+        <text x="480" y="461" text-anchor="middle" font-family="Inter,sans-serif" font-size="18">🏗️</text>
+        <text x="480" y="480" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="700" fill="#0A0A0B">Program Workforce</text>
+        <text x="480" y="496" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#B8942A">Your IP · Delivered at scale</text>
+
+        <!-- Bot-left: Intelligence -->
+        <rect x="136" y="378" width="188" height="70" rx="12" fill="#FAFAFA" stroke="#E5E5E7" stroke-width="1" filter="url(#teamShadow)"/>
+        <text x="230" y="405" text-anchor="middle" font-family="Inter,sans-serif" font-size="18">📊</text>
+        <text x="230" y="424" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="700" fill="#0A0A0B">Intelligence Workforce</text>
+        <text x="230" y="440" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#8E8E93">IQ Score · Analytics · Alerts</text>
+
+        <!-- Left: Deployment -->
+        <rect x="-4" y="222" width="188" height="70" rx="12" fill="#FAFAFA" stroke="#E5E5E7" stroke-width="1" filter="url(#teamShadow)"/>
+        <text x="90" y="249" text-anchor="middle" font-family="Inter,sans-serif" font-size="18">🚀</text>
+        <text x="90" y="268" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="700" fill="#0A0A0B">Deployment Engine</text>
+        <text x="90" y="284" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#8E8E93">Approve → Live in one tap</text>
+
+        <!-- Top-left: Patient Experience -->
+        <rect x="136" y="72" width="188" height="70" rx="12" fill="#FAFAFA" stroke="#E5E5E7" stroke-width="1" filter="url(#teamShadow)"/>
+        <text x="230" y="99" text-anchor="middle" font-family="Inter,sans-serif" font-size="18">🩺</text>
+        <text x="230" y="118" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="700" fill="#0A0A0B">Patient Experience</text>
+        <text x="230" y="134" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#8E8E93">Pathways · Retention · Care</text>
+      </svg>
+    </div>
+
+    <!-- Equation -->
     <div class="workforce-eq">
       <div class="eq-block">
         <div class="eq-icon">🤖</div>
@@ -1132,17 +1152,15 @@ footer {
 
 
 <!-- ═══════════════════════════════════════════════════════
-     THE WORKFORCE
-     Job: Make the agent teams real and tangible.
-     Visual grid. Each tile = one hat removed.
+     THE WORKFORCE GRID
 ═══════════════════════════════════════════════════════ -->
 <section class="workforce-section">
   <div class="w">
     <div class="wf-top">
       <div>
         <div class="wf-eyebrow">Your Team</div>
-        <h2 class="wf-h">Every hat you've been wearing — handled.</h2>
-        <p class="wf-p">From the first piece of content that captures attention, to the funnel that converts that attention into revenue, to the program that delivers your clinical expertise at scale, to the analytics that tell you exactly what to do next. One platform. Every specialist. All coordinated.</p>
+        <h2 class="wf-h">Not just the hats you've been wearing — every hat you should have been wearing and never had time to touch.</h2>
+        <p class="wf-p">You've been so buried in what you were already trying to do that the roles you knew you needed — the ones that would have unlocked everything — never even got attempted. Not because you didn't know they mattered. Because there wasn't a version of you with the time, the skill, and the bandwidth to do all of it at once. Until now.</p>
       </div>
       <div>
         <div class="wf-right-quote">
@@ -1153,7 +1171,7 @@ footer {
 
     <!-- AGENT GRID -->
     <div class="agent-row">
-      <div class="agent-tile" style="border-radius:14px 0 0 0">
+      <div class="agent-tile">
         <div class="at-icon">🧠</div>
         <div class="at-name">IQ Claw — Chief Operator</div>
         <div class="at-desc">Knows your entire strategy. Coordinates all 183 agents. Surfaces what matters every morning before you ask.</div>
@@ -1171,15 +1189,15 @@ footer {
         <div class="at-desc">Funnels, VSLs, webinars — built to your niche's exact conversion benchmarks. Miro Fish tested before launch.</div>
         <div class="at-tag">Leads → Revenue</div>
       </div>
-      <div class="agent-tile" style="border-radius:0 14px 0 0">
+      <div class="agent-tile">
         <div class="at-icon">📧</div>
-        <div class="at-name">Email & SMS Workforce</div>
+        <div class="at-name">Email &amp; SMS Workforce</div>
         <div class="at-desc">Full sequences, campaigns, automations — in your voice, deployed directly to your platform. No briefing.</div>
         <div class="at-tag">Nurture</div>
       </div>
     </div>
     <div class="agent-row">
-      <div class="agent-tile" style="border-radius:0 0 0 14px">
+      <div class="agent-tile">
         <div class="at-icon">📢</div>
         <div class="at-name">Ad Workforce</div>
         <div class="at-desc">Creative built from hooks already proven organically in your niche. Scales what's working. Zero guesswork.</div>
@@ -1197,7 +1215,7 @@ footer {
         <div class="at-desc">IQ Score. Performance diagnosis. Proactive alerts. Competitor monitoring. Every morning before you ask.</div>
         <div class="at-tag">Analytics</div>
       </div>
-      <div class="agent-tile" style="border-radius:0 0 14px 0">
+      <div class="agent-tile">
         <div class="at-icon">🚀</div>
         <div class="at-name">Deployment Engine</div>
         <div class="at-desc">You approve. It deploys — to GHL, Meta, your email platform, social, podcast hosts. One tap. Live.</div>
@@ -1210,11 +1228,8 @@ footer {
 
 <!-- ═══════════════════════════════════════════════════════
      MONDAY MORNING
-     Job: Make it real. Show the experience, don't explain it.
-     UI mockup on the right. Short sharp copy on left.
 ═══════════════════════════════════════════════════════ -->
 <section class="monday">
-  <div class="glow-arc"></div>
   <div class="w">
     <div class="mon-inner">
       <div class="mon-text">
@@ -1231,12 +1246,12 @@ footer {
           <div class="brief-body">
             <div class="brief-item">
               <div class="bi-icon">✅</div>
-              <div class="bi-text"><strong>Content Ready</strong>14 posts pre-built in your voice across IG, YouTube & email. Scheduled for the week.</div>
+              <div class="bi-text"><strong>Content Ready</strong>14 posts pre-built in your voice across IG, YouTube &amp; email. Scheduled for the week.</div>
               <div class="bi-cta">Review →</div>
             </div>
             <div class="brief-item">
               <div class="bi-icon">⚠️</div>
-              <div class="bi-text"><strong>Funnel Opportunity</strong>Opt-in page at 29% vs. 41% niche benchmark. Revised headline drafted & waiting.</div>
+              <div class="bi-text"><strong>Funnel Opportunity</strong>Opt-in page at 29% vs. 41% niche benchmark. Revised headline drafted &amp; waiting.</div>
               <div class="bi-cta">Fix it →</div>
             </div>
             <div class="brief-item">
@@ -1264,11 +1279,9 @@ footer {
 
 <!-- ═══════════════════════════════════════════════════════
      HEALTH 3.0
-     Job: The identity and movement play.
-     Buying ClinicIQ = choosing which side of history you're on.
+     Copy fix: accurate description of the Healthcare evolution
 ═══════════════════════════════════════════════════════ -->
 <section class="h3zero">
-  <div class="glow-gold"></div>
   <div class="w">
     <div class="h3-inner">
       <div class="h3-kicker">The Bigger Picture</div>
@@ -1283,18 +1296,18 @@ footer {
     <div class="evolution">
       <div class="evo-card">
         <div class="evo-era">Health 1.0</div>
-        <div class="evo-name">Doctor Knows Best</div>
-        <div class="evo-copy">The physician as unquestioned authority. Pharmaceutical medicine as the only path. The best clinicians in the world had no platform and no reach.</div>
+        <div class="evo-name">Reactive Medicine</div>
+        <div class="evo-copy">A fragmented, disease-management system. Wait until you're sick. Treat the symptom. Repeat. The physician as gatekeeper of a system built around illness — not health. Functional medicine existed, but had no reach and no platform.</div>
       </div>
       <div class="evo-card">
         <div class="evo-era">Health 2.0</div>
-        <div class="evo-name">The Information Age</div>
-        <div class="evo-copy">The internet broke the information monopoly. Brilliant clinicians built audiences. But scaling them into real impact required teams and budgets most couldn't sustain.</div>
+        <div class="evo-name">Proactive &amp; Personalized</div>
+        <div class="evo-copy">The shift toward root-cause care, personalized protocols, and consumer health ownership. Brilliant clinicians found their voice online and built audiences. But the operational ceiling was real — scaling beyond a certain point required teams and budgets most couldn't sustain.</div>
       </div>
       <div class="evo-card active">
         <div class="evo-era">Health 3.0</div>
         <div class="evo-name">The AI Workforce Era</div>
-        <div class="evo-copy">The operational ceiling is gone. Every health expert who deploys an AI Workforce now operates with the leverage of a $100M health brand. The movement that fixes healthcare is finally possible at scale.</div>
+        <div class="evo-copy">The holistic ecosystem is finally operational at scale. Every health expert who deploys an AI Workforce now operates with the leverage of a $100M health brand — personalized delivery, proactive intelligence, and a team that never sleeps. The movement that fixes healthcare is finally executable.</div>
       </div>
     </div>
 
@@ -1307,7 +1320,6 @@ footer {
 
 <!-- ═══════════════════════════════════════════════════════
      PROOF
-     Job: Credibility through data. Validate the system.
 ═══════════════════════════════════════════════════════ -->
 <section class="proof-section">
   <div class="w">
@@ -1347,10 +1359,8 @@ footer {
 
 <!-- ═══════════════════════════════════════════════════════
      FINAL CTA
-     Job: One decision. Make it feel inevitable.
 ═══════════════════════════════════════════════════════ -->
-<section class="final grid-bg" id="final">
-  <div class="glow-gold"></div>
+<section class="final" id="final">
   <div class="w">
     <div class="final-inner">
       <div class="final-kicker">Your AI Workforce Is Ready</div>
@@ -1362,19 +1372,18 @@ footer {
         The knowledge is there. The results are there. The people who need you are out there. The only thing that's been missing is the team. Deploy your AI Workforce today.
       </p>
       <div class="btn-group">
-        <a href="#" class="btn-gold" style="font-size:17px; padding:20px 48px;">Deploy Your AI Workforce →</a>
+        <a href="#" class="btn-final">Deploy Your AI Workforce →</a>
       </div>
       <div class="final-micro">For health practitioners, wellness coaches, and functional medicine experts ready to lead Health 3.0.</div>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
+
 <footer>
   <div class="w">
     <div class="footer-logo">Clinic<span>IQ</span></div>
-    <p>The AI Workforce for Health & Wellness Experts &nbsp;·&nbsp; Built for Health 3.0</p>
-    <p style="margin-top:10px;font-size:12px;color:#2A3A4A;">© 2026 ClinicIQ. Results vary based on individual practice, market, and implementation.</p>
+    <p>The AI Workforce for Health &amp; Wellness Experts &nbsp;·&nbsp; Built for Health 3.0</p>
   </div>
 </footer>
 

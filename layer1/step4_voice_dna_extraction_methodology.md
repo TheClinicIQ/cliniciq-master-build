@@ -1,5 +1,5 @@
 # clinicIQ — Layer 1: Onboarding Agent — Step 4: Voice DNA Extraction Methodology
-**Version 1.0 — Draft**
+**Version 1.1 — Revised**
 *Step 4 of 22 | Depends on: Step 1 (Agent Description), Step 2 (Data Schema), Step 3 (Conversation Flow)*
 
 ---
@@ -191,9 +191,94 @@ These three sentences tell the Builder Layer almost everything it needs to know 
 
 ---
 
+## Voice DNA Mass Ingestion — Pre-Onboarding Enrichment
+
+**This sub-agent runs before the first onboarding session begins — in parallel with the Web Scraper.**
+
+The single biggest risk to Voice DNA quality is a careful, self-conscious expert who types short, measured answers in their first session because they're performing for the system. A 20-minute Fast-Start session with a guarded expert can produce a thin Voice DNA profile — three generic sample extracts, a short phrase list, a surface-level emotional register description. The platform then runs at half-intelligence on every output for weeks until enough session data accumulates.
+
+The Voice DNA Mass Ingestion sub-agent eliminates this risk by constructing a rich, data-dense Voice DNA profile from the body of work the expert has already produced — before they type a single word in onboarding.
+
+### What It Ingests
+
+**Tier 1 — High-value voice sources (always attempted):**
+- All available Instagram captions (last 90–180 days, scraped from public profile)
+- All Facebook post text (last 90–180 days, scraped from public page)
+- YouTube video transcripts (auto-generated captions, all available videos — prioritizes 5–20 minute educational videos which are the richest voice samples)
+- Podcast episode transcripts (public RSS feed, scraped and transcribed — episodes where the expert is the host or primary speaker)
+- Email newsletter archive (if publicly accessible or if expert provides export)
+- Blog posts and articles (website + any external publications)
+- Any LinkedIn articles or long-form posts
+
+**Tier 2 — Medium-value voice sources (attempted when Tier 1 is insufficient):**
+- Instagram Stories highlights (publicly visible, where transcription is possible)
+- Facebook Live transcripts (if auto-captioned content is available)
+- Podcast guest appearance transcripts (where expert is the guest — voice is still authentic but filtered through an interviewer dynamic)
+- Sales page and website copy (valuable for conviction level and authority style — but curated for persuasion and less representative of natural voice)
+
+**Tier 3 — Expert-submitted sources (invited at session start):**
+- "Is there anything you've written that really sounds like you at your best? A post, an email, an essay — something you read back and thought 'yes, that's exactly me.'"
+- Direct upload of past content (email exports, doc files, scripts)
+- Link to a specific video or audio the expert considers their best example of their natural communication
+
+### What It Extracts
+
+The mass ingestion sub-agent processes all collected content through the same 10-signal framework the Voice DNA Analyst uses in real-time session capture:
+
+1. Sentence rhythm distribution (statistical analysis across the full body of text — short/long/mixed ratio calculated from real data, not observation)
+2. Vocabulary register signals (clinical vs. plain language frequency count across all samples)
+3. Formality markers (contraction frequency, first/second person ratio, peer-vs-authority framing)
+4. Emotional register patterns (emotion-bearing language frequency, specific emotion types, where emotional intensity peaks)
+5. Humor signals (identified and categorized across the full content archive)
+6. Conviction vs. hedging ratio (declarative vs. qualified statement ratio, statistically calculated)
+7. Signature phrase extraction (any phrase used 3+ times across separate pieces of content — high confidence signal)
+8. Vocabulary avoidances (cross-referenced against common health marketing language — terms that never appear despite relevance are flagged as probable avoidances, confirmed at session)
+9. Authority style identification (what leads in majority of pieces — credential / result / story / teaching)
+10. Energy marker detection (sections where sentence structure shifts, vocabulary intensifies, or topic recurs — high-passion zones identified from data)
+
+### What It Produces
+
+The mass ingestion run produces:
+- A first-pass Voice DNA profile with statistical confidence scores for each signal (how many data points support each assessment)
+- 8–15 sample extract candidates — the highest-signal, most distinctive verbatim quotes found across all ingested content, ranked by distinctiveness and representativeness
+- A signature phrase list derived from cross-content frequency analysis (not session observation)
+- A probable vocabulary avoidances list (flagged for confirmation, not assumed)
+- A `voice_confidence_score` starting value based on volume and quality of data ingested:
+
+| Content Volume Ingested | Starting voice_confidence_score |
+|---|---|
+| <5 pieces total | 20 — mass ingestion was insufficient; session capture is primary |
+| 5–20 pieces | 40 — baseline profile available; session enriches significantly |
+| 20–50 pieces | 60 — solid profile available; session confirms and refines |
+| 50–100 pieces | 75 — rich profile available; session is primarily confirmation |
+| 100+ pieces | 85 — comprehensive profile; session may surface new signals but most fields are strong |
+
+### How It Changes the Onboarding Session
+
+When the Voice DNA Mass Ingestion sub-agent has run successfully before the session begins, Section 2 of the conversation flow (Voice DNA Confirmation) transforms from an extraction session into a confirmation session:
+
+**Without mass ingestion:** "Here's what I noticed about how you communicate in our conversation today. Does this feel right?"
+
+**With mass ingestion:** "Before we started, I analyzed 73 pieces of content you've published — Instagram posts, emails, three YouTube videos, and your podcast. Here's the voice profile I built from your actual work. Take a look and tell me if this feels like you."
+
+The expert is reviewing a data-dense profile built from their own body of work rather than reacting to observations from a 20-minute session. They arrive at the confirmation step already seeing themselves reflected accurately — which creates immediate trust in the platform's intelligence and dramatically increases the quality and specificity of their feedback.
+
+### Integration with Passive Session Capture
+
+The mass ingestion profile and the passive session capture profile are merged by the Voice DNA Analyst sub-agent after the Active Confirmation step:
+
+1. Mass ingestion profile provides the base (statistical, high-volume, cross-content)
+2. Session capture adds signals the content archive couldn't reveal (how they respond under real-time conversation pressure, spontaneous phrases, corrections and reframes)
+3. Active confirmation resolves any conflicts between the two sources (if the expert's live session voice differs from their published content voice, the expert is explicitly asked about this — it may reflect a writing-vs-speaking difference captured in `voice_dna.writing_vs_speaking_difference`)
+4. The merged profile is locked with a `voice_confidence_score` that reflects both sources
+
+The goal: arrive at a `voice_confidence_score` of 70+ before the expert leaves their first session. With mass ingestion running before onboarding, this is achievable for any expert with a meaningful content archive.
+
+---
+
 ## Voice DNA Enrichment Over Time
 
-The initial Voice DNA profile is built from a 20–90 minute conversation. It is good. But it gets dramatically better over time as the platform builds more content and that content is tested and approved.
+The initial Voice DNA profile is built from mass ingestion + the onboarding session. It is good. But it gets dramatically better over time as the platform builds more content and that content is tested and approved.
 
 ### Enrichment Sources
 
