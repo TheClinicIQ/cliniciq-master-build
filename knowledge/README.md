@@ -22,6 +22,26 @@ These are separate on purpose:
 | `/production/` | HTML/CSS render standards, platform dimensions, video production, design principles | Content Builder, Ad Creative Builder, Lead Magnet Builder, Webinar Builder |
 | `/frameworks/` | Perfect Webinar, Fladlein, funnel page copy, quiz best practice, email sequences | Webinar Builder, Funnel Builder, Email Builder, Lead Magnet Builder |
 | `/avatars/` | Health avatar psychology, awareness level frameworks | All Builder agents |
+| `/briefs/` | 8 pre-built specialist briefs (see table below) — immediately usable reference docs already written | All Builder agents |
+
+### Current `/briefs/` Contents (already written — ready to use)
+
+| File | Contents | Primary Agents |
+|------|---------|----------------|
+| `copy_frameworks.md` | Direct response frameworks applied to health marketing — DIC, PAS, AIDA, Before-After-Bridge with health examples | All copy-writing agents |
+| `compliance_guidelines.md` | FTC, FDA, state medical board claim rules — specialty-specific restrictions | All Builder agents (compliance filter) |
+| `html_css_production.md` | HTML/CSS layout standards for Puppeteer-rendered assets | Content Builder, Ad Creative Builder |
+| `platform_dimensions.md` | Every asset dimension spec for every platform format (IG, FB, Meta Ads, Stories, Reels, YouTube) | Content Builder, Ad Creative Builder |
+| `design_principles.md` | Visual design standards for health expert brand assets — hierarchy, typography, color, premium standard | Content Builder, Ad Creative Builder, Website Builder |
+| `video_production.md` | B-roll, Reels, and video asset production guidelines — shot direction, text overlay, timing | Content Builder, Ad Creative Builder |
+| `quiz_assessment.md` | Quiz and interactive tool build specifications — question design, results pages, lead gates | Lead Magnet Builder |
+| `hook_performance.md` | Hook structure performance data and patterns — what's working, organized by angle type | Content Builder, Ad Creative Builder, Email Builder |
+
+### External Reference Documents (in `/references/`)
+
+| File | Contents | Primary Agents |
+|------|---------|----------------|
+| `expert_secrets_full_synthesis.md` | Complete synthesis of Expert Secrets framework — the full Brunson persuasion system; primary reference for Webinar Builder and Sales Script Builder | Webinar Builder, Sales Script Builder, Funnel Builder |
 
 ## Status
 

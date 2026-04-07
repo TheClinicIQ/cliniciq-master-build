@@ -1,5 +1,5 @@
 # clinicIQ — Layer 2: Strategy Agents — Step 9: Growth Strategy Agent — Knowledge & Skill Description
-**Version 1.0 — Draft**
+**Version 1.1 — Revised**
 *Step 9 of 22 | Depends on: Steps 1–8 (Layer 1 complete + Brand Strategy Agent)*
 
 ---

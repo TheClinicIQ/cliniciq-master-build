@@ -463,7 +463,7 @@ Before any Builder agent is activated, the following must be true:
 | Gate 5 | Monthly Messaging Brief produced | Messaging Brief Writer Sub-Agent | Hook bank ≥ 10 concepts, angle map complete |
 | Gate 6 | Asset Brief generated | Core Orchestrator | All brief fields populated |
 
-No Builder agent generates output without Gates 1–6 passing. This is enforced by the Core Orchestrator Agent — it will not route an asset request to a Builder agent until all gates are green.
+No Builder agent generates output without Gates 1–7 passing. This is enforced by the Core Orchestrator Agent — it will not route an asset request to a Builder agent until all gates are green.
 
 ---
 

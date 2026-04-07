@@ -1,5 +1,5 @@
 # clinicIQ — Layer 2: Strategy Agents — Step 11: Strategy Layer Handoff Payload to Builder Layer
-**Version 1.0 — Draft**
+**Version 1.1 — Revised**
 *Step 11 of 22 | Depends on: Steps 8–10 (All Layer 2 steps)*
 
 ---
@@ -84,13 +84,14 @@ The Core Orchestrator Agent is the traffic controller of the entire Builder Laye
 ### Activation Sequence
 
 **Step 1 — Strategy Complete Check**
-Core Orchestrator verifies all six quality gates from Step 10 are green:
+Core Orchestrator verifies all seven quality gates from Step 10 are green:
 - Gate 1: Expert Dossier `handoff_ready: true`
 - Gate 2: Brand North Star Part 2 complete and quality-checked
 - Gate 3: Growth Blueprint unit economics pass (LTV:CAC ≥ 3:1)
-- Gate 4: Monthly Master Plan produced
-- Gate 5: Monthly Messaging Brief produced (hook bank ≥ 10 concepts)
-- Gate 6: Asset Brief template ready
+- Gate 4: **Strategic Integrity Check passed** — all 6 tests green (One Big Domino Specificity, Positioning Singularity, Avatar Specificity, Mechanism Demonstrability, Unit Economics Integrity, Proof Bank Minimum). Full spec: `layer2/step10_full_strategy_output_stack.md`
+- Gate 5: Monthly Master Plan produced
+- Gate 6: Monthly Messaging Brief produced (hook bank ≥ 10 concepts)
+- Gate 7: Asset Brief template ready
 
 If any gate is red, Core Orchestrator does not activate Builder agents. It surfaces the specific gate failure and routes back to the appropriate Layer 2 agent to resolve.
 
@@ -178,9 +179,10 @@ In addition to the human-readable documents, the Core Orchestrator maintains a m
     "gate_1_dossier_ready": true,
     "gate_2_brand_north_star": true,
     "gate_3_unit_economics": true,
-    "gate_4_monthly_plan": true,
-    "gate_5_messaging_brief": true,
-    "gate_6_asset_brief_template": true,
+    "gate_4_strategic_integrity_check": true,
+    "gate_5_monthly_plan": true,
+    "gate_6_messaging_brief": true,
+    "gate_7_asset_brief_template": true,
     "all_gates_green": true
   },
   "build_queue": [
@@ -247,7 +249,7 @@ With Step 11 complete, Layer 2 is fully documented. The Strategy Layer has:
 
 | Sub-Agent | Owns | Reports To |
 |---|---|---|
-| Gate Checker | Validates all 6 quality gates before Builder activation | Core Orchestrator Lead |
+| Gate Checker | Validates all 7 quality gates before Builder activation (Gates 1–7 including Strategic Integrity Check at Gate 4) | Core Orchestrator Lead |
 | Build Queue Assembler | Reads Monthly Master Plan, assembles and prioritizes the full asset build queue | Core Orchestrator Lead |
 | Brief Generator | Generates fully populated Asset Brief for each asset from strategy documents | Core Orchestrator Lead |
 | Context Loader | Pre-loads relevant strategy document sections into each Builder agent's context | Core Orchestrator Lead |

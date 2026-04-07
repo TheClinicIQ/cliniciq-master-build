@@ -87,7 +87,7 @@ Learning & Feedback Engine
 
 | Sub-Agent | Role |
 |-----------|------|
-| Gate Checker | Validates all 6 quality gates before any Builder agent is activated |
+| Gate Checker | Validates all 7 quality gates before any Builder agent is activated (see Step 11 for full gate list) |
 | Brief Generator | Produces per-asset briefs from Monthly Master Plan + Monthly Messaging Brief |
 | Router | Routes each Asset Brief to the correct Builder agent |
 | Context Loader | Pre-loads the relevant dossier sections and strategy documents into Builder agent context |
@@ -220,6 +220,18 @@ Learning & Feedback Engine
 - All finished assets → IQ Drive
 - All finished assets → Output Quality Agent (Voice QA + Brand QA) before delivery to expert
 - All performance data → Layer 4 Analytics Dashboard
+
+---
+
+### In-Platform Editor Tool Map
+*Two distinct editing tools are used across Layer 3. Developers must implement both — they serve different asset types and are not interchangeable.*
+
+| Tool | Used For | Where Specced |
+|------|---------|---------------|
+| **Fabric.js** | Static image editor — editing finished PNG assets (text, colors, image swap, element repositioning). Reconstructs HTML/CSS source into a Fabric.js canvas. Re-renders via Puppeteer on save. | Step 12, Engineering Spec Appendix Section D |
+| **GrapesJS** | Full page/funnel editor — editing live HTML funnel pages (opt-in, order, webinar, upsell, etc.). Drag-and-drop component architecture. Outputs GrapesJS JSON schema → converts to deployable HTML. | Step 13, Technical Architecture section |
+
+Never use GrapesJS for image assets. Never use Fabric.js for full funnel pages. Both tools must be integrated and both will be actively used by experts.
 
 ---
 
@@ -367,7 +379,7 @@ Learning & Feedback Engine
 | 6 | Coach Meeting Architect | Produces intake/phase/graduation call agendas + async messaging templates |
 | 7 | Community Content Generator | Produces 7 Facebook posts/week per phase + weekly live session outlines |
 | 8 | Patient Intake Processor | *(Custom-per-patient builds)* Reads labs/intake → Patient Protocol Profile → custom adjustments |
-| 9 | Patient AI Trainer | Builds Ask AI knowledge base; manages alert queue; monitors content gap patterns |
+| 9 | Patient AI Trainer | *(V2 — deferred. Do not build for V1.)* Builds Ask AI knowledge base; manages alert queue; monitors content gap patterns |
 | 10 | Block Library Manager | Tags and saves reusable blocks; surfaces relevant blocks during new builds |
 
 **Agent count: 11** (Program Builder Lead + 10 sub-agents)
@@ -647,7 +659,9 @@ These must be resolved by the engineering team before build begins:
 | `layer3/step16b_program_builder_full_spec.md` | Program Builder full spec |
 | `layer3/step16c_podcast_agent_full_spec.md` | Podcast Agent full spec (20 sub-agents) |
 | `layer4/steps17_20_analytics_intelligence_optimization_learning.md` | Full Layer 4 spec |
-| `platform/cliniciq_platform_architecture.md` | IQ Drive + IQ Claw + Patient AI architecture |
+| `platform/cliniciq_platform_architecture.md` | IQ Drive + IQ Claw + Patient AI architecture (Patient AI = **V2 deferred** — do not scope for V1) |
+| `platform/miro_fish_simulation_agent.md` | Miro Fish Simulation Agent — pre-launch synthetic audience validation system |
+| `references/expert_secrets_full_synthesis.md` | Full synthesis of Expert Secrets framework — reference for Webinar Builder + Sales Script Builder |
 | `step21_consistency_audit.md` | This audit |
 | `step22_master_agent_document.md` | This document |
 | `ENGINEERING_KICKOFF_BRIEF.md` | Executive summary for engineering kickoff |
