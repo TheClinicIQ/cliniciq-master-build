@@ -1,5 +1,9 @@
 # HANDOFF — Build Step 1 and Step 2 for clinicIQ Layer 1
 
+> ⚠️ **HISTORICAL DOCUMENT** — Steps 1 and 2 have been built, audited, and revised (v1.1).
+> This handoff brief was the original build instruction. Field count references to "164" in this file are superseded by the actual schema: **198 fields** across 14 sections.
+> Canonical files: `step1_onboarding_lead_agent.md` (v1.1) and `step2_expert_dossier_data_schema.md` (v1.1).
+
 **Written by:** Previous session (context limit reached)
 **For:** Next fresh session
 **Date:** 2026-04-07

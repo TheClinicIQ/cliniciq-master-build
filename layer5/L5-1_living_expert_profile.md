@@ -20,10 +20,10 @@ This spec defines: what the LEP is, what it contains, how it's built, how it upd
 ## The Core Concept: From Static Dossier to Living Intelligence Model
 
 ### What the Dossier Was (Layer 1)
-The Layer 1 Expert Dossier is a structured intake — 164 fields across 14 sections, captured via the Onboarding Agent. It is the best possible starting point: rich, deep, expert-specific. But it is a snapshot. It represents the expert as they were when they joined.
+The Layer 1 Expert Dossier is a structured intake — 198 fields across 14 sections, captured via the Onboarding Agent. It is the best possible starting point: rich, deep, expert-specific. But it is a snapshot. It represents the expert as they were when they joined.
 
 ### What the Living Expert Profile Is (Layer 5)
-The Living Expert Profile is the same 164-field architecture — plus 80 additional performance-derived fields — continuously updated by every interaction the expert has with the platform, every piece of content the platform produces, every performance data point the analytics layer captures, and every market signal the platform monitors.
+The Living Expert Profile is the same 198-field architecture — plus 46 additional performance-derived fields — continuously updated by every interaction the expert has with the platform, every piece of content the platform produces, every performance data point the analytics layer captures, and every market signal the platform monitors.
 
 It is never done. It is never "current." It is always becoming more accurate.
 
@@ -210,7 +210,7 @@ The LEP is not just stored — it is actively consumed by every agent in the pla
 
 ### Layer 1 — Onboarding Agent
 Reads: Nothing (it's building the LEP)
-Writes: The initial 164-field Identity Core
+Writes: The initial 198-field Identity Core
 
 ### Layer 2 — Strategy Agents
 **Brand Strategy Agent** reads:
@@ -335,7 +335,7 @@ The expert has a dedicated IQ Profile view in the platform where they can see an
 The Layer 1 Expert Dossier doesn't get replaced by the LEP. It becomes the LEP's foundation.
 
 On the day the expert completes onboarding:
-- Their 164-field dossier becomes the seed of the LEP
+- Their 198-field dossier becomes the seed of the LEP
 - All Identity Core fields are imported at their current status (confirmed / agent-generated / pending-approval)
 - Layer B fields are all initialized as empty (no data yet)
 - Layer C fields are all initialized as baseline defaults

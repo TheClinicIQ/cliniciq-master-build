@@ -278,18 +278,18 @@ These were identified in the Engineering Kickoff Brief and remain unresolved. Mu
 
 Before the engineering team begins building, confirm:
 
-☐ Output Quality Agent defined and added to Core Orchestrator (Finding 1.2)
-☐ "Growth Blueprint" terminology replaced with "Monthly Master Plan" + "Expert Dossier" (Finding 1.1)
-☐ Voice QA and Brand QA removed from Content Builder and Ad Creative Builder (Finding 4.1–4.2)
-☐ Performance Learning Agent removed from Content Builder (Finding 4.3)
-☐ Core Orchestrator agent count added to master count (Finding 2.2)
-☐ Expert Dossier Schema compiled as canonical file (Finding 2.1)
-☐ Steps 1–2 sections added to master document (Finding 2.1)
-☐ Monthly review → Layer 2 feedback loop defined (Finding 3.1)
-☐ Podcast → Layer 4 data flow scope boundaries documented (Finding 3.2)
-☐ All 8 open architecture decisions resolved (Section 7)
-☐ Model tier map produced and assigned to every agent type
-☐ All corrected agent counts reflected in Step 22 master document
+☑ Output Quality Agent defined and added to Core Orchestrator (Finding 1.2) — *Resolved in Step 22*
+☑ "Growth Blueprint" terminology replaced with "Monthly Master Plan" + "Expert Dossier" (Finding 1.1) — *Resolved in Step 22*
+☑ Voice QA and Brand QA removed from Content Builder and Ad Creative Builder (Finding 4.1–4.2) — *Resolved in Step 22*
+☑ Performance Learning Agent removed from Content Builder (Finding 4.3) — *Resolved in Step 22*
+☑ Core Orchestrator agent count added to master count (Finding 2.2) — *Resolved in Step 22*
+☑ Expert Dossier Schema compiled as canonical file (Finding 2.1) — *Resolved: layer1/step2_expert_dossier_data_schema.md — 198 fields across 14 sections*
+☑ Steps 1–2 files added to repository (Finding 2.1) — *Resolved: layer1/step1_onboarding_lead_agent.md + layer1/step2_expert_dossier_data_schema.md*
+☑ Monthly review → Layer 2 feedback loop defined (Finding 3.1) — *Resolved in Step 22 (Learning Engine monthly trigger) + Step 9 (Monthly Planner receiving end)*
+☑ Podcast → Layer 4 data flow scope boundaries documented (Finding 3.2) — *Resolved in Step 22*
+☐ All 8 open architecture decisions resolved (Section 7) — *Engineering team decision required*
+☐ Model tier map produced and assigned to every agent type — *Engineering team decision required*
+☑ All corrected agent counts reflected in Step 22 master document — *Resolved: ~184 agents total*
 
 ---
 

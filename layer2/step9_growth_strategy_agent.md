@@ -973,7 +973,7 @@ SUB-AGENTS (each owns one specific output)
 | Webinar Strategist | Webinar format, frequency, optimization protocol | Growth Strategy Lead |
 | Flywheel Architect | Case study capture and routing protocol | Growth Strategy Lead |
 | Unit Economics Analyst | Hormozi stress test and LTV:CAC calculation | Growth Strategy Lead |
-| Monthly Planner | Monthly master plan assembly and coordination brief | Growth Strategy Lead |
+| Monthly Planner | Monthly master plan assembly and coordination brief. **Receives:** Monthly Review Brief from Layer 4 Learning & Feedback Engine on the last day of each calendar month — contains performance data, learning updates, and what worked vs. what didn't in the prior month. Uses this brief to produce the next month's Monthly Master Plan. Expert reviews and approves before it takes effect. This is the mechanism that closes the Layer 4 → Layer 2 feedback loop. | Growth Strategy Lead |
 | Messaging Brief Writer | Hook bank, angle map, objection library, emotional beat sequence | Growth Strategy Lead |
 | Competitive Intelligence Analyst | Market scrape, gap identification, differentiation input | Growth Strategy Lead |
 

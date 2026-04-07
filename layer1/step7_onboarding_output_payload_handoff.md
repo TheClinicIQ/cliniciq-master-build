@@ -25,7 +25,7 @@ Pending flags: Remaining fields auto-populated with agent-generated best-guess v
 ### State 2 — Full Payload (Complete Dossier)
 Produced at the end of a Full Deep-Dive session or after multiple sessions that collectively cover all sections.
 Unlocks: Full platform capability — all Builder Layer agents run at maximum intelligence.
-Coverage: All 164 fields populated (confirmed, agent-generated+approved, or pending-upload for file assets).
+Coverage: All 198 fields populated (confirmed, agent-generated+approved, or pending-upload for file assets).
 Pending flags: Only file-based visual assets (logo, brand guide, photos) remain as `pending-upload`.
 
 ---
@@ -35,7 +35,7 @@ Pending flags: Only file-based visual assets (logo, brand guide, photos) remain 
 The Expert Dossier payload is delivered in two parallel formats:
 
 ### Format 1 — Structured Data Object (Machine-Readable)
-A clean JSON/structured data object that every downstream agent reads programmatically. Every field from the 164-field schema is present, with its value, tier, status flag, and consuming agents noted.
+A clean JSON/structured data object that every downstream agent reads programmatically. Every field from the 198-field schema is present, with its value, tier, status flag, and consuming agents noted.
 
 This is what the platform's backend reads. It never changes shape — only the values and status flags update over time.
 
@@ -249,7 +249,7 @@ SILENT DIAGNOSIS — PRIORITY FLAGS
 The payload is handed off to Layer 2 the moment `handoff_ready` is set to `true`. This happens automatically when the Fast-Start minimum fields are populated.
 
 **At handoff, Layer 2 agents receive:**
-1. The full structured data object (all 164 fields, all status flags)
+1. The full structured data object (all 198 fields, all status flags)
 2. The Expert Dossier Brief (human-readable narrative)
 3. The Silent Diagnosis payload (priority flags and recommended actions)
 4. The session transcript (for additional Voice DNA enrichment and quality review)
@@ -294,7 +294,7 @@ The completion score (0–100) displayed in the dashboard is calculated as follo
 
 | Component | Weight | How Measured |
 |---|---|---|
-| Field population | 35% | % of 164 fields with any value (confirmed, agent-generated, or pending-approval) |
+| Field population | 35% | % of 198 fields with any value (confirmed, agent-generated, or pending-approval) |
 | Confirmation rate | 20% | % of populated fields marked "confirmed" vs. "agent-generated" |
 | Story richness | 15% | Proof bank depth — number of transformation stories, quotes, before/afters |
 | Voice DNA quality | 15% | Sample extracts count + confirmation rate on Voice DNA section |
@@ -317,7 +317,7 @@ The completion score (0–100) displayed in the dashboard is calculated as follo
 With Step 7 complete, Layer 1 is fully documented. The Onboarding Agent has:
 
 1. A complete knowledge and skill description (Step 1)
-2. A 164-field data schema across 14 sections (Step 2)
+2. A 198-field data schema across 14 sections (Step 2)
 3. A full conversation flow architecture with two modes, section sequencing, anchor questions, and recovery protocols (Step 3)
 4. A Voice DNA extraction methodology — passive and active — with enrichment over time (Step 4)
 5. A deep avatar psychology extraction framework with 5 Levels of Awareness determination (Step 5)

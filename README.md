@@ -2,7 +2,7 @@
 
 The complete agent specification for the clinicIQ Agentic-as-a-Service platform.
 
-**~168 agents · 22 steps · 4 layers + Platform Services · Build-ready**
+**~184 agents · 22 steps · 5 layers + Platform Services · Build-ready**
 
 ---
 
@@ -21,7 +21,7 @@ cliniciq-master-build/
 ├── README.md                                  ← This file
 ├── ENGINEERING_KICKOFF_BRIEF.md               ← Start here — executive overview
 ├── step21_consistency_audit.md                ← Post-audit findings & resolutions
-├── step22_master_agent_document.md            ← THE build bible (all ~168 agents)
+├── step22_master_agent_document.md            ← THE build bible (all ~184 agents)
 │
 ├── platform/
 │   ├── cliniciq_platform_architecture.md      ← IQ Claw + IQ Drive + Patient AI
@@ -76,11 +76,29 @@ cliniciq-master-build/
 | Layer | Total Agents |
 |-------|-------------|
 | Platform (IQ Claw + Core Orchestrator + Miro Fish) | 19 |
-| Layer 1 — Onboarding | 11 |
+| Layer 1 — Onboarding | 12 |
 | Layer 2 — Strategy | ~19 |
 | Layer 3 — Builders (10 teams) | ~104 |
 | Layer 4 — Intelligence | 21 |
-| **Total** | **~174** |
+| Layer 5 — IQ Intelligence Platform | 15 |
+| **Total** | **~184** |
+
+---
+
+## Knowledge Briefs
+
+Specialist reference docs for the dev team are in `knowledge/briefs/`:
+
+| Brief | Contents |
+|-------|---------|
+| `copy_frameworks.md` | Direct response copy frameworks applied to health marketing |
+| `compliance_guidelines.md` | FTC, FDA, state medical board rules — claim restriction reference |
+| `html_css_production.md` | HTML/CSS layout standards for Puppeteer-rendered assets |
+| `platform_dimensions.md` | All asset dimension specs by platform and format |
+| `design_principles.md` | Visual design standards for health expert brand assets |
+| `video_production.md` | B-roll, Reels, and video asset production guidelines |
+| `quiz_assessment.md` | Quiz and interactive tool build specifications |
+| `hook_performance.md` | Hook structure performance data and patterns |
 
 ---
 
@@ -106,6 +124,11 @@ Full detail on all decisions: `step22_master_agent_document.md` → Open Archite
 **Spec → Test Suite → Eval Function → Overnight Build**
 
 Every agent is pre-specced in `step22_master_agent_document.md`. Engineers write the test suite and eval function, set the build running, and come back to scored results. Human review time: 15–30 min per agent. See the Engineering Briefing for full detail on the eval function architecture.
+
+---
+
+*clinicIQ Master Agent Architecture · Version 1.0 · March 2026 · Confidential*
+uman review time: 15–30 min per agent. See the Engineering Briefing for full detail on the eval function architecture.
 
 ---
 

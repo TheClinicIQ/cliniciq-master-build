@@ -1,7 +1,10 @@
-# ClinicIQ — Layer 5: The IQ Intelligence Platform
-# L5-6: IQ Growth Lab — CONCEPT LOCK
-**Status: Concept captured. Full spec to be built after L5-1 through L5-5.**
-*Captured: 2026-04-02*
+# ClinicIQ — Layer 5: IQ Growth Lab — CONCEPT DRAFT (DEPRECATED)
+> ⚠️ **DEPRECATED — DO NOT BUILD FROM THIS FILE**
+> This was an early concept draft. The canonical, build-ready specification is in:
+> **`layer5/L5-6_iq_growth_lab.md`**
+> This file is retained for reference only.
+
+---
 
 ---
 

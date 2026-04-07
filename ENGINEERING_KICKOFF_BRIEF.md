@@ -56,11 +56,11 @@ Onboarding  Strategy                  Builders
 
 ### LAYER 1 — Onboarding Agent (Steps 1–7) ✅ FULLY DOCUMENTED
 
-**What it does:** Builds a deep expert profile — Voice DNA, avatar psychology, offer stack, proof bank, mechanism, visual brand — across 164 data fields. This "Expert Dossier" is the intelligence that powers every other agent on the platform.
+**What it does:** Builds a deep expert profile — Voice DNA, avatar psychology, offer stack, proof bank, mechanism, visual brand — across 198 data fields across 14 sections. This "Expert Dossier" is the intelligence that powers every other agent on the platform.
 
 **Two modes:**
-- **Fast-Start (20–30 min):** Minimum viable dossier (~55–70 fields). Unlocks Layer 2.
-- **Deep-Dive:** All 164 fields. Unlocks full platform.
+- **Fast-Start (20–30 min):** Minimum viable dossier (~60 P1 priority fields). Sets `handoff_ready: true`. Unlocks Layer 2.
+- **Deep-Dive (60–90 min):** All 198 fields. Unlocks full platform.
 
 **Key decisions locked:**
 - Single onboarding flow with smart pre-fill (no re-asking what's already known)
@@ -80,7 +80,8 @@ Onboarding  Strategy                  Builders
 | Proof Bank Miner | Extracts transformation stories |
 | Story Miner | Extracts the founder/expert's origin story |
 | Silent Diagnostician | Identifies gaps and opportunities without asking |
-| Dossier Assembler | Compiles the 164-field structured JSON payload |
+| Voice DNA Mass Ingestion | Pre-session content scrape (social, video, podcast) → first-pass Voice DNA profile before onboarding begins |
+| Dossier Assembler | Compiles the 198-field structured JSON payload |
 | Progress Endowment Engine | Manages gamification, achievements, and momentum |
 
 **Agent count: ~10** (Onboarding Lead + ~9 sub-agents — to be finalized in Step 21)
@@ -205,7 +206,7 @@ This is where everything gets made. Steps 12–15 are fully documented. Step 16 
 ### SYSTEM-WIDE (Steps 21–22) ✅ Documented
 
 - **Step 21 — Cross-Agent Consistency Audit:** Full review of all 22 steps. 2 blocking issues, 10 important findings, 4 minor. Key resolutions: Voice QA + Brand QA consolidated into shared Output Quality Agent (Core Orchestrator); Performance Learning Agent removed from Content Builder (Layer 4 owns this); "Growth Blueprint" standardized to Monthly Master Plan + Expert Dossier; Core Orchestrator added to master count; Onboarding confirmed at 11 agents.
-- **Step 22 — Final Master Agent Description Document:** Single source of truth for all ~168 agents. Complete sub-agent tables, corrected counts, universal data flow map, handoff payload standards, 8 open architecture decisions. File: `step22_master_agent_document.md`
+- **Step 22 — Final Master Agent Description Document:** Single source of truth for all ~184 agents. Complete sub-agent tables, corrected counts, universal data flow map, handoff payload standards, 8 open architecture decisions. File: `step22_master_agent_document.md`
 
 ---
 
@@ -264,7 +265,8 @@ These are not steps — they're the foundational infrastructure every step depen
 | Layer 4 | Performance Intelligence | 1 | 4 | **5** |
 | Layer 4 | Optimization Agent | 1 | 5 | **6** |
 | Layer 4 | Learning & Feedback Engine | 1 | 4 | **5** |
-| **TOTAL (documented)** | | **~20** | **~143** | **~163+** |
+| **Layer 5** | IQ Intelligence Platform (L5-1 through L5-6) | — | 15 | **15** |
+| **TOTAL** | | **~20** | **~164** | **~184** |
 
 ---
 

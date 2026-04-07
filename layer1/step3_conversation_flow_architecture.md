@@ -33,7 +33,7 @@ All other fields either get agent-generated best-guess values (marked Pending-ap
 ---
 
 ### Full Deep-Dive Mode (60–90 minutes)
-**Goal:** Populate all 164 fields with confirmed or agent-generated+approved answers. The expert leaves with a complete dossier and the full platform unlocked.
+**Goal:** Populate all 198 fields with confirmed or agent-generated+approved answers. The expert leaves with a complete dossier and the full platform unlocked.
 
 **How to open Full Deep-Dive Mode:**
 > "You've got the time and I want to do this right — let's go all the way through your full intake. By the end of this conversation the system will know your business, your patients, your voice, and your offer better than any tool you've ever used. Let's start."
@@ -373,7 +373,7 @@ Milestone moments that fire when specific high-value actions are completed. Each
 | 🏆 **First Win Story** | First patient transformation story captured in proof bank |
 | 🔥 **Proof Bank Loaded** | 5+ case studies or transformation stories in proof bank |
 | ⚡ **Layer 2 Unlocked** | Fast-Start minimum fields complete — strategy agents activated |
-| 🚀 **Full Intelligence** | All 164 fields populated — Elite Dossier status reached |
+| 🚀 **Full Intelligence** | All 198 fields populated — Elite Dossier status reached |
 
 **Achievement display behavior:**
 - Fires immediately when triggered — during the session if possible
@@ -453,7 +453,7 @@ Experts will go off in unexpected directions. The agent handles the four most co
 | 14 — Expert Personal Story | Story summary | All 7 fields |
 
 **Fast-Start minimum:** ~55 fields confirmed or agent-generated. Enough to unlock Layer 2 and produce first outputs.
-**Full Deep-Dive target:** All 164 fields populated (confirmed or agent-generated with approval).
+**Full Deep-Dive target:** All 198 fields populated (confirmed or agent-generated with approval).
 
 ---
 

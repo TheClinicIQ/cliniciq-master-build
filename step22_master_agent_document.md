@@ -96,13 +96,14 @@ Learning & Feedback Engine
 
 **Agent count: 7** (Core Orchestrator Lead + 6 sub-agents)
 
-**The 6 Quality Gates (must all be green before any Builder activates):**
+**The 7 Quality Gates (must all be green before any Builder activates):**
 1. Expert Dossier `handoff_ready: true`
 2. Brand North Star Part 2 complete (Output Quality Agent checks)
 3. Growth Blueprint unit economics pass (LTV:CAC ≥ 3:1 pessimistic)
-4. Monthly Master Plan produced
-5. Monthly Messaging Brief produced
-6. Asset Brief generated for this specific request
+4. **Strategic Integrity Check passed** — all 6 tests green: One Big Domino Specificity, Positioning Singularity, Avatar Specificity, Mechanism Demonstrability, Unit Economics Integrity, Proof Bank Minimum. Full spec: step10_full_strategy_output_stack.md
+5. Monthly Master Plan produced
+6. Monthly Messaging Brief produced
+7. Asset Brief generated for this specific request
 
 **Inputs:** Expert Dossier, Brand North Star, Monthly Master Plan, Monthly Messaging Brief, Builder agent outputs
 **Outputs:** Asset Briefs (to Builder agents), quality-passed outputs (to expert), quality-failed rewrites (back to Builder)
@@ -124,28 +125,29 @@ Learning & Feedback Engine
 ## LAYER 1 — ONBOARDING AGENT
 
 **Steps:** 1–7
-**Role:** Conducts a structured expert interview to build the 164-field Expert Dossier — the intelligence that powers every other agent on the platform.
+**Role:** Conducts a structured expert interview to build the 198-field Expert Dossier — the intelligence that powers every other agent on the platform.
 
-### Confirmed Sub-Agent Team (10 agents)
+### Confirmed Sub-Agent Team (12 agents)
 
 | # | Sub-Agent | Role |
 |---|-----------|------|
 | Lead | Onboarding Lead Agent | Orchestrates the full interview; manages flow, pacing, and completion |
-| 1 | Web Scraper | Pulls expert's existing web presence (website, social, Google Business) for pre-population |
-| 2 | Voice DNA Analyst | Passive voice capture throughout session; confirms and locks Voice DNA profile in Section 2 |
-| 3 | Avatar Psychology Builder | Extracts all 8 avatar layers + 5 Levels of Awareness determination |
-| 4 | Offer Architecture Builder | Extracts and scores full offer stack; Hormozi value equation; guarantee architecture |
-| 5 | Webinar Raw Material Extractor | Extracts One Big Domino, 3 Secrets, epiphany bridge, mechanism — webinar raw inputs |
-| 6 | Proof Bank Miner | Extracts patient/client transformation stories; populates proof bank |
-| 7 | Story Miner | Extracts expert's personal origin story and patient transformation arc |
-| 8 | Silent Diagnostician | Gap analysis and priority flag generation — identifies what's missing without asking |
-| 9 | Dossier Assembler | Compiles all sub-agent outputs into the final 164-field JSON payload + human-readable narrative |
-| 10 | Progress Endowment Engine | Score calculation, achievement triggers, gamification, reflection moments |
+| 1 | Web Scraper | Pulls expert's existing web presence (website, social, Google Business) for pre-population — pre-populates up to 27 fields before session begins |
+| 2 | Voice DNA Mass Ingestion | **Pre-session sub-agent.** Crawls all available public content (social posts, YouTube transcripts, podcast audio, blog posts) and builds a statistically grounded Voice DNA profile before the expert types a single word. Target: voice_confidence_score 70+ at session start. Full spec: step4_voice_dna_extraction_methodology.md |
+| 3 | Voice DNA Analyst | Passive voice capture throughout live session; merges with Mass Ingestion base profile; confirms and locks Voice DNA in Section 2 |
+| 4 | Avatar Psychology Builder | Extracts all 8 avatar layers + 5 Levels of Awareness determination + DISC buyer profile inference |
+| 5 | Offer Architecture Builder | Extracts and scores full offer stack; Hormozi value equation; guarantee architecture; tier existence flags |
+| 6 | Webinar Raw Material Extractor | Extracts One Big Domino, 3 Secrets, epiphany bridge, mechanism — webinar raw inputs |
+| 7 | Proof Bank Miner | Extracts patient/client transformation stories; populates proof bank throughout session |
+| 8 | Story Miner | Extracts expert's personal origin story and patient transformation arc |
+| 9 | Silent Diagnostician | Gap analysis and priority flag generation — identifies what's missing without asking |
+| 10 | Dossier Assembler | Compiles all sub-agent outputs into the final 198-field JSON payload + human-readable narrative |
+| 11 | Progress Endowment Engine | Score calculation, achievement triggers, gamification, reflection moments |
 
-**Agent count: 11** (Lead + 10 sub-agents)
+**Agent count: 12** (Lead + 11 sub-agents)
 
-**Primary Output:** Expert Dossier (JSON + narrative) with `handoff_ready: true` flag
-**Feeds into:** Layer 2 (Brand Strategy Agent + Growth Strategy Agent), IQ Claw (IQ Profile base), all Layer 3 Builder agents (read-only)
+**Primary Output:** Expert Dossier (JSON + narrative, 198 fields) with `handoff_ready: true` flag
+**Feeds into:** Layer 2 (Brand Strategy Agent + Growth Strategy Agent), IQ Claw (IQ Profile base), all Layer 3 Builder agents (read-only), Layer 5 LEP Layer A (the Dossier IS LEP Layer A — same data object)
 
 ---
 
@@ -499,9 +501,9 @@ Learning & Feedback Engine
 | **Layer 4** | Performance Intelligence | 1 | 4 | **5** |
 | **Layer 4** | Optimization Agent | 1 | 5 | **6** |
 | **Layer 4** | Learning & Feedback Engine | 1 | 4 | **5** |
-| **TOTAL** | | **20** | **~148** | **~168** |
+| **TOTAL** | | **20** | **~149** | **~169** |
 
-*Layer 2 sub-agent counts pending final audit confirmation — estimated ~17 combined.*
+*Layer 2 sub-agent counts pending final audit confirmation — estimated ~17 combined. Layer 5 agents (+15) bring platform total to ~184.*
 
 ---
 
@@ -578,8 +580,9 @@ EXTERNAL WORLD
 ## Handoff Payload Standards
 
 ### Expert Dossier (Layer 1 → Layer 2 + All Builder Agents)
-- Format: JSON (164 fields) + human-readable narrative
+- Format: JSON (198 fields across 14 sections) + human-readable Expert Dossier Brief narrative
 - Gate: `handoff_ready: true` required before Layer 2 activates
+- Schema: canonical reference in `layer1/step2_expert_dossier_data_schema.md` — 198 fields, P1/P2/P3 priority flags, status flags, LEP Layer A mapping
 - Key sections consumed by Builder agents: Voice DNA, Avatar Psychology (false beliefs, desires, objection map), Offer Architecture, Proof Bank, Mechanism, Visual DNA, Tech Stack
 
 ### Strategy Package (Layer 2 → Core Orchestrator → Layer 3)
@@ -624,8 +627,10 @@ These must be resolved by the engineering team before build begins:
 
 | File | Contents |
 |------|---------|
+| `layer1/step1_onboarding_lead_agent.md` | Onboarding Lead Agent — full knowledge base, sub-agent team (12 agents), operating principles, Layer 5 seeding |
+| `layer1/step2_expert_dossier_data_schema.md` | Expert Dossier schema — all 198 fields, 14 sections, P1/P2/P3 flags, status flags, LEP Layer A mapping |
 | `layer1/step3_conversation_flow_architecture.md` | Onboarding conversation flow + gamification |
-| `layer1/step4_voice_dna_extraction_methodology.md` | Voice DNA extraction, confirmation, enrichment |
+| `layer1/step4_voice_dna_extraction_methodology.md` | Voice DNA extraction — Mass Ingestion sub-agent + passive session capture + active confirmation + enrichment |
 | `layer1/step5_avatar_psychology_5_levels_awareness.md` | Avatar psychology + 5 Levels of Awareness |
 | `layer1/step6_offer_architecture_extraction.md` | Offer stack extraction methodology |
 | `layer1/step7_onboarding_output_payload_handoff.md` | Expert Dossier payload format + handoff spec |
@@ -651,7 +656,7 @@ These must be resolved by the engineering team before build begins:
 
 *Step 22 of 22 — Final Master Agent Description Document — v1.0*
 *clinicIQ Platform — Complete Agent Architecture*
-*~168 agents across Platform Services, Layers 1–4*
+*~169 agents across Platform Services, Layers 1–4 (184 including Layer 5)*
 *All 22 steps documented. Build-ready.*
 
 ---
@@ -691,7 +696,7 @@ LAYER 5 — IQ INTELLIGENCE PLATFORM
 
 | Layer | Source | What It Contains |
 |-------|--------|-----------------|
-| **Layer A — Identity Core** | Expert-initiated | The 164-field onboarding dossier. Voice DNA, Visual DNA, Clinical Philosophy, Offer Stack, Proof Bank. Expert-controlled. |
+| **Layer A — Identity Core** | Expert-initiated | The 198-field onboarding dossier. Voice DNA, Visual DNA, Clinical Philosophy, Offer Stack, Proof Bank. Expert-controlled. Canonical schema: `layer1/step2_expert_dossier_data_schema.md`. |
 | **Layer B — Market Intelligence** | Platform-automated | Audience response profile, competitive intelligence, market trend signals, offer performance data. Built by the platform from real data. |
 | **Layer C — Behavioral Intelligence** | Learning loop | Output quality calibration, workflow preferences, expert evolution tracking. Learns what "good" looks like for this specific expert from every approval, edit, and rejection. |
 
@@ -946,7 +951,7 @@ Every Growth Lab win flows back into the platform:
 | L5-6 IQ Growth Lab | 8 |
 | **Layer 5 Total** | **15 new agents** |
 
-**Revised platform total: ~183 agents** (168 original + 15 Layer 5)
+**Revised platform total: ~184 agents** (169 original + 15 Layer 5)
 
 ---
 
@@ -961,10 +966,18 @@ Every Growth Lab win flows back into the platform:
 | `layer5/L5-5_iq_score.md` | IQ Score — 8 dimensions, scoring model, Score Card, habit loop, tier system |
 | `layer5/L5-6_iq_growth_lab.md` | IQ Growth Lab — 6 engines, organic-to-paid loop, Miro Fish Focus Group, THI proving ground |
 | `layer5/README.md` | Layer 5 index and platform completion summary |
+| `knowledge/briefs/copy_frameworks.md` | Direct response copy frameworks applied to health marketing |
+| `knowledge/briefs/compliance_guidelines.md` | FTC, FDA, state medical board claim restriction reference |
+| `knowledge/briefs/html_css_production.md` | HTML/CSS layout standards for Puppeteer-rendered assets |
+| `knowledge/briefs/platform_dimensions.md` | All asset dimension specs by platform and format |
+| `knowledge/briefs/design_principles.md` | Visual design standards for health expert brand assets |
+| `knowledge/briefs/video_production.md` | B-roll, Reels, and video asset production guidelines |
+| `knowledge/briefs/quiz_assessment.md` | Quiz and interactive tool build specifications |
+| `knowledge/briefs/hook_performance.md` | Hook structure performance data and patterns |
 
 ---
 
 *Step 22 — Updated with Layer 5 — v2.0*
 *clinicIQ Platform — Complete Agent Architecture including IQ Intelligence Platform*
-*~183 agents across Platform Services, Layers 1–5*
+*~184 agents across Platform Services, Layers 1–5*
 *Full platform specced. Build-ready.*

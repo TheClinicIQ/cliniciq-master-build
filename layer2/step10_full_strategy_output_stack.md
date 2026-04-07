@@ -290,7 +290,7 @@ This is the complete sequence from strategy completion to Builder agent activati
 
 ```
 LAYER 1 COMPLETE
-Expert Dossier (164 fields) + Silent Diagnosis payload
+Expert Dossier (198 fields across 14 sections) + Silent Diagnosis payload
         ↓
 LAYER 2 ACTIVATION
 Brand Strategy Agent + Growth Strategy Agent run in parallel
