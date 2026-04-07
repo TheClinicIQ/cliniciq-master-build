@@ -1,5 +1,5 @@
 # clinicIQ — Layer 1: Onboarding Agent — Step 3: Conversation Flow Architecture
-**Version 1.0 — Draft**
+**Version 1.0 — Final**
 *Step 3 of 22 | Depends on: Step 1 (Agent Description), Step 2 (Data Schema)*
 
 ---
@@ -19,7 +19,7 @@ Every session begins by detecting or selecting one of two modes. The agent reads
 
 **Minimum viable fields to unlock Layer 2:**
 - Identity & Practice (Section 1) — all fields
-- Voice DNA (Section 2) — tone_primary, formality_level, sentence_rhythm
+- Voice DNA (Section 2) — tone_primary, formality_level, sentence_rhythm, vocabulary_register, emotional_register, conviction_level, signature_phrases, sample_extracts (minimum 3 verbatim extracts — required for Builder Layer voice calibration)
 - Avatar Psychology (Section 4) — avatar name, primary symptom, core fear, deepest desire, awareness_level, false beliefs (all three)
 - Problems → Root Cause → New Vehicle Map (Section 5) — surface problems, new vehicle name, new vehicle description
 - Offer Architecture (Section 7) — core transformation, high-ticket name, high-ticket price, fulfillment model
@@ -59,6 +59,8 @@ Before any questions are asked, the agent sets the frame. This is non-negotiable
 ## Section Sequencing
 
 The agent works through sections in a defined order. This order is not arbitrary — each section primes the expert for the next one, and each answer enriches the questions that follow.
+
+> **Developer note — conversation sequence ≠ schema section numbers.** The Step 2 schema numbers sections in logical data order (Section 1 = Identity, Section 2 = Voice DNA, Section 3 = Visual DNA, etc.). The conversation sequence below is ordered for psychological flow — not for data structure. For example, Expert Personal Story is visited second in conversation (to open the expert up early) but is Section 14 in the schema. Voice DNA confirmation is visited fourth in conversation but is Section 2 in the schema. Agents must map conversation position → schema section key, not assume they are identical.
 
 | Sequence | Schema Section | Why This Order |
 |----------|---------------|----------------|
@@ -452,7 +454,7 @@ Experts will go off in unexpected directions. The agent handles the four most co
 | 13 — Business Context | Tech stack + compliance | All 11 fields |
 | 14 — Expert Personal Story | Story summary | All 7 fields |
 
-**Fast-Start minimum:** ~55 fields confirmed or agent-generated. Enough to unlock Layer 2 and produce first outputs.
+**Fast-Start minimum:** ~60 P1 fields confirmed or agent-generated. Enough to unlock Layer 2 and produce first outputs. Matches the P1 field count in Step 2's schema.
 **Full Deep-Dive target:** All 198 fields populated (confirmed or agent-generated with approval).
 
 ---

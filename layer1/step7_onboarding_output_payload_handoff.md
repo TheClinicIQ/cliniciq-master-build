@@ -1,5 +1,5 @@
 # clinicIQ — Layer 1: Onboarding Agent — Step 7: Onboarding Output Payload — Handoff to Layer 2
-**Version 1.0 — Draft**
+**Version 1.0 — Final**
 *Step 7 of 22 | Depends on: Steps 1–6 (All Layer 1 steps)*
 
 ---
@@ -19,7 +19,7 @@ This step also defines the minimum viable payload (Fast-Start) vs. the full payl
 ### State 1 — Fast-Start Payload (Minimum Viable Dossier)
 Produced at the end of a Fast-Start Mode session (20–30 minutes).
 Unlocks: Layer 2 strategy agents. Brand Agent and Growth Agent can produce their first outputs.
-Coverage: ~55–70 fields confirmed or agent-generated with approval.
+Coverage: ~60 P1 priority fields confirmed or agent-generated with approval. Full P1 field list defined in Step 2 schema.
 Pending flags: Remaining fields auto-populated with agent-generated best-guess values marked `pending-approval`.
 
 ### State 2 — Full Payload (Complete Dossier)
@@ -255,8 +255,10 @@ The payload is handed off to Layer 2 the moment `handoff_ready` is set to `true`
 4. The session transcript (for additional Voice DNA enrichment and quality review)
 5. The achievements list (for dashboard display)
 6. The dossier completion score (for gamification display)
-7. The Brand North Star Document (produced by Brand Strategy Agent — all Builder agents read this before generating any output)
-8. The Monthly Messaging Brief (produced by Growth Strategy Agent — campaign-level hook bank, angle map, objection library, emotional beat sequence, and social proof deployment map that Builder agents use as their creative brief each month)
+
+> **Note on sequencing:** Items 1–6 above are the Layer 1 *inputs* that Layer 2 receives at handoff. The following two documents are Layer 2 *outputs* — they do not exist at handoff time; Layer 2 agents produce them as their first deliverables. They are listed here so developers understand what Layer 2 is responsible for producing before the Builder Layer activates:
+> - **Brand North Star Document** — produced by Brand Strategy Agent; all Builder agents read this before generating any output
+> - **Monthly Messaging Brief** — produced by Growth Strategy Agent; campaign-level hook bank, angle map, objection library, emotional beat sequence, and social proof deployment map that Builder agents use as their monthly creative brief
 
 **Layer 2 agents initialized at handoff:**
 - Brand Strategy Agent (5b) — reads Voice DNA, Clinical Philosophy, Avatar Psychology, Competitive Landscape, Offer Architecture
