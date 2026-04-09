@@ -28,22 +28,15 @@ The current version is a skeleton — Inbox, Hub, Dark Mode, Help, Download App,
 
 ## FLYOUT CONTENT — Top to Bottom
 
-### SECTION 1: COMMUNICATION (top)
+### SECTION 1: NOTIFICATIONS (top — the most time-sensitive item)
 
-**Header:** None — these are the primary items, they don't need a label.
+**Header:** None — this is the primary item, it doesn't need a section label.
 
-**Item 1: Inbox**
-- Icon: Mail icon (Lucide `Mail`, 20px, #374151)
-- Label: "Inbox" (14px, #1F2937)
-- Right side: notification badge — small rounded-full pill (18px height, min-width 18px, emerald #10B981 bg, white text, bold, 11px). Shows unread count: "3". Hidden when count is 0.
-- Click → navigates to `/inbox` (a full-page inbox view)
-- **What the inbox contains:** Messages from IQ Claw (engine completions, content ready for review, performance alerts, weekly digests), team notifications (if Teams is set up), and system notifications (integration disconnects, billing alerts). This is the platform's notification center — not email.
-
-**Item 2: Notifications**
+**Item 1: Notifications**
 - Icon: Bell icon (Lucide `Bell`, 20px, #374151)
 - Label: "Notifications" (14px, #1F2937)
-- Right side: red (#EF4444) dot (8px) when unread notifications exist. No dot when clear.
-- Click → opens a **notification dropdown** inline inside the flyout (replaces the flyout content temporarily):
+- Right side: notification badge — small rounded-full pill (18px height, min-width 18px, emerald #10B981 bg, white text, bold, 11px). Shows unread count: "3". Hidden when count is 0.
+- Click → opens the **notification panel** inline inside the flyout (replaces the flyout content temporarily):
 
 ```
 ┌─────────────────────────────────────────┐
@@ -65,7 +58,8 @@ The current version is a skeleton — Inbox, Hub, Dark Mode, Help, Download App,
 │  ⚪ Engine scheduled                     │
 │     Monthly Content runs Apr 25 1d ago  │
 │                                         │
-│           [View all notifications →]    │
+│        [Mark all as read]               │
+│        [View all notifications →]       │
 └─────────────────────────────────────────┘
 ```
 
@@ -74,7 +68,9 @@ The current version is a skeleton — Inbox, Hub, Dark Mode, Help, Download App,
 - Row height: 52px. Hover: #F3F4F6.
 - Click a notification → navigates to the relevant page/section.
 - [← Back] returns to the main More flyout.
-- Max 5 shown. [View all notifications →] links to `/inbox`.
+- [Mark all as read] — gray text link (12px), clears all unread badges.
+- Max 5 shown. [View all notifications →] links to `/notifications` (full-page notification history with filters by type and date).
+- **This is the single notification system.** There is no separate "Inbox" — that was redundant. Notifications covers: IQ Claw messages (engine completions, content ready, performance alerts, weekly digests), team activity, and system events (integration disconnects, billing). One unified stream, one badge count.
 
 ---
 
@@ -323,7 +319,7 @@ These routes need to exist as pages (can be placeholder/skeleton pages for v1, b
 
 | Route | Page | Minimum v1 Content |
 |-------|------|-------------------|
-| `/inbox` | Notification center | List of notifications grouped by date, mark as read, filter by type |
+| `/notifications` | Notification center | Full notification history grouped by date, mark as read, filter by type (alerts, completions, info, system) |
 | `/analytics` | Deep analytics dashboard | Tabbed view: Ads, Funnels, Social, Email. Charts + tables with date range filter. Can use mock data. |
 | `/channels` | Social channel management | Grid of platform cards (IG, FB, YT, TikTok, LinkedIn). Each: status, follower count, [Connect] button. |
 | `/services` | Integration hub | Grid of service cards grouped by category. Each: logo, status dot, [Connect] / [Configure]. |
@@ -393,6 +389,67 @@ const mockTrainingModules = [
 
 ---
 
+## REDUNDANCY AUDIT — More Flyout vs. Right Panel Tabs
+
+The right panel in the IQ workspace has tabs including: Channels, Services, Training, and Settings. The More flyout also has: Channels, Services, Training, and Settings-related items. This is intentional — NOT redundant. Here's why:
+
+| Item | Right Panel Tab | More Flyout Page | Why Both Exist |
+|------|----------------|-----------------|----------------|
+| **Channels** | Quick glance — compact list of connected platforms with status dots. Fits in the right panel while working with IQ. | Full page (`/channels`) — detailed management, connect/disconnect, publishing settings, posting schedules, cross-posting rules. | Tab = glance. Page = manage. |
+| **Services** | Quick glance — compact list of connected integrations with status. | Full page (`/services`) — full integration hub, configure settings, view sync history, add new. | Tab = glance. Page = manage. |
+| **Training** | Quick glance — current module progress, quick tips, next lesson. | Full page (`/training`) — full LMS with all modules, lessons, videos, badges. | Tab = nudge. Page = learn. |
+| **Settings** | Quick glance — account basics, quick toggles. | Full pages (`/settings/account`, `/settings/billing`, `/settings/notifications`) — complete settings with all fields. | Tab = shortcuts. Pages = full control. |
+
+**The rule:** Right panel tabs are compact, glanceable views you check while chatting with IQ. More flyout pages are full-screen deep dives you navigate to when you need to configure, manage, or learn. The tab says "here's the status." The page says "here's the control panel."
+
+**One change to enforce this:** When the expert clicks a right panel tab (e.g., Channels) and wants more detail, there should be a [View Full Page →] link at the bottom of that tab content that navigates to the corresponding More flyout page (e.g., `/channels`). This creates a clear hierarchy: tab for quick view → full page for management.
+
+---
+
+## OVERLAP WITH DASHBOARD TAB — Notifications vs. Needs Attention
+
+The Dashboard tab has a "Needs Attention" section showing alerts (Ad Set B fatiguing, email open rates declining, posts awaiting approval). The More flyout has an Inbox and Notifications panel that shows similar items (content batch complete, ad fatigue warning, etc.).
+
+**These are NOT the same thing:**
+- **Dashboard "Needs Attention"** = curated, severity-sorted, action-required items. Only things the expert must DO something about. Max 5. Changes based on platform state.
+- **Notifications (More flyout)** = full activity stream. Everything that happened — completions, warnings, info, system events. Historical. Scrollable. Filterable.
+
+**The connection:** Items that appear in "Needs Attention" on the Dashboard ALSO appear as notifications — but not all notifications are important enough for "Needs Attention." Think: "Needs Attention" is the executive summary. Notifications is the full log.
+
+---
+
+## OVERLAP WITH SIDEBAR — Settings Gear + User Avatar
+
+The sidebar has a Settings gear icon and a user avatar at the bottom (pinned). The More flyout also has Manage Account and Settings-related items.
+
+**Resolution:**
+- **Sidebar Settings gear** → clicking it navigates to `/settings/account` (same destination as More → Manage Account). This is a shortcut.
+- **Sidebar User Avatar** → clicking it opens the More flyout, scrolled to the account section at the bottom. This way the avatar feels like a "me" button that opens the user's menu.
+- **More flyout Manage Account** → also navigates to `/settings/account`. Same destination, different entry point.
+
+This means there are 3 ways to get to settings: sidebar gear, sidebar avatar (opens More), or More → Manage Account. That's fine — settings should be easy to find.
+
+---
+
+## WHAT'S NOT IN THE MORE FLYOUT (and shouldn't be)
+
+| Item | Where It Lives | Why Not in More |
+|------|---------------|-----------------|
+| Home | Sidebar (House icon) | Primary navigation — too important for overflow |
+| IQ | Sidebar (BrainCircuit icon) | The main workspace — never hidden |
+| Engines | Sidebar (Zap icon) | Core feature — daily use |
+| Teams | Sidebar (Users icon) | Core feature |
+| Drive | Sidebar (FolderOpen icon) | Core feature |
+| Brand / Strategy / Builders / Content / Calendar | Right panel tabs | These are context panels for IQ workspace, not standalone pages |
+| + New | Sidebar (Plus icon) | The primary creation action — must be one-click |
+
+---
+
 ## THE PRINCIPLE
 
 The "More" flyout is where the expert finds everything that powers the platform behind the scenes — integrations, analytics, notifications, training, help, account. It should feel like opening the control panel of a luxury car: everything is there, everything works, everything is exactly where you'd expect it. Premium, organized, zero clutter.
+
+The hierarchy is clear:
+- **Sidebar** = daily-use navigation (Home, IQ, Engines, Teams, Drive, + New)
+- **Right panel tabs** = glanceable context while working with IQ
+- **More flyout** = everything else — full-page management, preferences, support, account
