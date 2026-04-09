@@ -1,50 +1,84 @@
-# ClinicIQ — Dashboard Tab Redesign
+# ClinicIQ — Dashboard Tab Redesign v2
 ## Rebuild the right-panel Dashboard tab to feel like a billion-dollar CEO command center
 
 ---
 
 ## CONTEXT
 
-The Dashboard tab lives in the right panel of the IQ workspace — next to the center chat. It is NOT the full-screen Home page. It's the **compact, glanceable command center** the expert sees while they're working with IQ Claw. It needs to answer one question instantly: **"How's my business doing right now, and what needs my attention?"**
+The Dashboard tab lives in the right panel of the IQ workspace — next to the center chat. It is NOT the full-screen Home page. It's the **compact, glanceable command center** the expert sees while they're working with IQ Claw. It needs to answer three questions instantly:
 
-The current version has the right bones but needs to be tightened. Too much scroll depth, some sections are redundant, and the hierarchy doesn't lead the eye to what matters most.
+1. **"Am I making money?"** — Revenue, leads, booked calls. Real numbers.
+2. **"Is anything broken?"** — What needs my attention right now.
+3. **"Is the platform working?"** — What's running, what's winning, what's next.
+
+The current version has the right bones but needs to be tightened. Too much scroll depth, some sections are redundant, the hierarchy doesn't lead the eye to what matters most, and critically — **there are no revenue or pipeline numbers anywhere.** The expert runs a real business. The dashboard should feel like it.
 
 ---
 
 ## WHAT'S WRONG WITH THE CURRENT VERSION
 
-1. **Greeting and date** at the top waste prime real estate — the expert already sees IQ's greeting in the chat. Don't repeat it here.
-2. **Four score cards across the top** compete for attention equally — but they shouldn't. The expert needs one overall number, not four.
-3. **"Overall Health Score" donut** is buried in the second row — it should be the very first thing they see.
-4. **"Needs Your Attention"** is excellent but the alerts lack severity weight — a fatiguing ad set and 5 posts awaiting approval shouldn't look the same.
-5. **"Recommendations"** and **"What's Working"** are good but take too much vertical space for what they show.
-6. **"Performance by Category"** with tabbed detail metrics is too deep for the right panel — that's Home page depth. The right panel should surface the headline, not the table.
-7. **"Activity Feed"** is filler. If IQ is narrating in the chat, the activity feed is redundant.
-8. **No engines/workflow status** — the expert should see their active growth engines at a glance.
-9. **No upcoming calendar** — what's publishing today/this week should be visible.
+1. **No revenue, no leads, no pipeline.** The expert generates real money and the dashboard doesn't show a single dollar sign. This is the #1 gap.
+2. **Greeting and date** at the top waste prime real estate — the expert already sees IQ's greeting in the chat. Don't repeat it here.
+3. **Four score cards across the top** compete for attention equally — but they shouldn't. The expert needs one overall number, not four.
+4. **"Overall Health Score" donut** is buried in the second row — it should be prominent but not above the money.
+5. **"Needs Your Attention"** is excellent but the alerts lack severity weight — a fatiguing ad set and 5 posts awaiting approval shouldn't look the same.
+6. **"Recommendations"** and **"What's Working"** are good but take too much vertical space for what they show. And "What's Working" only shows winners — it should also show what's dying so the expert knows what to fix.
+7. **"Performance by Category"** with tabbed detail metrics is too deep for the right panel — that's Home page depth. The right panel should surface the headline, not the table.
+8. **"Activity Feed"** is filler. If IQ is narrating in the chat, the activity feed is redundant.
+9. **No engines/workflow status** — the expert should see their active growth engines at a glance.
+10. **No upcoming calendar** — what's publishing today/this week should be visible.
+11. **No gamification** — the IQ Score should feel like something to improve, not just observe.
 
 ---
 
 ## THE REDESIGN — Top to Bottom
 
-The Dashboard tab scrolls vertically inside the right panel. Every section earns its space by being immediately actionable or immediately informative. No filler. No redundancy with the chat.
+The Dashboard tab scrolls vertically inside the right panel. Every section earns its space by being immediately actionable or immediately informative. No filler. No redundancy with the chat. **7 sections.**
 
 ---
 
-### SECTION 1: IQ SCORE (Hero — top of panel, always visible)
+### SECTION 1: THE PULSE (Money + Pipeline — the first thing they see)
 
-The single most prominent element on the Dashboard. This is the expert's overall platform health score — a composite of all category scores.
+Three numbers. Always visible. No scrolling required. This is what makes the expert addicted to checking the platform every morning. Not scores — **dollars and pipeline.**
+
+```
+┌──────────────────┬──────────────────┬──────────────────┐
+│    $12,400       │      23          │       4          │
+│  Revenue MTD     │  New Leads       │  Calls Booked    │
+│  ↑ 18% vs last   │  12 today        │  this week       │
+└──────────────────┴──────────────────┴──────────────────┘
+```
+
+**Design:**
+- Three equal-width columns inside a single row, no card borders — bleeds to the panel edges
+- Each metric:
+  - Value: 24px, bold, #1F2937 (Revenue gets a $ prefix)
+  - Label: 11px, uppercase, #6B7280, letter-spacing 0.05em
+  - Trend/context: 12px — emerald text + TrendingUp icon (↑) if positive, red + TrendingDown (↓) if negative, gray if neutral
+- Revenue: "$12,400" with "↑ 18% vs last month" in emerald
+- New Leads: "23" with "12 today" in emerald (today's count highlighted — creates a "checking the score" habit)
+- Calls Booked: "4" with "this week" in gray
+- Dividers: thin 1px #E5E7EB vertical lines between columns
+- Bottom border: 1px #E5E7EB to separate from next section
+- Padding: 16px top, 20px bottom
+- These numbers pull from integrations (GHL, Stripe, Calendly, etc.). If not connected: show "--" with "Connect in Services →" link (12px, emerald)
+
+---
+
+### SECTION 2: IQ SCORE (Health gauge — with milestone gamification)
+
+The expert's overall platform health score — a composite of all category scores. Now with a milestone to chase.
 
 ```
 ┌─────────────────────────────────────────────────────┐
 │                                                     │
-│              ┌─────────┐                            │
-│              │         │                            │
-│              │   71    │    IQ Score                │
-│              │  /100   │    +3 from last week       │
-│              │         │                            │
-│              └─────────┘                            │
-│              (circular gauge)                       │
+│     ┌─────────┐                                     │
+│     │         │    IQ Score                         │
+│     │   71    │    +3 from last week                │
+│     │  /100   │                                     │
+│     │         │    🎯 4 points to 75 —              │
+│     └─────────┘       unlock Audience Insights      │
+│     (circular gauge)                                │
 │                                                     │
 │   Ad 64  ·  Funnel 78  ·  Social 82  ·  Email 58  │
 │   (🔴)      (🟢)         (🟢)          (🟡)        │
@@ -53,14 +87,22 @@ The single most prominent element on the Dashboard. This is the expert's overall
 ```
 
 **Design:**
-- Circular gauge: 80px diameter, thick stroke (8px). Color matches score: emerald (80+), amber (60–79), red (<60). This one shows amber at 71.
-- Score number: 32px, bold, #1F2937, centered inside the gauge
-- "/100" below number: 14px, #6B7280
-- "IQ Score" right of gauge: 18px, bold, #1F2937
-- "+3 from last week" below: 13px, emerald text with TrendingUp icon (if positive), red with TrendingDown (if negative)
-- Category scores below: horizontal row, 12px each, #6B7280 text. Colored dot (6px) next to each: emerald (75+), amber (50–74), red (<50)
-- Clicking any category score → switches to the relevant tab (clicking "Email 58" → switches to Dashboard tab but scrolls down to the detail section, or navigates to a future Analytics view)
-- Card: no card border — this bleeds to the edges of the right panel. White bg, 24px padding top/bottom. 1px #E5E7EB bottom border as divider.
+- Circular gauge: 64px diameter (slightly smaller than before to save vertical space), thick stroke (6px). Color matches score: emerald (80+), amber (60–79), red (<60). This one shows amber at 71.
+- Score number: 28px, bold, #1F2937, centered inside the gauge
+- "/100" below number: 12px, #6B7280
+- Right of gauge (vertically stacked):
+  - "IQ Score" — 16px, bold, #1F2937
+  - "+3 from last week" — 12px, emerald text with TrendingUp icon (if positive), red with TrendingDown (if negative)
+  - Milestone: "🎯 4 points to 75 — unlock Audience Insights" — 12px, #6B7280. The 🎯 is the target emoji. The milestone text shows the next threshold and what it unlocks.
+- **Milestones** (the gamification layer):
+  - 50: "Foundation Set" — basic profile and content running
+  - 75: "Audience Insights" — advanced analytics unlock
+  - 85: "Growth Mode" — scaling recommendations activate
+  - 95: "Elite Operator" — badge + priority support + advanced features
+  - The dashboard always shows the next milestone the expert hasn't reached yet. Once hit, it celebrates briefly (confetti? emerald glow?) then shows the next one.
+- Category scores below: horizontal row, 12px each, #6B7280 text. Colored dot (6px) next to each: emerald (75+), amber (50–74), red (<50). Lowest score gets a subtle amber/red background tint to draw the eye.
+- Clicking any category score → navigates to a deeper view (future: Analytics page. For now: no-op or scroll to a relevant section).
+- Card: no card border — bleeds to panel edges. White bg, 16px padding top/bottom. 1px #E5E7EB bottom border.
 
 ---
 
@@ -171,40 +213,50 @@ What's going out this week. Gives the expert a sense of momentum — the platfor
 
 ---
 
-### SECTION 5: WHAT'S WORKING (Quick wins — keep doing this)
+### SECTION 5: WINNING & LOSING (The contrast that creates action)
 
-The expert's top performers. Reinforces that the platform is generating results. Short and punchy — 2 items max.
+Not just what's working — the one thing that's crushing it next to the one thing that's dying. The contrast creates urgency. The expert immediately knows what to double down on and what to fix.
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│  🏆 WHAT'S WORKING                                  │
+│  📊 PERFORMANCE SPOTLIGHT                            │
 │  ─────────────────────────────────────────────────  │
 │                                                     │
-│  📝 Cortisol carousel                  4.2% eng 🟢 │
-│     Outperforming average by 2.3x                   │
+│  🟢 WINNING                                        │
+│  📝 Cortisol carousel                  4.2% eng    │
+│     ↑ 2.3x your average                            │
 │     ▁▂▃▅▇█▇▅ (sparkline)                          │
 │                                                     │
-│  ✉️ Welcome sequence                  42% open 🟢  │
-│     Above 25% benchmark                             │
-│     ▁▂▄▆▇█▇▆ (sparkline)                          │
+│  🔴 FIX THIS                                       │
+│  📝 Thursday posts                     0.8% eng    │
+│     ↓ 60% below average                            │
+│     █▇▅▃▂▁▁▁ (sparkline, declining)               │
 │                                                     │
 └─────────────────────────────────────────────────────┘
 ```
 
 **Design:**
-- Header: "WHAT'S WORKING" (11px, uppercase, #6B7280) + Trophy icon
-- Each item: compact card, #F0FDF4 background (light emerald tint), rounded-lg, padding 10px 14px
+- Header: "PERFORMANCE SPOTLIGHT" (11px, uppercase, #6B7280) + BarChart3 icon
+- **Winner row:**
+  - Sub-header: "WINNING" (10px, uppercase, #065F46, letter-spacing 0.05em)
+  - Card: #F0FDF4 background (light emerald tint), rounded-lg, padding 10px 14px, 2px left border emerald
   - Left: builder emoji + content name (13px, bold, #065F46)
-  - Right: metric value (13px, bold, #065F46) + green dot
-  - Below: one-line context (12px, #065F46) + tiny sparkline chart (32px wide, emerald stroke)
-- Exactly 2 items. No more. These are the highlights, not a full report.
-- 8px gap between items.
+  - Right: metric value (13px, bold, #065F46)
+  - Below: trend context (12px, #065F46) + sparkline (32px, emerald stroke, trending up)
+- **Loser row:**
+  - Sub-header: "FIX THIS" (10px, uppercase, #991B1B, letter-spacing 0.05em)
+  - Card: #FEF2F2 background (light red tint), rounded-lg, padding 10px 14px, 2px left border red
+  - Left: builder emoji + content name (13px, bold, #991B1B)
+  - Right: metric value (13px, bold, #991B1B)
+  - Below: trend context (12px, #991B1B) + sparkline (32px, red stroke, trending down)
+- 8px gap between winner and loser cards.
+- One winner. One loser. That's it. Maximum contrast, maximum action.
 
 ---
 
-### SECTION 6: IQ RECOMMENDATIONS (Smart suggestions — 2 max)
+### SECTION 6: IQ RECOMMENDS (Smart suggestions — 2 max, plus proof bank nudge)
 
-AI-powered actions the expert can take with one click. Not a list of 3+ — just the top 2 highest-impact moves.
+AI-powered actions the expert can take with one click. The top 2 highest-impact moves. Plus a persistent nudge when the proof bank is thin — because proof directly impacts conversion rates and most experts don't realize it.
 
 ```
 ┌─────────────────────────────────────────────────────┐
@@ -219,6 +271,14 @@ AI-powered actions the expert can take with one click. Not a list of 3+ — just
 │     fatigue detected after 14 days                  │
 │                                    [Apply →]        │
 │                                                     │
+│  ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─   │
+│                                                     │
+│  🛡️ Proof Bank: 42/100                              │
+│  Ask your next 3 patients who got results           │
+│  for a video testimonial — this directly            │
+│  improves your ad and webinar conversion.           │
+│                            [Strengthen Proof →]     │
+│                                                     │
 └─────────────────────────────────────────────────────┘
 ```
 
@@ -229,31 +289,45 @@ AI-powered actions the expert can take with one click. Not a list of 3+ — just
 - Clicking [Apply →] → tells IQ Claw to execute the recommendation (pre-fills chat)
 - Rows: 48px height, 6px gap, no background (just text rows with subtle bottom border #F3F4F6)
 
+**Proof Bank Nudge (conditional):**
+- Only shown when `proof_bank_depth_score` is below 60
+- Appears below the 2 recommendations, separated by a dashed divider (1px dashed #E5E7EB)
+- Shield icon (🛡️) + "Proof Bank: [score]/100" (13px, bold, #374151) + progress bar (full-width, 4px height, amber fill if 40–59, red fill if <40)
+- Nudge text: one specific, actionable sentence connecting a real-world action to a platform outcome (13px, #6B7280)
+- [Strengthen Proof →] emerald text link → navigates to Brand tab, scrolls to Proof Bank section
+- When proof bank hits 60+, this nudge disappears and the space is reclaimed
+- The nudge text rotates between different specific asks:
+  - "Ask your next 3 patients who got results for a video testimonial — this directly improves your ad conversion."
+  - "Upload the before/after labs from your last success story — data-backed proof converts 3x better than text testimonials."
+  - "Record a 60-second clip of your next patient win — video testimonials are your highest-converting ad format."
+
 ---
 
 ## WHAT WAS REMOVED AND WHY
 
 | Removed | Why |
 |---------|-----|
-| Greeting + date header | Redundant with IQ's chat greeting. Wastes top real estate. |
+| Greeting + date header | Redundant with IQ's chat greeting. Wastes top real estate. Replaced by The Pulse — real numbers. |
 | Four score cards across the top | Replaced by single IQ Score gauge with inline category scores below. One number to rule them all. |
-| "Overall Health Score" donut in row 2 | Promoted to Section 1 — it's now the hero element. |
+| "Overall Health Score" donut in row 2 | Promoted to Section 2 (after The Pulse) — still prominent but money comes first. |
 | "Performance by Category" with tabs and detail metrics | Too deep for the right panel. That depth lives on the Home page (/home). The right panel gives you the score; Home gives you the breakdown. |
 | "Activity Feed" timeline | Redundant. IQ Claw narrates activity in the center chat. The right panel doesn't need to repeat it. |
 | Third recommendation | Two is enough for the right panel. Keep it tight. |
+| "What's Working" showing only winners | Replaced by "Performance Spotlight" — one winner AND one loser. The contrast creates action. |
 
 ---
 
 ## FULL SECTION ORDER
 
-1. **IQ Score** — the number (hero, always visible without scrolling)
-2. **Needs Attention** — what's broken / what needs action
-3. **Active Engines** — what systems are running
-4. **This Week** — what's publishing
-5. **What's Working** — top 2 performers
-6. **IQ Recommends** — top 2 smart moves
+1. **The Pulse** — revenue, leads, calls booked (the money — above everything)
+2. **IQ Score** — the health gauge with milestone gamification
+3. **Needs Attention** — what's broken / what needs action
+4. **Active Engines** — what systems are running
+5. **This Week** — what's publishing
+6. **Performance Spotlight** — best performer vs. worst performer
+7. **IQ Recommends** — top 2 smart moves + proof bank nudge
 
-**Total scroll depth:** The expert should see Sections 1–3 without scrolling (above the fold on a standard right panel). Sections 4–6 are one scroll down. Nothing should feel buried or endless.
+**Total scroll depth:** The expert should see Sections 1–3 without scrolling (above the fold on a standard right panel). Sections 4–7 are one scroll down. Nothing should feel buried or endless.
 
 ---
 
@@ -271,6 +345,11 @@ AI-powered actions the expert can take with one click. Not a list of 3+ — just
 
 ## THE PRINCIPLE
 
-This dashboard is the **executive briefing** — not the full report. The expert glances right, gets the score, sees what needs attention, knows what's running, knows what's publishing, sees what's winning, and gets two smart moves to make. Then they turn back to IQ in the center chat and act on it.
+This dashboard is the **executive briefing** — not the full report. The expert glances right, sees the money flowing, gets the health score, sees what needs attention, knows what's running, knows what's publishing, sees what's winning AND what's dying, and gets two smart moves to make. Then they turn back to IQ in the center chat and act on it.
 
 **Every pixel earns its space. If it doesn't make the expert smarter or faster in 2 seconds, it doesn't belong.**
+
+The three things that make an expert check this dashboard every morning:
+1. **The Pulse** — "Am I making money?" ($12,400 revenue, 23 leads, 4 calls booked)
+2. **The Milestone** — "How close am I to 75?" (gamification creates pull)
+3. **The Contrast** — winner vs. loser side by side ("Double down on cortisol carousels. Fix Thursday posts.")
