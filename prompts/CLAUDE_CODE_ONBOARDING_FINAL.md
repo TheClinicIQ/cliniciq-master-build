@@ -308,35 +308,58 @@ IQ asks these questions in this order. One at a time. Never stacked. The weak re
 
 ---
 
-### PHASE 9: WHAT YOU'VE GOT — Current Assets & Reality (Questions 87–93)
+### PHASE 8b: WHAT WE'RE STILL MISSING (Questions 87–92)
+*These fill the gaps no other phase covers. Critical for specific builders.*
 
-**Q87:** "What do you already have out there right now? Walk me through everything — website, social media accounts, email list, podcast, YouTube, lead magnets, funnels, past content. Even if it's a mess."
+**Q87:** "Why is what you do especially important RIGHT NOW? Is there something happening in healthcare, in culture, in health trends that makes this moment different from five years ago?"
+→ Captures: Why-now urgency (feeds ad scarcity, webinar framing, positioning)
 
-**Q88:** "How big is your email list? How big is your social following — and on which platforms?"
+**Q88:** "Walk me through the actual steps of your approach — from day one with a new patient to completion. First you do X, then Y, then Z. The real sequence."
+→ Captures: Mechanism step-by-step (feeds Program Builder, Challenge Builder, Webinar teaching sections)
 
-**Q89:** "Have you ever run paid ads? What happened?"
+**Q89:** "After someone finishes your main program — what happens? Do they stay with you? Come back for maintenance? Join a community? Is there a next phase?"
+→ Captures: Retention/continuity model (feeds Email Builder buyer onboarding, offer ascension, Growth Strategy)
 
-**Q90:** "Are you willing to be on camera? Do you like creating content, or does it feel like a chore?"
+**Q90:** "If a patient does everything in your program and doesn't get the results they expected — what would you do? Would you offer more time? A refund? Additional support? What feels right to you?"
+→ Captures: Guarantee/risk reversal framework (feeds Funnel Builder order page, Webinar close, Sales Script)
 
-**Q91:** "Is there anyone on your team who handles marketing, content, or admin? Or is everything on you?"
+**Q91:** "When patients describe what they went through BEFORE finding you — what are the exact phrases they use? Things like 'I've been to 5 doctors and nobody found anything' or 'my doctor told me it's just aging.' Give me their actual words."
+→ Captures: Patient failure language (feeds Ad Creative hooks, Content scroll-stoppers, Email subject lines — this is the highest-converting copy raw material)
 
-**Q92:** "What's your realistic availability for this — how many hours a week can you give to marketing, content, or review?"
-
-**Q93:** "Are there any compliance requirements, legal restrictions, or regulatory things we need to be aware of? Things you can't say, claims you can't make?"
+**Q92:** "Your brand visuals — I pulled your logo and colors from your website. Does this represent who you are, or do you want a different direction? Any visual preferences — clean and minimal, bold and colorful, clinical and premium, warm and approachable?"
+→ Captures: Visual DNA (feeds Website Builder, Content Builder branded graphics, Funnel Builder page design)
 
 ---
 
-### PHASE 10: THE ONE BIG DOMINO + VISION (Questions 94–97)
+### PHASE 9: WHAT YOU'VE GOT — Current Assets & Reality (Questions 93–99)
 
-**Q94:** "What's the ONE thing that, if your ideal patient truly believed it, would change everything for them? The single belief that, once they accept it, makes every other doubt fall away."
+**Q93:** "What do you already have out there right now? Walk me through everything — website, social media accounts, email list, podcast, YouTube, lead magnets, funnels, past content. Even if it's a mess."
+
+**Q94:** "How big is your email list? How big is your social following — and on which platforms?"
+
+**Q95:** "Have you ever run paid ads? What happened?"
+
+**Q96:** "Are you willing to be on camera? Do you like creating content, or does it feel like a chore?"
+
+**Q97:** "Is there anyone on your team who handles marketing, content, or admin? Or is everything on you?"
+
+**Q98:** "What's your realistic availability for this — how many hours a week can you give to marketing, content, or review?"
+
+**Q99:** "Are there any compliance requirements, legal restrictions, or regulatory things we need to be aware of? Things you can't say, claims you can't make?"
+
+---
+
+### PHASE 10: THE ONE BIG DOMINO + VISION (Questions 100–103)
+
+**Q100:** "What's the ONE thing that, if your ideal patient truly believed it, would change everything for them? The single belief that, once they accept it, makes every other doubt fall away."
 *If broad → "Make it specific to YOUR patients. Not 'root cause medicine.' What specific belief changes the game for [avatar name]?"*
 *If still generic → "Think about the last patient who had a breakthrough moment — their face changed. What did you tell them that shifted everything?"*
 
-**Q95:** "Paint the picture: three years from now, this all works perfectly. What does your practice look like? How many patients? What revenue? What does your day look like? How do people know your name?"
+**Q101:** "Paint the picture: three years from now, this all works perfectly. What does your practice look like? How many patients? What revenue? What does your day look like? How do people know your name?"
 
-**Q96:** "What would make you feel like this platform was the best investment you ever made? What result would you need to see?"
+**Q102:** "What would make you feel like this platform was the best investment you ever made? What result would you need to see?"
 
-**Q97:** "Is there anything I haven't asked about that you think I should know? Anything you've been wanting to say that didn't fit into a question?"
+**Q103:** "Is there anything I haven't asked about that you think I should know? Anything you've been wanting to say that didn't fit into a question?"
 
 ---
 
@@ -361,9 +384,9 @@ Want changes → capture corrections, update Voice DNA.
 
 ---
 
-**TOTAL: 97 questions across 12 phases.**
+**TOTAL: 103 questions across 12 phases.**
 
-Not all 97 will be asked verbatim every time. If IQ captures the answer naturally from an earlier response (story mining), it marks it captured and moves on. If the expert is time-pressed, IQ prioritizes the questions that feed the most deliverables. But the FULL list is the target.
+Not all 103 will be asked verbatim every time. If IQ captures the answer naturally from an earlier response (story mining), it marks it captured and moves on. If the expert is time-pressed, IQ prioritizes the questions that feed the most deliverables. But the FULL list is the target.
 
 **The key principle: The expert tells IQ about themselves. The platform builds the strategy. The expert never needs to know what a funnel is, what a false belief is, what a value ladder is, or what content pillars are. They just talk about their practice, their patients, and their story. IQ turns that into everything else.**
 
