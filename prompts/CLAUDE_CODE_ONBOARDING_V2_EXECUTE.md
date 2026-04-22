@@ -375,6 +375,18 @@ When the expert says:
 
 ---
 
+## EXPANDER PROMPTS
+
+The detailed instructions for how IQ expands raw answers into complete strategic documents — per section, with exact field lists, framework knowledge, and downstream builder dependencies — are in a companion file:
+
+**`prompts/ONBOARDING_EXPANDER_PROMPTS.md`** (in the cliniciq-master-build repo)
+
+This file contains the actual expansion logic for all 6 sections. When writing the new `_onboarding_guidelines.md`, incorporate these expander instructions. They tell IQ exactly what to generate from each section's raw answers, what frameworks to apply invisibly, what fields to capture, and what each downstream builder specifically needs from that section.
+
+The expander prompts are the highest-leverage part of the entire onboarding system. If they're weak, every downstream builder produces generic output. If they're strong, the platform produces work the expert reads back and says "that sounds exactly like me."
+
+---
+
 ## EXECUTION ORDER
 
 1. **Backend first:** Write the new `_onboarding_guidelines.md` (~200 lines). Update `_onboarding_agent.md`. Update `_mode_onboarding.md`. Update `modes/onboarding.py` toolbelt. Add `section_state` migration. Delete the 3 tool directories + diagnostics.
