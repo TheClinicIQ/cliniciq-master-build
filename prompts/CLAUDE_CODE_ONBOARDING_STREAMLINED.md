@@ -120,7 +120,7 @@ BUYING TRIGGERS (what makes her finally act):
 
 ---
 
-### SECTION 3: YOUR OFFERS (~4 min, 4 questions)
+### SECTION 3: YOUR OFFERS (~4 min, 5 questions)
 *What we need from them: What they currently sell, what it costs, what patients experience.*
 
 **Q10:** "What can someone buy from you right now? Walk me through everything — from the lowest entry point to the highest level of service."
@@ -129,7 +129,9 @@ BUYING TRIGGERS (what makes her finally act):
 
 **Q12:** "What do you charge? And what's the hardest part for patients — the friction, the thing that almost makes them quit?"
 
-**Q13:** "If a patient does everything and doesn't get results — what would you do? What could you guarantee?"
+**Q13:** "What happens if someone goes through your program and doesn't see the results they expected? How do you handle that?"
+
+**Q14:** "After someone finishes your main program — do they stay with you? Come back? Is there a maintenance phase, a community, a next level?"
 
 **→ AI EXPANDS: IQ generates a full offer sheet and presents for approval:**
 
@@ -154,6 +156,10 @@ YOUR OFFER STACK — Review & Approve
 
 GUARANTEE: [from Q13 — structured as a named guarantee]
 
+CONTINUITY / RETENTION:
+→ [from Q14 — what happens after the core program]
+→ [AI-generated ascension path and LTV strategy]
+
 VALUE EQUATION SCORE (Hormozi):
    Dream Outcome: [score] — [AI assessment]
    Perceived Likelihood: [score] — [needs more proof? flagged]
@@ -177,11 +183,11 @@ BONUS IDEAS (AI-generated to reduce friction + increase value):
 ### SECTION 4: YOUR PROOF (~3 min, 3 questions)
 *What we need from them: Their best stories, their credentials, what they've got.*
 
-**Q14:** "Tell me about your best patient transformation — someone who came in struggling and left a different person. What was her life like before, and what's it like now?"
+**Q15:** "Tell me about your best patient transformation — someone who came in struggling and left a different person. What was her life like before, and what's it like now?"
 
-**Q15:** "What credentials and experience do you have? Degrees, certifications, years in practice, anything noteworthy — media, books, podcasts, speaking. Don't edit, I'll sort."
+**Q16:** "What credentials and experience do you have? Degrees, certifications, years in practice, anything noteworthy — media, books, podcasts, speaking. Don't edit, I'll sort."
 
-**Q16:** "Roughly how many patients have you helped with this approach? And what percentage get meaningful results?"
+**Q17:** "Roughly how many patients have you helped with this approach? And what percentage get meaningful results?"
 
 **→ AI EXPANDS: IQ generates a full proof inventory and presents for approval:**
 
@@ -220,11 +226,11 @@ ADDITIONAL STORIES TO CAPTURE (IQ suggests):
 ### SECTION 5: YOUR VOICE & BRAND (~3 min, 3 questions)
 *Most of this is captured passively from how they've been talking. Just need a few direct confirmations.*
 
-**Q17:** "What words or phrases do you find yourself saying all the time? The things that are uniquely you."
+**Q18:** "What words or phrases do you find yourself saying all the time? The things that are uniquely you."
 
-**Q18:** "What words do you NEVER want in your marketing? The ones that make you cringe."
+**Q19:** "What words do you NEVER want in your marketing? The ones that make you cringe."
 
-**Q19:** "Show me an example of marketing you love — from anyone, in any field — and one you hate. What was it about each?"
+**Q20:** "Is there a brand or person on social media whose marketing you love — the way they show up, the way they communicate? And anyone whose marketing makes you roll your eyes? Just names or descriptions — I'll pull the vibe from there."
 
 **→ AI EXPANDS: IQ presents the Voice DNA it's been building from the entire conversation:**
 
@@ -302,11 +308,11 @@ LEAD MAGNET OPTIONS — Pick One
    → Why this works: fear + clarity = urgency to act
 ```
 
-**Q20:** "Which of these excites you most? Or does it spark a different idea?"
+**Q21:** "Which of these excites you most? Or does it spark a different idea?"
 
-**Q21:** "What should the opt-in page headline promise? Something like 'Find out in 3 minutes what's really driving your [symptom]' — or what feels right to you?"
+**Q22:** "What should the opt-in page headline promise? Something like 'Find out in 3 minutes what's really driving your [symptom]' — or what feels right to you?"
 
-**Q22:** "After they get their results — what's the next step? Watch a training? Book a call? Start with your entry offer?"
+**Q23:** "After they get their results — what's the next step? Watch a training? Book a call? Start with your entry offer?"
 
 **→ Expert picks. IQ confirms the selection and the funnel flow:**
 
@@ -363,17 +369,17 @@ BUILDING NOW...
 ## THE NUMBERS
 
 **Old onboarding:** 103 questions, 45-75 minutes, strategy builds AFTER
-**New onboarding:** 22 questions across 6 sections, 20-30 minutes, strategy builds DURING, first engine starts building BEFORE they finish
+**New onboarding:** 23 questions across 6 sections, 20-30 minutes, strategy builds DURING, first engine starts building BEFORE they finish
 
 ```
 Section 1: You & Your Method     — 5 questions → AI expands → approve
 Section 2: Your Patient           — 4 questions → AI expands → approve  
-Section 3: Your Offers            — 4 questions → AI expands → approve
+Section 3: Your Offers            — 5 questions → AI expands → approve
 Section 4: Your Proof             — 3 questions → AI expands → approve
 Section 5: Your Voice & Brand     — 3 questions → AI expands → approve
 Section 6: Your First Engine      — 3 questions → select → BUILD
                                    ─────────
-                                   22 questions total
+                                   23 questions total
 ```
 
 That's the Tesla model. 22 clicks. Full strategic foundation built. First engine in production before they close the tab.
@@ -392,7 +398,7 @@ Same 4 levels but FASTER because AI is doing most of the work:
 
 **Blank:** AI generates the entire section from specialty defaults + web scrape. "Based on what I know about your specialty, here's what I'd put. We can refine anytime."
 
-**The conversation never stalls.** 22 questions. 20-30 minutes. Strategy built. Engine started. Done.
+**The conversation never stalls.** 23 questions. 20-30 minutes. Strategy built. Engine started. Done.
 
 ---
 
