@@ -265,42 +265,45 @@ VOICE CONFIDENCE SCORE: [X/100]
 >
 > Based on your avatar [name], your mechanism [name], and your [awareness level] audience — here are 5 lead magnet ideas. These aren't PDFs. These are vibe-coded micro-apps that deliver personalized value and capture leads automatically."
 
-**→ AI GENERATES 5 lead magnet options tailored to their specific profile:**
+**→ AI GENERATES 5 lead magnet options tailored to their specific profile.**
+
+IQ has full creative freedom here. The options should be unique, specific to this expert's mechanism and avatar, and genuinely creative — not limited to standard templates. These could be interactive tools, calculators, quizzes, assessments, trackers, diagnostic profiles, personalized reports, micro-apps, challenges, or anything else that delivers personalized value and captures a lead.
+
+The only rules: each option must (1) be a vibe-coded micro-SaaS, not a PDF, (2) deliver personalized results, (3) capture email before showing results, and (4) bridge naturally to the expert's core offer.
+
+**Examples of the TYPES of ideas IQ might generate (not a fixed list — IQ should be more creative than this):**
 
 ```
 LEAD MAGNET OPTIONS — Pick One
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-1. 🧮 [Name] SCORE CALCULATOR
-   "How compromised is your [mechanism-related thing]?"
-   → User answers 8 questions → gets a personalized score + explanation
-   → Captures email before results → bridges to [entry offer]
-   → Why this works: self-identification + personalized = highest conversion
+1. [emoji] [SPECIFIC NAME tied to their mechanism]
+   "[Compelling one-liner describing what the user gets]"
+   → How it works: [2-3 sentences — what the user does, what they get back]
+   → Why this works for YOUR audience: [1 sentence connecting to avatar psychology]
 
-2. 📊 [Name] ASSESSMENT
-   "Find out which of the [X] root patterns is driving your [symptoms]"
-   → 10-question assessment → personalized result category
-   → "You're Pattern B: [description]" → bridge to webinar or consult
-   → Why this works: diagnostic feel = perceived high value
+2. [emoji] [SPECIFIC NAME]
+   "[One-liner]"
+   → How it works: [...]
+   → Why this works: [...]
 
-3. 🎯 [Name] QUIZ
-   "Is your [condition] actually caused by [what they think] — or something deeper?"
-   → 6 TRUE/FALSE questions (pattern from the webinar)
-   → Reveals the answer they didn't expect → bridge to training
-   → Why this works: curiosity gap + belief shift in the lead magnet itself
+3. [emoji] [SPECIFIC NAME]
+   "[One-liner]"
+   → How it works: [...]
+   → Why this works: [...]
 
-4. 📱 [Name] TRACKER
-   "Track your [symptoms] for 7 days and see the pattern your doctor is missing"
-   → Daily 30-second check-in → end-of-week report with insights
-   → "Your pattern suggests [mechanism-related finding]" → bridge to consult
-   → Why this works: habit loop + data = invested lead
+4. [emoji] [SPECIFIC NAME]
+   "[One-liner]"
+   → How it works: [...]
+   → Why this works: [...]
 
-5. 🔬 [Name] RISK PROFILE
-   "What's your [condition] risk based on your history, symptoms, and lifestyle?"
-   → Comprehensive intake → risk score across [X] dimensions
-   → "Your highest risk area is [X] — here's what to do about it" → bridge to offer
-   → Why this works: fear + clarity = urgency to act
+5. [emoji] [SPECIFIC NAME]
+   "[One-liner]"
+   → How it works: [...]
+   → Why this works: [...]
 ```
+
+Each option is a card the expert can select. IQ should make these feel exciting and specific — not generic. If the expert's mechanism is "The Signal Reset Protocol" and the avatar has thyroid/fatigue issues, the ideas should be things like "Cortisol Pattern Decoder" or "Root Cause Fatigue Map" — not "Health Quiz" or "Wellness Assessment."
 
 **Q21:** "Which of these excites you most? Or does it spark a different idea?"
 
