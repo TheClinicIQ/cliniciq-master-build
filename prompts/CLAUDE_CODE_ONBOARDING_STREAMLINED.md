@@ -1,17 +1,41 @@
 # ClinicIQ — Streamlined Onboarding System
-## 6 Sections. ~20 Questions. AI Expands Everything. Expert Approves.
+## 6 Sections. ~23 Core Questions + IQ Probes Deeper When Needed. AI Expands Everything. Expert Approves.
 ### The Tesla Ordering Model: Minimum clicks, maximum output.
 
 ---
 
 ## THE PRINCIPLE
 
-The expert provides the raw seed — a few sentences about their practice, their patients, their story. IQ instantly expands that seed into a comprehensive strategic document for that section. The expert reads it, approves it, edits it, or says "not quite" and IQ adjusts. Then we move to the next section.
+The expert provides the raw seed — a few sentences about their practice, their patients, their story. IQ instantly expands that seed into a comprehensive strategic document for that section. The expert reads it, approves it, or says "not quite" and gets an option tree to steer IQ in the right direction. Then we move to the next section.
+
+**The ~23 core questions are the MINIMUM, not the maximum.** IQ is a genius strategist who knows what the downstream strategy layer, engines, and builders need. If an answer is too thin to build a full avatar profile, IQ probes deeper. If an answer sparks something important, IQ chases it. The core questions guarantee coverage. IQ's intelligence guarantees depth.
 
 **Old model:** 103 questions → expert talks for 45-75 minutes → platform builds strategy after
-**New model:** 6 sections × 3-5 questions each → AI expands after each section → expert approves in real-time → done in 20-30 minutes → strategy is already built by the time they finish
+**New model:** 6 sections with core questions + smart follow-ups → AI expands after each section → expert approves in real-time → done in 20-30 minutes → strategy is already built by the time they finish
 
-The expert should feel like they're having a short, sharp conversation — and watching their entire brand and strategy materialize in front of them in the right panel as they go.
+The expert should feel like they're having a conversation with the sharpest growth strategist they've ever met — not filling out a form. And watching their entire brand and strategy materialize in the right panel as they go.
+
+---
+
+## THE OPENING — How IQ Starts
+
+IQ speaks first. Always. Never an empty screen.
+
+**IQ's opening message (personalized from web scrape before they arrived):**
+
+> "Hey [Name] — I'm IQ, your growth strategist. Before you got here, I took a look at your practice.
+>
+> [1-2 specific observations from their website/social — specialty, positioning, something that stood out]
+>
+> [One genuine compliment about their work or content]
+>
+> Over the next 20-30 minutes, I'm going to ask you about your practice, your patients, and your story. Not a form — a conversation. And as we go, you'll watch your brand strategy, messaging, and first growth engine materialize in real-time on the right.
+>
+> By the time we're done, you'll have a complete strategic foundation AND your first lead magnet engine will already be building.
+>
+> Ready? Let's start with the big picture."
+
+This sets the frame: it's fast, it's conversational, and they'll see tangible output as they go. IQ already knows something about them (from the scrape), which builds immediate trust.
 
 ---
 
@@ -366,36 +390,55 @@ BUILDING NOW...
 ## THE NUMBERS
 
 **Old onboarding:** 103 questions, 45-75 minutes, strategy builds AFTER
-**New onboarding:** 23 questions across 6 sections, 20-30 minutes, strategy builds DURING, first engine starts building BEFORE they finish
+**New onboarding:** ~23 core questions across 6 sections + IQ probes deeper as needed, 20-30 minutes, strategy builds DURING, first engine starts building BEFORE they finish
 
 ```
-Section 1: You & Your Method     — 5 questions → AI expands → approve
-Section 2: Your Patient           — 4 questions → AI expands → approve  
-Section 3: Your Offers            — 5 questions → AI expands → approve
-Section 4: Your Proof             — 3 questions → AI expands → approve
-Section 5: Your Voice & Brand     — 3 questions → AI expands → approve
-Section 6: Your First Engine      — 3 questions → select → BUILD
-                                   ─────────
-                                   23 questions total
+Section 1: You & Your Method     — 5 core Qs + follow-ups → AI expands → approve
+Section 2: Your Patient           — 4 core Qs + follow-ups → AI expands → approve
+Section 3: Your Offers            — 5 core Qs + follow-ups → AI expands → approve
+Section 4: Your Proof             — 3 core Qs + follow-ups → AI expands → approve
+Section 5: Your Voice & Brand     — 3 core Qs + follow-ups → AI expands → approve
+Section 6: Your First Engine      — 3 Qs + select → BUILD
 ```
 
-That's the Tesla model. 22 clicks. Full strategic foundation built. First engine in production before they close the tab.
+The core questions are the floor. IQ's intelligence fills in the gaps. Some experts will fly through in 20 minutes. Others will go deeper and take 35. Both produce a complete strategic foundation.
 
 ---
 
-## THE WEAK RESPONSE PROTOCOL (still applies — simplified)
+## THE RESPONSE + APPROVAL PROTOCOL
 
-Same 4 levels but FASTER because AI is doing most of the work:
+This applies to individual questions AND to section-level AI expansions.
 
-**Strong answer:** Confirm. AI expands. Expert approves. Move on.
+### For Individual Questions (during the conversation):
 
-**Weak answer:** AI expands anyway using specialty knowledge + web scrape data. Presents the expansion. "Here's what I'd build from that — does this feel right?"
-- YES → locked, move on
-- NO → IQ adjusts based on their feedback. One round. Then locked.
+**Strong answer:** IQ confirms sharply and moves to the next question.
 
-**Blank:** AI generates the entire section from specialty defaults + web scrape. "Based on what I know about your specialty, here's what I'd put. We can refine anytime."
+**Weak/vague answer:** IQ expands using specialty knowledge + frameworks:
+> "Based on what you said, here's how I'd frame that: [enhanced version]. Does that feel right?"
+- YES → captured, next question
+- NO → **Option tree appears:** 3-4 specific options + "Other: write your own" as clickable pills
+- Expert picks one or writes their own → IQ expands on their pick → confirms → captured
 
-**The conversation never stalls.** 23 questions. 20-30 minutes. Strategy built. Engine started. Done.
+**Blank / "I don't know":** IQ generates from specialty defaults + web scrape:
+> "No worries — here's what I'd put based on your specialty: [generated]. We can always refine later."
+- Expert approves or adjusts
+
+**IQ probes deeper when needed:** If the answer is captured but IQ knows it's not deep enough for what the builders need, IQ asks a smart follow-up. The core questions are the minimum. IQ's job is to get ENOUGH — not just check a box. IQ knows what the avatar profile needs, what the webinar builder needs, what the ad creative builder needs. If 3 words about the patient isn't enough to build a full psychographic profile, IQ asks more.
+
+### For Section-Level AI Expansions (the approval cards):
+
+After a section's questions are answered, IQ generates the full expansion and presents it.
+
+**Expert approves:** Section locked ✅. Move to next section.
+
+**Expert says "not quite" or wants changes:** 
+→ **Option tree appears** with 3-4 alternative directions for the part they don't like + "Other: tell me what's off"
+→ Expert picks a direction or describes what's wrong
+→ IQ regenerates the expansion incorporating their feedback
+→ Presents again for approval
+→ This repeats until the expert is happy. **There is no hard limit on rounds** — but IQ should be smart enough to converge in 1-2 rounds. If the expert is stuck, IQ coaches: "What feels off about this? Is it the tone? The positioning? The specific language?"
+
+**The conversation never stalls. The expert never sees something they don't like get force-locked.**
 
 ---
 
