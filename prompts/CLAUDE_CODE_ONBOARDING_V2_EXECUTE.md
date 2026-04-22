@@ -159,6 +159,34 @@ The lead magnet is a lead capture tool. The expert calls and nurtures the leads.
 
 ---
 
+## PERFORMANCE — Batch Capture, Not Per-Field Drip
+
+**CRITICAL FOR SPEED:** The current system calls `capture_dossier` after almost every answer — each call does a DB write, DB read, Pydantic validation, and multiple SSE events. This creates 3-5 second pauses between questions while the LLM waits for tool calls to complete.
+
+**The new rule: NO tool calls during the question phase. IQ just talks.**
+
+During a section's 3-5 questions, IQ asks, listens, probes deeper, celebrates — pure conversation. Zero `capture_dossier` calls. Zero `append_profile_section` calls. The LLM holds the answers in its context.
+
+AFTER the last question in the section, IQ makes ONE batch of tool calls:
+1. ONE `capture_dossier` call per JSONB section touched, with ALL fields at once (the tool already supports this — it merges partial payloads)
+2. ONE `append_profile_section` call with the full section narrative
+3. Then present the expansion summary to the expert for approval
+
+This means the question-and-answer part flows at conversation speed. The only pause happens once per section (when the expansion builds), not once per question.
+
+**Example — Section 2 (Your Patient):**
+- Q6: IQ asks about their best patient → expert answers → IQ responds conversationally (no tool call)
+- Q7: IQ asks about a bad day → expert answers → IQ responds (no tool call)
+- Q8: IQ asks for patient's own words → expert answers → IQ responds (no tool call)
+- Q9: IQ asks about fears → expert answers → IQ responds (no tool call)
+- THEN: IQ calls `capture_dossier(section="avatar_profile", fields={avatar_name: "...", primary_symptom: "...", ...ALL fields at once...})`
+- THEN: IQ calls `append_profile_section(section="Who We Serve", markdown="...")`
+- THEN: IQ presents the expansion: "Take a look at what I've built on the right..."
+
+4 questions at conversation speed. 1 pause for the batch write + expansion. That's the target.
+
+---
+
 ## THE EXPANDER — How Section Expansion Works
 
 After each section's questions are answered, IQ needs to produce the full strategic expansion. **This is just the LLM with the right context.** No special "expander service" needed.
