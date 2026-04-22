@@ -123,42 +123,33 @@ BUYING TRIGGERS (what makes her finally act):
 ### SECTION 3: YOUR OFFERS (~4 min, 5 questions)
 *What we need from them: What they currently sell, what it costs, what patients experience.*
 
-**Q10:** "What can someone buy from you right now? Walk me through everything — from the lowest entry point to the highest level of service."
+**Q10:** "What's the ONE offer we're building around right now — the main thing you want to sell? What is it, what does the patient get, and what does it cost?"
 
-**Q11:** "For your main program — what does a patient actually experience? What happens week by week? How long until they feel the first shift?"
+**Q11:** "What does a patient actually experience when they go through it? Walk me through it — what happens, how long, and how soon do they feel the first shift?"
 
-**Q12:** "What do you charge? And what's the hardest part for patients — the friction, the thing that almost makes them quit?"
+**Q12:** "What's the hardest part for patients — the friction, the thing that almost makes someone quit or hesitate?"
 
 **Q13:** "What happens if someone goes through your program and doesn't see the results they expected? How do you handle that?"
 
-**Q14:** "After someone finishes your main program — do they stay with you? Come back? Is there a maintenance phase, a community, a next level?"
+**Q14:** "After someone finishes — do they stay with you? Come back? Is there a maintenance phase, a community, a next level?"
 
 **→ AI EXPANDS: IQ generates a full offer sheet and presents for approval:**
 
 ```
-YOUR OFFER STACK — Review & Approve
+YOUR CORE OFFER — Review & Approve
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-🟢 ENTRY OFFER: [name] — $[price]
-   What they get: [extracted]
-   Before state → After state: [AI-generated transformation framing]
-   Time to first result: [extracted or inferred]
-
-🔵 CORE OFFER: [name] — $[price]  
+🔵 [offer name] — $[price]
    What they get: [week-by-week from Q11]
-   Before state → After state: [AI-generated]
+   Before state → After state: [AI-generated transformation framing]
    Time to first result: [from Q11]
    Patient effort: [extracted from Q12]
-   
-🟣 PREMIUM OFFER: [name] — $[price] (if exists)
-   What they get: [extracted]
-   Before state → After state: [AI-generated]
 
 GUARANTEE: [from Q13 — structured as a named guarantee]
 
 CONTINUITY / RETENTION:
 → [from Q14 — what happens after the core program]
-→ [AI-generated ascension path and LTV strategy]
+→ [AI-generated retention strategy + LTV opportunity]
 
 VALUE EQUATION SCORE (Hormozi):
    Dream Outcome: [score] — [AI assessment]
@@ -172,8 +163,11 @@ FRICTION POINTS IDENTIFIED:
 
 BONUS IDEAS (AI-generated to reduce friction + increase value):
 → Bonus 1: [name] — solves [specific friction point]
-→ Bonus 2: [name] — breaks [specific false belief]  
+→ Bonus 2: [name] — breaks [specific false belief]
 → Bonus 3: [name] — reduces [time delay or effort]
+
+💡 Once you're in the platform, you can build out your full value ladder
+   (entry offers, upsells, premium tiers) in the Offers section.
 ```
 
 **Expert reviews. Approves, edits, selects bonuses. IQ adjusts. Section locked. ✅**
