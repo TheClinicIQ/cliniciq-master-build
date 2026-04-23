@@ -95,13 +95,21 @@ For each real person, use these sources in this priority order:
 
 Not all 35 are equal in priority. Build in this order:
 
-**Tier 1 — Must have for output quality:**
+**Tier 1 — Must have for output quality (these fire on EVERY output, regardless of panel):**
 1. **S29 — Compliance Synthetic** — FTC/FDA/HIPAA rules. Health marketing is the most regulated category. Every output must pass this before ship.
-2. **S13 — Jason Fladlien** — the webinar GOAT. Every webinar output needs his review.
-3. **S02 — Alex Hormozi** — every offer output needs his Value Equation pass.
-4. **S05 — Eugene Schwartz** — every headline, hook, and opening needs Schwartz's 5 Levels of Awareness + 5 Levels of Sophistication review.
-5. **S06 — Agora** — every long-form piece (VSL, sales letter, long nurture sequence) needs this review.
-6. **S_UX05 — End-to-End Journey Synthetic** — catches platform disconnects that output-level reviews miss.
+2. **S_RT01 — Red Team Synthetic** — adversarial review. Every output gets attacked from the most skeptical/legally-exposed angle before ship.
+3. **S_TD01 — Voice Uniqueness / Template Detection Synthetic** — catches the #1 AI content failure mode (sounding like generic AI health content).
+4. **S_PM01 — Panel Moderator Synthetic** — runs LAST, reviews the panel's reviews, catches aggregation failures.
+
+**Tier 2 — Core panel members (high frequency across panels):**
+5. **S13 — Jason Fladlien** — the webinar GOAT. Every webinar output needs his review.
+6. **S02 — Alex Hormozi** — every offer output needs his Value Equation pass.
+7. **S05 — Eugene Schwartz** — every headline, hook, and opening needs Schwartz's 5 Levels of Awareness + 5 Levels of Sophistication review.
+8. **S06 — Agora** — every long-form piece (VSL, sales letter, long nurture sequence) needs this review.
+9. **S_UX05 — End-to-End Journey Synthetic** — catches platform disconnects that output-level reviews miss.
+10. **S_PP01 — Cialdini** — influence principles across most panels.
+11. **S_VD02 — Oli Gardner Design** — landing pages and funnel pages across multiple panels.
+12. **S_VD04 — Barry Hott + S_VD05 Savannah Sanchez** — ad creative panels.
 
 **Tier 2 — High-value, build next:**
 - S01 Brunson, S14 Jeff Walker, S15 Todd Brown (webinar/launch depth)
@@ -111,6 +119,59 @@ Not all 35 are equal in priority. Build in this order:
 
 **Tier 3 — Fill out the panel:**
 - Everyone else.
+
+## Special Instructions For Purpose-Built Synthetics (Not Modeled After Real People)
+
+Four synthetics in the panel are NOT modeled after real individuals — they're purpose-built composites:
+
+**S_RT01 — Red Team Synthetic**
+Build from:
+- FTC enforcement action patterns against health marketers (2020-2026) — pull specific cases
+- Plaintiff attorney "hot phrases" for deceptive marketing claims
+- Consumer protection blog patterns (Truth in Advertising, Science-Based Medicine, etc.)
+- Reddit mockery patterns from r/AvoidBadAds, r/antiMLM, r/ShittyFoodPorn (for visual ad mockery patterns)
+- X/Twitter "ratio" patterns for health content that goes viral for wrong reasons
+- The "screenshot test" — how claims look isolated from their source
+- Vulnerable audience exploitation patterns (elderly, chronically ill, desperate)
+
+Lens: "I am the angriest possible prospect. I am looking for ammunition. I am the plaintiff's attorney. I am the viral screenshotter. What about this output makes the expert vulnerable?"
+
+Output: specific exposure flags with severity, with concrete examples of how each could be weaponized.
+
+**S_TD01 — Voice Uniqueness / Template Detection Synthetic**
+Build from:
+- A maintained database of "health content sludge phrases" — starts at 100+, grows over time as patterns emerge from real output reviews
+- Template structural patterns (three-sentence paragraphs, rhetorical question stacking, "X is more than just Y" openers, etc.)
+- Sentence rhythm analysis methodology (standard deviation of sentence length is a leading indicator of AI authorship)
+- Voice DNA comparison methodology — load the expert's captured Voice DNA and compare the output against it
+- Specificity audit framework — count named specifics, numbers, exact quotes, clinical details; flag if below threshold
+
+Lens: "Strip the subject matter away. Could ANY expert have written this? Or is it unmistakably THIS expert?"
+
+Output: Template Score (0-100, where 100 = pure AI sludge, 0 = unmistakably this specific expert), flagged template phrases, flagged template structures, Voice DNA match score, specificity score.
+
+**S_PM01 — Panel Moderator Synthetic**
+Build from:
+- Peer review methodology from academic publishing
+- Editorial synthesis practices (how good editors integrate multiple reviewer inputs)
+- Meta-analytical thinking frameworks
+- Rubber-stamp detection heuristics (when reviewers defer to each other instead of reviewing independently)
+- Score-feedback coherence analysis (an 85 with 6 critical issues is suspicious — investigate)
+
+Lens: "Did the panel actually do its job? Are these reviews independent? Is each synthetic in their lane? Does the score match the feedback? What did the panel miss?"
+
+Output: Meta-review of the panel's work, independence score, domain-drift flags, coverage gaps, debate triggers, final synthesis.
+
+**S_UX05 — End-to-End Journey Synthetic** (already defined in MARKETING_SYNTHETICS.md)
+Build from:
+- Heuristic evaluation methodology
+- Customer journey mapping frameworks
+- Jobs-to-be-Done framework applied end-to-end
+- Common platform disconnect patterns (broken handoffs, orphaned flows, unclear ownership, context loss between sections)
+
+Lens: "I am a new user. I just want to [outcome]. Can I do it? Where did I get stuck?"
+
+Output: journey_score, break points by stage, severity, suggested fixes, aha_moments_delivered vs missed, first_value_time.
 
 ## Special Instructions For S29 (Compliance Synthetic)
 
