@@ -6,7 +6,7 @@ Build 35 AI synthetic reviewers modeled after real-world best-of-the-best market
 
 These synthetics review outputs at scale. When Ryan's 100+ synthetic health experts run through the platform, these 35 marketing synthetics grade the outputs so Ryan only has to review the flagged ones.
 
-The file `MARKETING_SYNTHETICS.md` defines all 35 synthetics at a high level (S01-S30 marketing + 5 UX). Your job is to produce a detailed persona prompt for each.
+The file `MARKETING_SYNTHETICS.md` defines all the synthetics at a high level (marketing + UX). Your job is to produce a detailed persona prompt for each.
 
 ## What You Need To Do
 
@@ -95,14 +95,13 @@ For each real person, use these sources in this priority order:
 
 Not all 35 are equal in priority. Build in this order:
 
-**Tier 1 — Must have for ClinicIQ output quality:**
-1. **S30 — THI Operator / Ryan Cole Synthetic** — the final quality gate. Built from Ryan's actual methodology documented in USER.md, the webinar packages (Axe GLP-1, Axe CDR), the growth system documented in the ClinicIQ master build. This synthetic approves or rejects against the ACTUAL ClinicIQ quality standard. Without this, nothing else matters.
-2. **S29 — Compliance Synthetic** — FTC/FDA/FDA/HIPAA rules. Health marketing is the most regulated category. Every output must pass this before ship.
-3. **S13 — Jason Fladlien** — the webinar GOAT. Every ClinicIQ webinar output needs his review.
-4. **S02 — Alex Hormozi** — every offer output needs his Value Equation pass.
-5. **S05 — Eugene Schwartz** — every headline, hook, and opening needs Schwartz's 5 Levels of Awareness + 5 Levels of Sophistication review.
-6. **S06 — Agora** — every long-form piece (VSL, sales letter, long nurture sequence) needs this review.
-7. **S_UX05 — End-to-End Journey Synthetic** — catches platform disconnects that output-level reviews miss.
+**Tier 1 — Must have for output quality:**
+1. **S29 — Compliance Synthetic** — FTC/FDA/HIPAA rules. Health marketing is the most regulated category. Every output must pass this before ship.
+2. **S13 — Jason Fladlien** — the webinar GOAT. Every webinar output needs his review.
+3. **S02 — Alex Hormozi** — every offer output needs his Value Equation pass.
+4. **S05 — Eugene Schwartz** — every headline, hook, and opening needs Schwartz's 5 Levels of Awareness + 5 Levels of Sophistication review.
+5. **S06 — Agora** — every long-form piece (VSL, sales letter, long nurture sequence) needs this review.
+6. **S_UX05 — End-to-End Journey Synthetic** — catches platform disconnects that output-level reviews miss.
 
 **Tier 2 — High-value, build next:**
 - S01 Brunson, S14 Jeff Walker, S15 Todd Brown (webinar/launch depth)
@@ -112,40 +111,6 @@ Not all 35 are equal in priority. Build in this order:
 
 **Tier 3 — Fill out the panel:**
 - Everyone else.
-
-## Special Instructions For S30 (THI Operator / Ryan Cole Synthetic)
-
-This is the most important synthetic. It judges whether output meets the ACTUAL ClinicIQ quality bar.
-
-Build it from:
-1. `/home/work/.openclaw/workspace/USER.md` — Ryan's full background, business model, frameworks used, philosophy, network (Josh Axe, Will Cole, Dan Pompa), target market for THI
-2. All the webinar packages Ryan has shipped:
-   - `cliniciq/webinars/Axe_GLP1_Webinar_Package_FINAL.pdf`
-   - `cliniciq/webinars/Axe_CDR_Webinar_Package.pdf`
-   - `cliniciq/webinars/Axe_CDR_Webinar_SHORT.pdf`
-3. The ClinicIQ master build document (22 steps across 4 layers)
-4. The onboarding v2 spec (what Ryan wants IQ to produce)
-
-Ryan's explicit positioning principles:
-- The health/wellness business model is "locked down" — not theoretical
-- $120M this year at THI on this system
-- Direct response marketer first AND second
-- Funnel: Attention → Leads → Low-ticket/free → High-ticket upsells → Continuity
-- Specializes in selling to people who WANT to heal (different psychological buyer than product buyers)
-- New Vehicle = the ROOT CAUSE
-- Hook obsession — nothing goes more than ~10 seconds without a re-hook
-- Frameworks applied invisibly — experts never hear "Brunson" or "Hormozi" or "Robbins"
-- 5 Levels of Awareness applied to all copy
-- Buyer's internal dialogue obsessed over — speak to them exactly where they are
-- Never attack existing beliefs — open possibility that current path won't work
-- Stories + logic/facts/stats to build the case
-- Break limiting beliefs throughout ("you can't reverse disease," "this is just aging")
-- NLP applied to all assets
-- DISC profiles, buyer avatars, personality profiles obsessed over
-
-S30's review lens: "Would this work in the ACTUAL THI system? Would Josh actually say this? Would this convert the 50-65 year old woman who's been dismissed by doctors, told it's just aging, and is tired of being ignored? Does this sound like ClinicIQ or like generic health content?"
-
-S30 is the FINAL gate. Even if all 34 other synthetics approve, if S30 rejects, the output doesn't ship.
 
 ## Special Instructions For S29 (Compliance Synthetic)
 
@@ -173,7 +138,7 @@ Plus a single file `cliniciq/testing/synthetic_prompts/PANEL_ROUTING.md` that de
 
 ## Quality Bar
 
-Each synthetic prompt should be 800-2,000 words. Short prompts produce generic synthetics. Long prompts produce accurate synthetics.
+Each synthetic prompt should be 3,000-4,000 words. Anything shorter produces generic synthetics. Anything longer risks fluff. 3,000-4,000 is the right density when every word is doing work — mental model, frameworks with operational depth, war stories from the real person's documented career, their actual voice, their specific diagnostic path, their tells, their coaching patterns.
 
 The test: a user of the synthetic system should be able to read a review and IMMEDIATELY know which synthetic wrote it — because the voice, frameworks, and criticisms are unmistakably that specific expert's.
 

@@ -371,13 +371,7 @@ Modeled after: Deep knowledge of FTC/FDA health marketing rules + health copywri
 **Strongest at:** Compliance review — critical for every ClinicIQ output
 **This synthetic should review EVERY output before it ships.** Health marketing is the most regulated category.
 
-**S30 — The Ryan Cole Synthetic (aka "THI Operator")**
-Modeled after: Ryan Cole's own methodology — THI's actual playbook, the health vertical growth system that built $120M
-**Reviews:** THI-style funnels, cellular health positioning, the actual clinicIQ client reality
-**Lens:** "Would this work in the real THI system? Does it speak to the actual health buyer (50-65 year old woman, dismissed by doctors)? Does it break the right false beliefs in the right order? Would Josh actually say this?"
-**Frameworks they apply:** The full THI playbook, Brand-Direct hybrid, Cellular health positioning, The clinicIQ standard
-**Strongest at:** Judging whether output meets the actual ClinicIQ quality bar
-**This is the final quality gate.**
+
 
 ---
 
@@ -386,7 +380,7 @@ Modeled after: Ryan Cole's own methodology — THI's actual playbook, the health
 Different output types get reviewed by different panels. Each panel has 3-5 synthetics from the relevant domains.
 
 ### Panel A: Webinar / VSL Output
-Synthetics: S13 Fladlien, S15 Todd Brown, S06 Agora, S05 Schwartz, S30 THI Operator
+Synthetics: S13 Fladlien, S15 Todd Brown, S06 Agora, S05 Schwartz
 What they judge: Opening hook, story, mechanism reveal, proof stack, stack slide, close, trial closes, If/All statements, narrative arc
 
 ### Panel B: Email Sequence Output
@@ -394,7 +388,7 @@ Synthetics: S16 Ben Settle, S17 Chaperon, S18 Justin Goff, S05 Schwartz, S29 Com
 What they judge: Subject lines, email voice, story arc, CTAs, objection handling, compliance
 
 ### Panel C: Ad Creative Output
-Synthetics: S20 Molly Pittman, S24 Brendan Kane, S09 Joanna Wiebe, S29 Compliance, S30 THI Operator
+Synthetics: S20 Molly Pittman, S24 Brendan Kane, S09 Joanna Wiebe, S29 Compliance
 What they judge: Hook in first 3 seconds, awareness-level matching, customer voice authenticity, compliance, scroll-stopping power
 
 ### Panel D: Landing Page / Funnel Page Output
@@ -414,7 +408,7 @@ Synthetics: S25 Grant Cardone, S26 Chris Voss, S08 Dan Henry, S13 Fladlien
 What they judge: Objection handling, close confidence, tactical empathy, high-ticket positioning
 
 ### Panel H: Strategy Document Output (North Star, Growth Plan, etc.)
-Synthetics: S01 Brunson, S02 Hormozi, S03 Kennedy, S04 Seth Godin, S30 THI Operator
+Synthetics: S01 Brunson, S02 Hormozi, S03 Kennedy, S04 Seth Godin
 What they judge: Strategic coherence, differentiation, audience targeting, economics, execution plan
 
 ### Panel I: Lead Magnet Output
@@ -466,18 +460,16 @@ When an output is reviewed by multiple synthetics, the system aggregates:
 **Flagged for rewrite if:**
 - 2+ synthetics score below 60
 - Any synthetic flags a compliance/legal issue (S29)
-- THI Operator (S30) scores below 70 (ClinicIQ quality floor)
+- Average panel score below 70
 
 **Flagged for fix if:**
 - Average score is 65-75
 - Specific critical issues cited but no rewrite needed
-- S30 scores 70-80
 
 **Cleared to ship if:**
 - All synthetics score 80+
 - No critical issues flagged
 - S29 compliance passed
-- S30 approves
 
 **Exceptional output (study these):**
 - All synthetics score 90+
@@ -540,6 +532,6 @@ Never default to generic feedback. Every comment should come from YOUR specific 
 ## NEXT STEPS
 
 1. **Review this list.** Any synthetics missing? Any domains we should add?
-2. **Build the 30 synthetic personas.** Each one gets a detailed prompt file with their specific framework, language, and review approach. Most critical: S13 Fladlien, S30 THI Operator, S29 Compliance, S06 Agora, S02 Hormozi, S05 Schwartz.
+2. **Build the 30 synthetic personas.** Each one gets a detailed prompt file with their specific framework, language, and review approach. Most critical: S13 Fladlien, S29 Compliance, S06 Agora, S02 Hormozi, S05 Schwartz.
 3. **Wire the review pipeline.** Every builder output → routed to the right panel → scores aggregated → dashboard.
 4. **Run the first 100 expert synthetics through the platform.** Let the marketing synthetics review. See what comes out.

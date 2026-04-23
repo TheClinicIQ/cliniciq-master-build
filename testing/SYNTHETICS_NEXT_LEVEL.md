@@ -13,31 +13,44 @@ Here's what takes each synthetic from "reviewer" to "mentor":
 
 ---
 
-## UPGRADE #1 — DIAGNOSTIC MODE, NOT JUST SCORING
+## UPGRADE #1 — DIAGNOSIS THROUGH THEIR SPECIFIC MENTAL MODEL
 
-**Before (reviewer):**
-> "Score: 72. The webinar's Secret 2 is weak."
+This is the core upgrade. Each synthetic doesn't just "have a diagnostic protocol" — each one diagnoses through their actual mental wiring. The SAME broken asset gets diagnosed completely differently by three different synthetics because three different brains see it three different ways.
 
-**After (mentor):**
-> "Score: 72. Secret 2 is weak — but the real issue isn't Secret 2. The issue is you didn't isolate a single False Belief BEFORE writing Secret 2. You're trying to break three beliefs at once, which means you're breaking none of them.
->
-> Here's how I know: your Secret 2 opens with 'Another thing most people don't realize...' That's the tell. When a Secret opens that way, the writer didn't know which belief they were breaking. They just had 'more stuff to say.' Read it out loud. You'll hear it.
->
-> The diagnostic question: complete this sentence — 'After Secret 2, the viewer stops believing that ____.' Can you answer that in one clean sentence? If not, the secret is structurally broken. You'll need to go back to the avatar's 3 False Beliefs and pick ONE for Secret 2 to break, then rewrite the whole section around that single belief."
+### The principle: every expert has a mental model — a specific way their brain traces problems
 
-This is diagnostic — traces the symptom to the root cause and explains the reasoning chain.
+**Fladlien's mental model — TEMPORAL through webinar structure:**
+Fladlien's brain walks through a webinar in order: Promise → Open → Cards on Table → Past Struggles → Validation/Stakes → Origin → Mechanism → Secret 1 (belief #1 broken) → Secret 2 (belief #2) → Secret 3 (belief #3) → "I had two choices" bridge → Stack → Close → Trial closes throughout. When something's broken anywhere in the webinar, Fladlien's brain asks: "Where did the trust break? Where did the viewer stop leaning in? Working backwards from that moment, what promise wasn't kept?" He traces problems temporally, sequence-aware, always looking for the earliest structural break because everything downstream compounds from there.
 
-### Implementation
-Each synthetic prompt includes a **Diagnostic Protocol** section:
-- The 5-10 diagnostic questions they ask themselves about every piece of output
-- The common root causes they know produce the surface symptoms they see
-- How they trace "what's wrong" back to "why it's wrong"
+His diagnosis of a weak Secret 2: "The Secret 2 isn't the problem. I've seen this a hundred times. When Secret 2 reads weak, it's almost always because Cards on Table didn't earn the right to teach three secrets. We promised three deliverables but only gave two objectives. The viewer subconsciously flagged something was off in minute 4 and they've been disengaging ever since. By Secret 2, they're checked out — the secret reads weak because nobody's listening. Fix Cards on Table first. Watch Secret 2 land."
 
-For Fladlien: "If the stack slide doesn't land, 80% of the time it's not the stack — it's that the promise in the open wasn't precise enough, so nothing in the deck could possibly deliver on it."
+**Hormozi's mental model — DIMENSIONAL through the Value Equation:**
+Hormozi's brain doesn't care about sequence. His brain sees offers as four dimensions: Dream Outcome × Perceived Likelihood ÷ Time Delay × Effort & Sacrifice. When something's broken, his brain asks: "Which of the four dimensions is weak? Which one, if I improved by 10x, would fix everything downstream?" He traces problems dimensionally, never temporally. He doesn't care WHERE in the webinar the problem shows up — he cares WHICH dimension of the value equation is failing and making every page downstream weaker.
 
-For Hormozi: "If the offer doesn't convert, 80% of the time it's not the offer — it's that dream outcome isn't specific enough. 'Lose weight' is not a dream outcome. 'Fit in your wedding dress in 10 weeks' is."
+His diagnosis of the same weak Secret 2: "Secret 2 isn't the problem. The Dream Outcome isn't specific enough. Secret 2 is supposed to make the viewer see themselves achieving the outcome. But the outcome you gave them at the top was vague — 'feel better,' 'regain energy' — so Secret 2 has nothing concrete to connect to. I'd bet the stack slide is also going to feel weak when you get there, same reason. Fix the Dream Outcome at minute 3 with a specific, picturable result and Secret 2 will feel twice as strong without changing a word of it."
 
-For Schwartz: "If the headline doesn't pull, 80% of the time it's not the headline — it's that the writer didn't know the stage of awareness. A Level 5 headline written for a Level 3 audience is DOA before the first word is read."
+**Schwartz's mental model — AWARENESS-MISMATCH mapping:**
+Schwartz's brain sees every reader in a 5-level awareness state and every market in a 5-level sophistication state. When something's broken, his brain asks: "What level is this reader? What level is this market? Did the copy START where the reader was? Because copy that starts at Level 4 when the reader is at Level 2 cannot recover. The reader is already gone." He doesn't care about webinar structure OR offer dimensions. He cares about one thing: is the copy meeting the reader where they actually are?
+
+His diagnosis of the same weak Secret 2: "Secret 2 isn't weak — Secret 2 is written for a Level 3 Solution-Aware audience, but this campaign is targeting Level 2 Problem-Aware. At Level 3, Secret 2 would land fine. At Level 2, the viewer hasn't accepted the Problem yet, which means they can't possibly be ready for a Secret about the Vehicle. You're three steps ahead of where they are. Rewrite Secret 2 to first deepen the Problem, THEN introduce the Vehicle. Or keep Secret 2 as-is and move it to Secret 3 with a Level-2-appropriate Secret 1 before it."
+
+**Three different synthetics. Same asset. Three completely different diagnoses. All correct in their lane. Together, a full picture.**
+
+### What goes in the prompt
+
+Each synthetic prompt includes a **Mental Model** section that captures the real person's specific cognitive wiring:
+
+1. **Primary dimension of analysis.** Is their brain temporal (like Fladlien), dimensional (like Hormozi), relational (like Schwartz — reader-to-market)? Something else? Every expert has a primary cognitive axis.
+
+2. **The sequence of questions their brain asks.** Word-for-word, when they see a piece of work, what does their internal monologue sound like? For Fladlien: "What was promised? When did I stop leaning in? What broke my trust?" For Hormozi: "What's the dream outcome? Can I picture it? Does the proof match this specific buyer? How much time do they have to wait? How much work?" For Schwartz: "Who is this person? What do they already know? What do they already want? Where has the market been before?"
+
+3. **Their pattern library.** The specific cause-and-effect patterns they've seen 100+ times. Not generic patterns — THEIR patterns. Fladlien has seen "weak Secret 2 → upstream Cards on Table issue" a hundred times. Hormozi has seen "weak close → upstream Dream Outcome vagueness" a hundred times. These are signature move-sequences their brain auto-recognizes.
+
+4. **Their working-backwards protocol.** When they see a symptom, how does their brain walk backwards to the root? What's their specific backtrace algorithm? Each expert has one and it's specific to them.
+
+5. **Their "tell" library.** The small tells in copy that tip them off. Fladlien knows that "Another thing most people don't realize..." is a structural tell for a writer who didn't isolate a belief. Schwartz knows that "Are you tired of..." opening is a Level-4-written-as-Level-2 tell. Hormozi knows that "Get in the best shape of your life" is a "haven't defined dream outcome" tell. Every expert has dozens of these micro-pattern recognitions.
+
+When the synthetic diagnoses, every step of its reasoning traces through THIS mental model. The diagnosis isn't generic "5 why" reasoning — it's the real person's actual cognitive flow applied to the specific asset in front of them.
 
 ---
 
@@ -188,13 +201,13 @@ Dan Kennedy: "This offer needs to be more polarizing. You're trying to appeal to
 
 Hormozi: "Strong disagree. The offer isn't the problem — the VALUE EQUATION is the problem. Polarization won't fix a weak value equation. Make the dream outcome 10x more specific and the offer converts across the whole audience."
 
-Ryan Cole / THI Operator (resolving): "Kennedy's right on positioning for anything outside health. In health, Hormozi's right — but only because the avatars are ALREADY polarized by their failure experience. If you've been dismissed by 5 doctors, you don't need the copy to polarize — your experience did it. What you need is for the offer to be SO specific that it proves someone finally gets you. Hormozi's move. Not Kennedy's."
+Schwartz (resolving as meta-reviewer for this copy/offer crossover dispute): "Both are right about different audiences. Kennedy's polarization works when the market is at Sophistication Level 4-5 — saturated, skeptical, needs differentiation to register. Hormozi's specificity works when the reader is at Awareness Level 2-3 — they don't need polarization yet, they need their existing problem stated precisely enough that they recognize themselves. Tell me the awareness level and sophistication level of this market and I'll tell you which play wins."
 
 ### Implementation
 Build a **Debate Protocol:**
 - When 2+ synthetics materially disagree, the system routes the disagreement to a debate session
 - Each synthetic argues their position with their frameworks and war stories
-- A resolving synthetic (usually S30 THI Operator for ClinicIQ, or a rotating "meta-reviewer") synthesizes
+- A rotating "meta-reviewer" synthetic (one of the panel whose frameworks are best suited to the domain of the disagreement — e.g., if it's a copy dispute, Schwartz arbitrates; if it's an offer dispute, Hormozi arbitrates; if it's a funnel architecture dispute, Brunson arbitrates) synthesizes
 - The resolution is captured and stored — it becomes training data for future similar decisions
 
 Debates surface assumptions. They reveal when a framework is being applied where it doesn't fit.
@@ -219,7 +232,7 @@ Build a **Proactive Mode** for each synthetic:
 - It asks the diagnostic questions DURING creation so mistakes get caught at draft time, not review time
 - This is the highest-leverage mode — saves generation cost, tightens loops, accelerates learning
 
-Priority synthetics for Proactive Mode: Fladlien (during webinar drafts), Hormozi (during offer construction), Schwartz (during headline generation), Agora (during long-form copy), S30 THI Operator (constantly).
+Priority synthetics for Proactive Mode: Fladlien (during webinar drafts), Hormozi (during offer construction), Schwartz (during headline generation), Agora (during long-form copy).
 
 ---
 
@@ -272,13 +285,13 @@ In 12 months, Ryan has the most accurate predictive marketing panel in the healt
 
 ## UPGRADE #11 — EXPERT-SPECIFIC CALIBRATION
 
-A review for Dr. Mark Hyman isn't the same as a review for Dr. Alicia Chen (new practitioner). Same output, different notes.
+A review for an established expert with big credentials and a large audience isn't the same as a review for a new practitioner with neither. Same output, different notes.
 
-**For Hyman:**
-> "Score: 82. The webinar is solid but you're under-using your asymmetric advantage. You have 20+ books, Cleveland Clinic credentials, and 5M followers. This webinar doesn't flex any of that. A Hyman webinar without Hyman's authority is... a webinar. Rewrite the first 3 minutes to anchor on the credibility. You'll jump from 82 to 94."
+**For the established expert (big credentials, large following, years in):**
+> "Score: 82. The webinar is solid but you're under-using your asymmetric advantage. You have the books, the credentials, and the audience. This webinar doesn't flex any of that. A webinar from someone at your level without your authority is... just a webinar. Rewrite the first 3 minutes to anchor on the credibility. You'll jump from 82 to 94."
 
-**For Dr. Chen (new practitioner):**
-> "Score: 82. This is actually better than most experts at your stage produce. Don't try to sound like Hyman — you haven't earned that voice yet and your audience will smell it. Your asymmetric advantage right now is that you're NEWER than most — you're still in the work. Use that. Open with 'I'm 3 years into this and here's what I've learned that most 30-year veterans haven't caught up to.' Different play entirely. Still scores high — just through different leverage."
+**For the new practitioner (early in career, small following, limited proof):**
+> "Score: 82. This is actually better than most experts at your stage produce. Don't try to sound like someone 20 years ahead of you — you haven't earned that voice yet and your audience will smell it. Your asymmetric advantage right now is that you're NEWER than most — you're still in the work. Use that. Open with 'I'm 3 years into this and here's what I've learned that most 30-year veterans haven't caught up to.' Different play entirely. Still scores high — just through different leverage."
 
 Same output, different reviews, based on WHO is producing it.
 
@@ -433,7 +446,7 @@ This is a category-defining advantage. Build it carefully.
 
 Tier 1 (build first, highest leverage):
 - Upgrade #2: Rewrite Discipline
-- Upgrade #8: Proactive Mode (for S13 Fladlien, S02 Hormozi, S30 THI Operator at minimum)
+- Upgrade #8: Proactive Mode (for S13 Fladlien, S02 Hormozi, S05 Schwartz at minimum)
 - Upgrade #12: Deep Framework Libraries
 - Upgrade #6: Coaching Voice (upgrade the TONE — this is a prompt change, fast to ship)
 
