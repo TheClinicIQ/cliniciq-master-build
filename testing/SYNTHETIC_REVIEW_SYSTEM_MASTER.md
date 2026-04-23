@@ -754,7 +754,205 @@ Each synthetic gets operational detail per framework, not just names. Value Equa
 
 ---
 
-# PART 5: BUILD EXECUTION INSTRUCTIONS FOR CLAUDE CODE
+# PART 5: THE FEEDBACK LOOP — HOW SYNTHETICS TRAIN THE SYSTEM
+
+The synthetics don't just review. They TRAIN. Every review feeds back into concrete improvements to IQ, the builders, the engine templates, and the overall system. Without this loop, reviews are just opinions in a dashboard. With it, the platform compounds quality month over month.
+
+## 5.1 — The 4 Feedback Pathways
+
+Reviews flow into one of four improvement pathways based on what they reveal:
+
+### Pathway A: Prompt Improvements (per synthetic finding)
+When a synthetic flags a recurring issue across multiple outputs, the fix lives in the upstream prompt that PRODUCED the bad output.
+
+**Example flow:**
+1. S_OB02 (IQ Response Quality) flags over 30 onboarding sessions that IQ said "Great! That's really helpful!" as a filler response.
+2. The Feedback Orchestrator detects the pattern (30+ instances, same root cause).
+3. It generates a prompt diff for `_onboarding_agent.md`:
+   - ADD to the Anti-Patterns section: "Never use generic filler acknowledgments ('Great!', 'Perfect!', 'That's really helpful!'). If you would otherwise say something empty, say nothing — move to the next question. Meaningful acknowledgments reference the SPECIFIC thing the expert just said."
+4. The diff is saved to `cliniciq/prompts/_proposals/<timestamp>_filler_acknowledgment_fix.md`
+5. Ryan reviews the proposed diff. If approved, it merges into the live prompt.
+6. Next onboarding session, IQ stops doing the filler thing.
+
+**What gets prompt improvements:**
+- IQ onboarding prompts (`_onboarding_guidelines.md`, `_onboarding_agent.md`, `_mode_onboarding.md`)
+- Builder prompts (each L3 builder's system prompt + tool prompts)
+- Expander prompts (`ONBOARDING_EXPANDER_PROMPTS.md`)
+- Strategy agent prompts (brand_strategy_lead, growth_strategy_lead, etc.)
+
+### Pathway B: Framework Updates (per synthetic's knowledge base)
+When a synthetic flags the same issue repeatedly and it traces to the synthetic's OWN framework knowledge being incomplete, the synthetic itself gets updated.
+
+**Example flow:**
+1. S_EB01 (Engine Template) consistently misses a problem that shipped engines exhibit (e.g., engines don't include a "reactivation email for cart abandoners 7 days later" step).
+2. Ryan adds this as a new principle to S_EB01's framework: "Every engine with an order page must include a cart abandonment sequence."
+3. Going forward, S_EB01 catches this issue during template review.
+
+**What gets framework updates:**
+- The synthetic persona prompts themselves (`cliniciq/testing/synthetic_prompts/<id>.md`)
+- The deep framework libraries within each synthetic
+- The war stories bank (add new cases from real outcomes)
+- The tell library (add new micro-patterns as they emerge)
+
+### Pathway C: Template/Architecture Changes (per engine run)
+When S_EB01-06 flags a structural issue in an engine template or builder — not a prompt issue, but an architecture/sequence issue — the fix is code, not prompts.
+
+**Example flow:**
+1. S_EB01 reviews tpl_1 Evergreen Webinar and flags: "Missing retargeting ad step — after Step 5 Ad Creatives, there's no Step 6 Retargeting Ad Set for people who opted in but didn't attend."
+2. A template change proposal is generated for `app/services/engines/registry/templates_funnels.py`.
+3. Ryan/Roberto reviews, decides, implements if approved.
+4. Template is updated. Next run of tpl_1 includes the retargeting step.
+
+**What gets architecture changes:**
+- Engine templates (`templates_*.py`)
+- BUILDER_TO_AGENT map (when new builders are identified as needed)
+- Artifact type mapping (`l3_adapter.py`)
+- Engine runner logic (when a coordination issue emerges)
+- Frontend engine picker (when new engines should be exposed)
+
+### Pathway D: New Feature / Integration Proposals
+When S_EB03 (Deployability) flags that output isn't usable without external infrastructure the expert doesn't have, the fix is building that glue.
+
+**Example flow:**
+1. S_EB03 flags that Email Builder output has no Mailchimp/ActiveCampaign/ConvertKit export format.
+2. A feature proposal is generated: "Build ESP export layer. When Email Builder produces a sequence, also generate platform-specific CSV/JSON exports for top 5 ESPs."
+3. Ryan prioritizes into the roadmap.
+
+**What gets feature proposals:**
+- Platform integrations (ESPs, ad platforms, funnel builders, calendars, CRMs)
+- Export formats
+- Deployment guides and walkthroughs
+- "Done-with-you" features (implementation office hours, setup checklists)
+
+## 5.2 — The Feedback Orchestrator (the engine that runs the loop)
+
+A dedicated service/agent that:
+
+1. **Ingests all synthetic reviews** continuously as they land
+2. **Detects patterns** — the same issue flagged 5+ times is a signal, not noise
+3. **Classifies each pattern** into Pathway A/B/C/D
+4. **Generates the specific proposal** — a prompt diff, framework update, template change, or feature spec
+5. **Persists the proposal** to `cliniciq/proposals/<timestamp>_<summary>.md`
+6. **Notifies Ryan** (or a designated reviewer) via the configured channel
+7. **Tracks approval state** — proposed → reviewed → approved → implemented → verified
+8. **Closes the loop** — when the fix ships, waits for the next review cycle to confirm the issue is resolved. If not, re-opens with more detail.
+
+### Implementation
+Build as a scheduled agent (`app/agents/system/feedback_orchestrator/`) that runs:
+- Hourly during active testing phases
+- Daily during steady-state operation
+- On-demand when Ryan wants to force a cycle
+
+Inputs:
+- All synthetic review outputs since last run
+- The current version of prompts, templates, and synthetic persona files
+- A history of past proposals (to avoid re-proposing what was already rejected)
+
+Outputs:
+- Proposals directory with timestamped markdown diffs
+- A digest report: "Since last run, X reviews processed, Y patterns detected, Z proposals generated"
+
+## 5.3 — Pattern Detection Rules (what counts as a "real" issue vs. one-off noise)
+
+Not every flagged issue becomes a proposal. The orchestrator applies these rules:
+
+**For Pathway A (prompt improvements):**
+- Same issue flagged in 5+ sessions/outputs within a 30-day window → proposal
+- Same issue flagged in 3+ sessions/outputs by 2+ different synthetics → proposal (cross-synthetic agreement is strong signal)
+- Single critical-severity issue (compliance violation, legal exposure) → proposal immediately
+
+**For Pathway B (framework updates):**
+- Same miss pattern in 3+ cases + human reviewer disagreement with synthetic verdict → signal that the synthetic's framework is incomplete
+
+**For Pathway C (architecture changes):**
+- Same structural issue flagged in every run of a given engine template → proposal
+- Deployability issue blocking 3+ real expert deployments → proposal immediately
+
+**For Pathway D (features):**
+- Deployability gap flagged in 10+ expert sessions → feature proposal
+- Specific integration request (e.g., "Mailchimp export") flagged in multiple sessions → feature proposal
+
+## 5.4 — The Human-in-the-Loop Decision Layer
+
+The synthetics do NOT auto-modify the system. Every proposal requires human approval before it touches live prompts, templates, or code.
+
+**Why:** LLMs can generate plausible-looking diffs that are subtly wrong. Ryan (or his designated reviewer) approves every change. But the heavy lifting — pattern detection, diff generation, proposal writing — is automated. The human just says yes or no.
+
+**Approval workflow:**
+1. Proposal lands in `cliniciq/proposals/`
+2. Ryan/reviewer opens the proposal file — sees: (a) the pattern detected, (b) evidence (N reviews citing the issue), (c) the proposed diff, (d) expected impact
+3. Options:
+   - **Approve** → proposal moves to `cliniciq/proposals/_approved/`, a PR is auto-generated against the target file
+   - **Reject** → proposal moves to `cliniciq/proposals/_rejected/` with reason (prevents re-proposal)
+   - **Modify** → Ryan edits the diff, then approves
+   - **Defer** → proposal stays pending for re-review next cycle
+
+## 5.5 — Training-Grade Output Examples (so synthetics know what "great" looks like)
+
+Over time, every output that scores in the top 5% across the entire panel is flagged as a **training-grade example** and stored in `cliniciq/exemplars/`. These exemplars:
+
+- Are versioned by asset type (best webinar script, best email sequence, best ad creative)
+- Serve as few-shot examples for future builder prompts
+- Anchor the synthetics' sense of "what great looks like" (so an 85 today doesn't feel like an 85 a year from now when quality has risen)
+- Can be injected into builder prompts as "here's an example of a 95+ output" to raise the floor
+
+This is how the system raises its own ceiling. Great output becomes the new baseline automatically.
+
+## 5.6 — The Continuous Learning Dashboard
+
+Ryan sees one dashboard that answers:
+
+- **This week's top flagged issues** — across all synthetics, which patterns are compounding?
+- **Pending proposals** — awaiting your review (with proposed diffs inline)
+- **Recently implemented** — what's shipped since last check, was it effective?
+- **Trend lines** — is average review score rising over time? By which synthetic? By which builder?
+- **Emerging patterns** — new issue types emerging that didn't exist a month ago
+- **Synthetic health** — are any synthetics drifting, being rubber-stamps, or consistently disagreeing with panel consensus? (S_PM01 surfaces these.)
+
+## 5.7 — The Training Signal Hierarchy
+
+Not all feedback is equal. The orchestrator weights signals:
+
+**Highest signal (acts fastest):**
+1. Compliance/legal flags from S29 → immediate proposal, highest priority
+2. Red Team critical exposures → immediate proposal
+3. Deployability blockers preventing real deployments → immediate proposal
+4. Template Detection flags with Voice DNA mismatch score > 80 → next-cycle proposal
+
+**Medium signal:**
+5. Cross-synthetic agreement (3+ synthetics flag same issue) → proposal
+6. Repeated single-synthetic flags over 30 days → proposal
+7. S_PM01 Panel Moderator escalations → proposal
+
+**Low signal (tracked but not actioned until strong pattern):**
+8. Single synthetic, single output, non-critical flag → tracked, not proposed
+9. Disagreement between synthetics without resolution → tracked, debate-triggered
+
+## 5.8 — Closed-Loop Verification
+
+Every proposal, once implemented, gets a verification cycle:
+
+1. Proposal marked as "implemented" on date X
+2. Orchestrator watches the next 10+ outputs/sessions of the affected type
+3. Was the original pattern resolved? (Same synthetics should stop flagging the same issue.)
+4. If yes: proposal closed as "verified effective." Logged as a training-grade fix.
+5. If no: proposal re-opens with: "The fix shipped but the pattern persists. Root cause may be elsewhere. Re-investigating."
+6. If the pattern recurs after being "fixed" more than twice, it escalates to a deep-analysis cycle where Ryan and the highest-relevance synthetics work together to find the actual root cause.
+
+## 5.9 — What This Means for IQ Specifically
+
+IQ improves concretely with every cycle:
+
+- **Month 1:** Synthetics catch 50+ onboarding issues. Ryan approves ~30 prompt diffs. IQ's `_onboarding_agent.md` grows/evolves with battle-tested rules. Baseline quality rises.
+- **Month 3:** Common failure modes are resolved in prompts. Synthetics shift focus to edge cases and nuance. Builder quality catches up to onboarding quality.
+- **Month 6:** Exemplar library hits critical mass. Few-shot injection raises builder floor dramatically. Voice DNA capture reaches 90+ match scores consistently.
+- **Month 12:** The system predicts market outcomes with enough accuracy that Ryan can A/B-test proposals against synthetic-panel predictions before shipping. The synthetic panel is now the fastest iteration loop in health marketing — weeks where competitors take quarters.
+
+**This is the compounding advantage.** Not the builders (anyone can build builders with LLMs). Not the synthetics alone (anyone can prompt synthetics). **The closed-loop feedback system that turns every review into a specific, tracked, verified improvement to the live platform — that's the moat.**
+
+---
+
+# PART 6: BUILD EXECUTION INSTRUCTIONS FOR CLAUDE CODE
 
 ## Mission
 Build 58 AI synthetic reviewers. Each is a detailed persona prompt that, when loaded into an LLM, produces reviews through that expert's specific lens.
@@ -897,6 +1095,10 @@ Each synthetic prompt is 3,000-4,000 words. The test: reading a review, someone 
 1. **58 synthetic persona files** at `cliniciq/testing/synthetic_prompts/<id>.md`
 2. **`cliniciq/testing/synthetic_prompts/PANEL_ROUTING.json`** — code-ready routing config
 3. **`cliniciq/testing/synthetic_prompts/ORCHESTRATOR_SPEC.md`** — how the synthetic orchestrator routes, aggregates, and moderates
+4. **`cliniciq/testing/synthetic_prompts/FEEDBACK_ORCHESTRATOR_SPEC.md`** — how the feedback loop works (Part 5 of this doc translated into a concrete implementation spec: pattern detection rules, proposal generation, human approval workflow, closed-loop verification)
+5. **`app/agents/system/feedback_orchestrator/`** — the actual service/agent that runs the feedback loop (stubbed initially; grows as synthetics come online)
+6. **`cliniciq/proposals/`** directory structure — where proposals land awaiting human review
+7. **`cliniciq/exemplars/`** directory structure — where training-grade outputs get stored
 
 ## The Moat This Builds
 
