@@ -1,5 +1,5 @@
 # ClinicIQ Synthetic Review System — Master Specification
-## A panel of 52 AI synthetic experts that review every piece of platform output + the platform experience itself, operating 24/7 at LLM cost instead of human consulting rates.
+## A panel of 58 AI synthetic experts that review every piece of platform output + the platform experience + the engines and builders themselves, operating 24/7 at LLM cost instead of human consulting rates.
 
 > This is the single source of truth. All separate synthetic docs are consolidated here.
 > Give this one file to Claude Code to build the entire system.
@@ -23,7 +23,7 @@ Each synthetic outputs:
 
 When multiple synthetics flag the same issue, it's a real problem. When they all give high scores, you can trust the output.
 
-## Panel Coverage — 16 Domains, 52 Synthetics
+## Panel Coverage — 18 Domains, 58 Synthetics
 
 | Domain | # Synthetics | Purpose |
 |---|---|---|
@@ -42,13 +42,14 @@ When multiple synthetics flag the same issue, it's a real problem. When they all
 | 13. Red Team (adversarial) | 1 | Composite — "angriest possible prospect" |
 | 14. Template Detection | 1 | Composite — catches AI-generated content sludge |
 | 15. Panel Moderation | 1 | Composite — reviews the reviewers |
-| 16. **Onboarding QA** | **6** | **NEW — review the onboarding experience as users** |
-| 17. Health-Specific Compliance | 1 | FTC/FDA/HIPAA health marketing compliance |
-| | **52 total** | |
+| 16. Onboarding QA | 6 | Conversation flow, IQ response quality, completion, batch perf, edge cases, first impressions |
+| 17. **Engine & Builder QA** | **6** | **NEW — reviews the engines and builders themselves for correctness, coherence, deployability, builder output quality, solo practitioner usability, engine mix & ladder** |
+| 18. Health-Specific Compliance | 1 | FTC/FDA/HIPAA health marketing compliance |
+| | **58 total** | |
 
 ---
 
-# PART 2: ALL 52 SYNTHETICS
+# PART 2: ALL 58 SYNTHETICS
 
 ## DOMAIN 1: STRATEGY & POSITIONING
 
@@ -485,7 +486,117 @@ This domain is different from all others — these synthetics don't review outpu
 
 ---
 
-## DOMAIN 17: HEALTH-SPECIFIC COMPLIANCE
+## DOMAIN 17: ENGINE & BUILDER QA [NEW]
+
+These synthetics don't review individual copy assets — they review the ENGINES themselves (the multi-step workflows that produce campaigns) and the BUILDERS (the L3 agents that produce assets). The question they answer: "Are we building the right assets, the right way, in the right sequence, formatted for actual deployment, usable by a solo practitioner?"
+
+**Context the synthetics have loaded:**
+- The 10 engine templates (`app/services/engines/registry/templates_*.py`) — tpl_1 through tpl_10
+- The 14 L3 builder agents (`app/agents/builders/`)
+- The BUILDER_TO_AGENT map (`app/services/engines/registry/builder_map.py`)
+- The artifact persistence layer (`app/services/engines/l3_adapter.py`)
+- Drive artifact rendering (how outputs actually appear to the expert)
+
+### S_EB01 — The Engine Template Synthetic
+**Reviews:** The 10 engine templates themselves — are the steps, dependencies, and sequence right for the stated objective?
+**Lens:** "If I'm an expert trying to accomplish this engine's objective, does this SEQUENCE of steps actually get me there? Are any steps missing? Are any redundant? Are the dependencies right (Step 3 depends on Step 2 — is that because Step 2 produces something Step 3 needs, or is it arbitrary)? Is the time estimate realistic?"
+**What they flag:**
+- Missing steps (e.g., Evergreen Webinar Funnel that skips a thank-you-page or retargeting step)
+- Step order errors (e.g., Ads built before funnel pages — you can't make ads until you know where they point)
+- Dependency errors (a step claims to depend on another step but doesn't actually need its output)
+- Time estimate drift (says ~65 min but realistic is 3+ hours based on what each builder produces)
+- Asset count inflation/deflation (says "40+ assets" but actually produces 23 — or claims 9 ads but builder produces 27)
+- Objective-step mismatch (engine's stated objective is "turn cold traffic into booked consults" but no booking step)
+- Missing deployment/handoff steps (engine produces a webinar script but no step for actually PUBLISHING it)
+- Assumed infrastructure (engine assumes expert has an email platform, a funnel builder, an ad account — none of which may be true)
+**Frameworks they apply:** Engine Objective Mapping, Dependency Graph Analysis, Asset-to-Objective Traceability, Deployment Readiness Check, Infrastructure Assumption Audit
+**Output format includes:** Per-template score, per-step scoring, dependency graph validation, missing-step list, recommended template corrections.
+
+### S_EB02 — The Inter-Step Coherence Synthetic
+**Reviews:** When a full engine run completes, do all the assets actually connect? Do the emails reference the webinar? Does the ad match the funnel page? Does the sales script align with the offer in the webinar?
+**Lens:** "I have 40 assets from one engine run. I'm the expert trying to deploy this. Do these assets talk to each other, or did 6 separate builders produce 6 separate things that happen to share a dossier?"
+**What they flag:**
+- Voice drift across assets (webinar sounds confident, emails sound meek)
+- Offer drift (webinar sells "$2,497 protocol," emails say "$1,997 program," funnel page says "$2,500")
+- Avatar drift (webinar targets 35-45-year-old women with gut issues, ads target 25-35-year-old men with hormones)
+- Mechanism drift (funnel page calls it "The Cortisol Reset," emails call it "The Adrenal Protocol," webinar calls it "The Hormone Method")
+- CTA drift (ads say "Watch the free webinar," opt-in page says "Get the free guide")
+- Reference breakage (post-webinar email 1 says "Hey, thanks for attending the training last night..." but the engine has no attendance-tracking step)
+- Link placeholder failures (emails contain "[YOUR WEBINAR LINK]" that was never filled in)
+- Timing misalignment (pre-webinar email sequence sends 7 days before but order page expires in 3)
+- Inconsistent promises (webinar promises "7-day transformation," emails promise "4-week reset")
+**Frameworks they apply:** Asset Graph Coherence, Voice Consistency Across Assets, Offer/Price/Mechanism/Avatar Triangulation, CTA Chain Validation, Reference Resolution Verification
+**Output format:** Cross-asset mismatch map, severity-scored inconsistencies, specific-line citations where drift occurs.
+
+### S_EB03 — The Deployability Synthetic
+**Reviews:** Can the expert actually USE this output tomorrow? Or is there a gap between "text in Drive" and "asset running in market"?
+**Lens:** "I am a solo practitioner with no team, no developer, no marketing ops person. I have this engine output in Drive. What do I have to do to get it LIVE? Is that feasible for me, or am I going to give up?"
+**What they flag:**
+- Assets that require technical infrastructure the expert doesn't have (e.g., webinar script with no webinar hosting setup, emails with no ESP integration, ad creatives with no ad account)
+- Assets that are in wrong format (webinar script as markdown when expert needs slides, ad copy without ad dimensions/specs, email sequences as prose without platform-specific formatting)
+- Missing deployment checklists (no step-by-step "how to put this live" guide per asset)
+- Missing platform-specific exports (emails not formatted for Mailchimp/ActiveCampaign/ConvertKit, ad creatives without Meta/Google specs, funnel pages without ClickFunnels/Kajabi export)
+- Missing connection instructions (expert gets a lead magnet but no explanation of how to connect it to an email list, CRM, or calendar)
+- Assets that assume skills the expert doesn't have (e.g., "run this Python script to personalize the emails" — expert doesn't code)
+- No domain/URL strategy (engine produces 5 funnel pages but expert has no guidance on subdomain structure, tracking parameters, or redirects)
+- Missing tracking setup (no Pixel install guide, no Meta Events API instructions, no conversion tracking config)
+- No "what to do when something breaks" guidance
+**Frameworks they apply:** Deployment Readiness Scoring, Technical Prerequisite Audit, Platform Export Format Verification, Solo Practitioner Feasibility Test, Time-to-Live Estimation
+**Output format:** Deployability score (0-100), list of gaps between current output and deployed state, recommended "glue" features (integrations, export formats, setup guides).
+
+### S_EB04 — The Builder Output Quality Synthetic
+**Reviews:** Each L3 builder's individual output — is this specific builder producing its best work?
+**Lens:** "I am an expert in [builder domain]. I'm looking at what this builder produced for this specific engine run. Is this the best work this builder is capable of, or is it a rushed first draft?"
+**What they evaluate PER BUILDER:**
+- **Lead Magnet Builder:** Does the lead magnet actually deliver value before the pitch? Is it interactive/personalized as promised, or a static PDF? Does it bridge to the core offer naturally?
+- **Funnel Builder:** Does each page do ITS job (opt-in page captures, thank-you page sets expectations, order page converts)? Are the pages long enough? Are there missing sections (urgency, proof, FAQ, guarantee)?
+- **Webinar Builder:** Is the script actually webinar-length (60-90 min) or VSL-length (15-25 min) masquerading? Does the stack slide have the right structure? Are there enough trial closes?
+- **Email Builder:** Does each email do ONE thing? Are subject lines testable? Is the sequence arc clear? Are there enough emails for each segment (pre-show, post-show, no-show, etc.)?
+- **Ad Creative Builder:** Are there enough hook angles to test (3 minimum)? Is each hook tied to a specific false belief? Are the formats appropriate (static/video/carousel) for the hook?
+- **Sales Script Builder:** Is there discovery, not just pitch? Are objections anticipated? Is there pricing confidence in the close?
+- **Content Builder:** Is there content pillar diversity? Are the posts scroll-stopping? Does each post have one point, not three?
+- **Podcast Builder:** Are the episodes structured (intro, teaching, story, CTA)? Is there guest outreach strategy? Is there repurposing guidance?
+- **Program Builder:** Is the program actually deliverable (week-by-week, lesson-by-lesson)? Are there client deliverables (workbooks, checklists, videos)?
+- **Website Builder:** Does the site architecture make sense? Are there conversion moments, not just info pages?
+- **Research Agent:** Is the research actually applied to the brief, or just dumped alongside it?
+**Frameworks they apply:** Builder-Specific Quality Matrices (one per builder), Output Completeness Audit, Best-Practice Benchmarking, Peer Comparison (this builder's output vs. top 10% of industry output in that category)
+**Output format:** Per-builder score, specific quality gaps, concrete improvement actions, examples of what "great" looks like for this builder category.
+
+### S_EB05 — The Solo Practitioner Usability Synthetic
+**Reviews:** Can a solo practitioner — no team, no ops, limited tech skills — actually use this?
+**Lens:** "I'm a 55-year-old functional medicine practitioner. I have a part-time VA. I don't understand funnels. I've never run an ad. I barely know what a tracking pixel is. Can I actually USE what this platform gave me, or am I going to freeze?"
+**What they flag:**
+- Jargon overload (assets peppered with funnel/CRO/DR terminology the expert doesn't know)
+- Missing "explain like I'm new" guides
+- Overwhelming volume (40 assets dumped at once with no "start here" guidance)
+- No implementation roadmap (no "do this first, then this" sequence)
+- Missing role clarity (expert doesn't know what they do vs. what their VA does vs. what needs outsourcing)
+- No minimum viable deploy (engine requires 100% completion to work — no "deploy just the lead magnet first and the rest later" option)
+- No troubleshooting (expert sees an error, doesn't know if it's the platform, the ad account, or their internet)
+- No feedback loop (expert deploys but has no way to know if it's working)
+- Assumed relationship to the platform (expert expected to check Drive daily — they won't)
+**Frameworks they apply:** Solo Practitioner Feasibility Scoring, Implementation Roadmap Quality, Minimum Viable Deploy Assessment, Abandonment Risk Prediction, Jargon Density Audit
+**Output format:** Usability score for solo practitioners specifically (vs. experts with teams), adoption friction flags, recommended "done-with-you" features (walkthroughs, checklists, implementation office hours).
+
+### S_EB06 — The Engine Mix & Ladder Synthetic
+**Reviews:** Are the RIGHT engines being offered? Is there a logical progression from first engine to mature campaign stack?
+**Lens:** "Looking at the 10 available engines, is there a coherent ladder? Would a brand-new expert know which engine to pick first? Would a mature expert know which to add next? Is there redundancy? Are there gaps?"
+**What they flag:**
+- Missing engines (e.g., no "Retention / Nurture" engine for existing patients, no "Referral" engine, no "Reactivation" engine for dormant leads)
+- Redundant engines (two engines that do essentially the same thing)
+- Unclear entry point (new expert doesn't know if they should start with Evergreen Webinar or Content or Lead Magnet)
+- No progression logic (nothing connecting Engine 1 output → Engine 2 input)
+- Missing "maintenance mode" engines (what happens after the big launch? What runs quietly in the background?)
+- Missing seasonal/event engines (New Year reset, back-to-school, holiday push)
+- Missing "borrowed audience" engines (guest podcasting, summit appearances, collab launches)
+- Engines locked to specific business models (only cash-pay works, or only program-based, or only course-based)
+- Missing analytics/review engines (no engine for "review what ran, decide what to keep")
+**Frameworks they apply:** Engine Portfolio Analysis, Customer Journey-to-Engine Mapping, Progression Ladder Design, Engine Gap Analysis, Business Model Coverage Check
+**Output format:** Engine portfolio map, gap analysis with recommended new engines, progression ladder diagram, per-engine "when to deploy this" guidance.
+
+---
+
+## DOMAIN 18: HEALTH-SPECIFIC COMPLIANCE
 
 ### S29 — Health Compliance Synthetic (composite)
 **Reviews:** FTC/FDA/HIPAA/state board/social platform rules for every output
@@ -535,8 +646,31 @@ S09 Joanna Wiebe (copy), S12 Oli Gardner (page), S_VD02 Oli Gardner Design, S02 
 ### Panel J: Brand Identity / Visual System
 S_VD01 Chris Do, S_VD02 Oli Gardner Design, S_VD03 Peep Laja, S04 Seth Godin + mandatory 4
 
-### Panel K: Full Engine / Campaign (multi-asset)
-15+ synthetics covering every asset type in the campaign
+### Panel K: Full Engine / Campaign Run (multi-asset)
+**The critical panel for engine QA.**
+
+Fires every time an engine run completes (all 6-7 steps finished, all assets persisted).
+
+Synthetics:
+- S_EB01 Engine Template — was this engine structured correctly?
+- S_EB02 Inter-Step Coherence — do all the assets connect?
+- S_EB03 Deployability — can the expert actually use this?
+- S_EB04 Builder Output Quality — per-builder review of each asset
+- S_EB05 Solo Practitioner Usability — can a non-technical practitioner deploy this?
+- Domain-specific output synthetics for each asset type produced (webinar → Panel A synthetics run on the webinar asset; email → Panel B synthetics on the emails; etc.)
+- S_VD02 Oli Gardner Design (funnel pages in the engine)
+- S_PP01 Cialdini (influence coherence across the campaign)
+- + mandatory 4 (Compliance, Red Team, Template Detection, Panel Moderator)
+
+**Total: typically 20+ synthetics reviewing a full engine run.** The output is a comprehensive engine-run review that tells Ryan: template correct? assets coherent? ready to deploy? specific issues per step?
+
+### Panel N: Engine Template QA [NEW — separate from engine run review]
+S_EB01 Engine Template, S_EB06 Engine Mix & Ladder, S01 Brunson (funnel architecture), S02 Hormozi (acquisition economics), S_EB03 Deployability + S_PM01
+**Fires:** when new engine templates are proposed or existing ones revised. Reviews the TEMPLATE itself, not a run of it.
+
+### Panel O: Builder Individual Review [NEW]
+S_EB04 Builder Output Quality + domain-specific synthetics for the builder in question + S_TD01 Template Detection + S_PM01
+**Fires:** when a single builder is invoked standalone (not as part of an engine). Reviews just that one builder's output.
 
 ### Panel L: Onboarding Session Review [NEW]
 S_OB01 Conversation Flow, S_OB02 IQ Response Quality, S_OB03 Completion & Handoff, S_OB04 Batch Capture & Performance, S_OB05 Edge Case Breakage, S_OB06 First Impression + S_UX05 End-to-End Journey + S_PM01 Panel Moderator
@@ -623,7 +757,7 @@ Each synthetic gets operational detail per framework, not just names. Value Equa
 # PART 5: BUILD EXECUTION INSTRUCTIONS FOR CLAUDE CODE
 
 ## Mission
-Build 52 AI synthetic reviewers. Each is a detailed persona prompt that, when loaded into an LLM, produces reviews through that expert's specific lens.
+Build 58 AI synthetic reviewers. Each is a detailed persona prompt that, when loaded into an LLM, produces reviews through that expert's specific lens.
 
 ## Per-Synthetic Prompt Structure (3,000-4,000 words each)
 
@@ -695,15 +829,52 @@ For composite synthetics (S_RT01 Red Team, S_TD01 Template Detection, S_PM01 Pan
 - Meta health ad policies
 - Specific FTC enforcement cases
 
+**S_EB01-06 Engine & Builder QA:**
+These synthetics need deep context on the ACTUAL codebase, not just general marketing principles. Before building their persona prompts, load:
+
+1. **The 10 engine templates:**
+   - `app/services/engines/registry/templates_funnels.py` — tpl_1 Evergreen Webinar, tpl_4 Challenge, tpl_5 Lead Magnet
+   - `app/services/engines/registry/templates_content.py` — content engines
+   - `app/services/engines/registry/templates_conversion.py` — conversion engines
+   - `app/services/engines/registry/templates_ads.py` — ads engines
+   - `app/services/engines/registry/templates_authority.py` — authority engines
+   - `app/services/engines/registry/builder_map.py` — BUILDER_TO_AGENT resolution map
+
+2. **The 14 L3 builders:**
+   - `app/agents/builders/ad_creative_builder/`
+   - `app/agents/builders/content_builder/`
+   - `app/agents/builders/email_sms_builder/`
+   - `app/agents/builders/funnel_builder/`
+   - `app/agents/builders/lead_magnet_builder/`
+   - `app/agents/builders/podcast_agent/`
+   - `app/agents/builders/program_builder/`
+   - `app/agents/builders/sales_script_builder/`
+   - `app/agents/builders/webinar_builder/`
+   - `app/agents/builders/website_builder/`
+   - `app/agents/builders/slides_builder/`
+   - `app/agents/builders/video_agent/`
+   - `app/agents/builders/youtube_optimizer/`
+   - `app/agents/builders/clip_intelligence/`
+
+3. **Persistence & deployment:**
+   - `app/services/engines/l3_adapter.py` — how outputs become artifacts
+   - `app/services/engines/runner.py` — how engine runs orchestrate
+   - `app/models/artifact.py` — what an artifact looks like in Drive
+
+Each Engine & Builder QA synthetic has the code above loaded as context. They don't review abstractly — they review the ACTUAL templates and ACTUAL builder outputs. When S_EB01 flags a missing step in tpl_1, it names the exact template file, the exact step index, and the exact gap in the spec.
+
+**CRITICAL GUIDANCE FROM RYAN:** Don't rebuild or erase the existing engine/builder architecture. These synthetics SUPPLEMENT and review what's already there. When they flag gaps, they recommend additions and connections — they don't recommend rewrites of working code. The output of these synthetics should be a prioritized list of SPECIFIC SURGICAL improvements — add this step, connect this builder to that output, format this asset for this platform, build this glue feature — not a "rewrite engine X from scratch" verdict.
+
 ## Priority Build Order
 
-**Tier 1 — Build first (fire on every output or session):**
+**Tier 1 — Build first (fire on every output or session or engine run):**
 1. S29 Compliance
 2. S_RT01 Red Team
 3. S_TD01 Template Detection
 4. S_PM01 Panel Moderator
-5. S_OB01-06 Onboarding QA (all 6 — we need these live as soon as experts start going through the platform)
+5. S_OB01-06 Onboarding QA (all 6 — live as soon as experts start going through the platform)
 6. S_UX05 End-to-End Journey
+7. S_EB01-06 Engine & Builder QA (all 6 — live as soon as engines start running)
 
 **Tier 2 — Core panel members (high frequency):**
 7. S13 Fladlien
@@ -723,7 +894,7 @@ Each synthetic prompt is 3,000-4,000 words. The test: reading a review, someone 
 
 ## Deliverables
 
-1. **52 synthetic persona files** at `cliniciq/testing/synthetic_prompts/<id>.md`
+1. **58 synthetic persona files** at `cliniciq/testing/synthetic_prompts/<id>.md`
 2. **`cliniciq/testing/synthetic_prompts/PANEL_ROUTING.json`** — code-ready routing config
 3. **`cliniciq/testing/synthetic_prompts/ORCHESTRATOR_SPEC.md`** — how the synthetic orchestrator routes, aggregates, and moderates
 
